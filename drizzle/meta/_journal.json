@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "mysql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1782998940499,
+      "tag": "0000_natural_bruce_banner",
+      "breakpoints": true
+    }
+  ]
 }
