@@ -6,7 +6,7 @@
 - [x] Install Zustand for global state management
 - [x] Set up TypeScript types for app state and sections
 - [x] Configure Tailwind CSS with custom brand tokens (dark theme, circuit aesthetic)
-- [ ] Add Google Fonts: Space Grotesk (bold), JetBrains Mono
+- [x] Add Google Fonts: Space Grotesk (bold), JetBrains Mono
 - [x] Create Zustand store for app state (mode, currentSection, isIntroComplete, jarvisOpen, etc.)
 
 ## Phase 2: Landing Page & ESP32 Scene
@@ -87,10 +87,10 @@
 - [x] Test all API endpoints
 
 ## Phase 8: Styling & Polish
-- [ ] Apply dark theme with circuit/PCB aesthetic
-- [ ] Add glowing effects and bloom post-processing
-- [ ] Implement smooth transitions between sections
-- [ ] Add loading states and spinners
+- [x] Apply dark theme with circuit/PCB aesthetic
+- [x] Add glowing effects and bloom post-processing
+- [x] Implement smooth transitions between sections
+- [x] Add loading states and spinners
 - [ ] Test responsive design (mobile, tablet, desktop)
 - [ ] Implement mobile fallbacks for 3D interactions
 - [ ] Ensure WCAG AA color contrast

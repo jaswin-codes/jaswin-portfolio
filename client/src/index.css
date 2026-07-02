@@ -79,38 +79,59 @@
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  /* Circuit/PCB Aesthetic Dark Theme */
+  --primary: #10b981;
+  --primary-foreground: #f0fdf4;
+  --sidebar-primary: #059669;
+  --sidebar-primary-foreground: #f0fdf4;
+  
+  /* Deep dark background with blue tint (PCB color) */
+  --background: #0a0e27;
+  --foreground: #e0e7ff;
+  
+  /* Card styling */
+  --card: #111827;
+  --card-foreground: #e0e7ff;
+  
+  /* Popover with border glow */
+  --popover: #1f2937;
+  --popover-foreground: #e0e7ff;
+  
+  /* Secondary colors */
+  --secondary: #1e293b;
+  --secondary-foreground: #cbd5e1;
+  
+  /* Muted for inactive states */
+  --muted: #374151;
+  --muted-foreground: #9ca3af;
+  
+  /* Accent - bright green for emphasis */
+  --accent: #10b981;
+  --accent-foreground: #0a0e27;
+  
+  /* Destructive - red for warnings */
+  --destructive: #ef4444;
+  --destructive-foreground: #fef2f2;
+  
+  /* Borders with circuit trace appearance */
+  --border: rgb(16 185 137 / 0.2);
+  --input: #1f2937;
+  --ring: #10b981;
+  
+  /* Chart colors - tech-inspired palette */
+  --chart-1: #10b981;
+  --chart-2: #06b6d4;
+  --chart-3: #8b5cf6;
+  --chart-4: #ec4899;
+  --chart-5: #f59e0b;
+  
+  /* Sidebar styling */
+  --sidebar: #111827;
+  --sidebar-foreground: #e0e7ff;
+  --sidebar-accent: #10b981;
+  --sidebar-accent-foreground: #0a0e27;
+  --sidebar-border: rgb(16 185 137 / 0.2);
+  --sidebar-ring: #10b981;
 }
 
 @layer base {
@@ -119,6 +140,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -136,22 +162,12 @@
 @layer components {
   /**
    * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
    */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -160,18 +176,51 @@
     min-width: 0;
   }
 
+  /* Glow effect for circuit elements */
+  .glow-green {
+    box-shadow: 0 0 10px rgba(16, 185, 137, 0.5);
+  }
+
+  .glow-green-lg {
+    box-shadow: 0 0 20px rgba(16, 185, 137, 0.6), 0 0 40px rgba(16, 185, 137, 0.3);
+  }
+
+  /* CRT scanline effect */
+  .scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+
+  /* Phosphor glow text */
+  .phosphor-text {
+    text-shadow: 0 0 10px rgba(16, 185, 137, 0.8), 0 0 20px rgba(16, 185, 137, 0.4);
+  }
+
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }
