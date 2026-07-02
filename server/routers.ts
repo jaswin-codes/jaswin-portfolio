@@ -4,6 +4,8 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { invokeLLM } from "./_core/llm";
+import { saveContact } from "./db";
+import { notifyOwner } from "./_core/notification";
 
 export const appRouter = router({
   system: systemRouter,
@@ -84,6 +86,40 @@ Your job:
         response: responseText,
         isRecruiter,
       };
+    }),
+
+  contact: publicProcedure
+    .input(z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      role: z.string().optional(),
+      company: z.string().optional(),
+      favPart: z.string().optional(),
+      message: z.string().min(10),
+    }))
+    .mutation(async ({ input }) => {
+      try {
+        // Save to database
+        await saveContact({
+          name: input.name,
+          email: input.email,
+          role: input.role,
+          company: input.company,
+          favoritePart: input.favPart,
+          message: input.message,
+        });
+
+        // Send owner notification
+        await notifyOwner({
+          title: 'New Portfolio Contact',
+          content: `${input.name} from ${input.company || 'Unknown'} (${input.email}) sent a message: ${input.message.substring(0, 100)}...`,
+        });
+
+        return { success: true };
+      } catch (error) {
+        console.error('Error saving contact:', error);
+        throw new Error('Failed to submit contact form');
+      }
     }),
 });
 

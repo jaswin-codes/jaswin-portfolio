@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { X, Send } from 'lucide-react';
 import { useAppStore } from '@/stores/appStore';
+import { trpc } from '@/lib/trpc';
 
 export default function ContactForm() {
   const showContactForm = useAppStore((state) => state.showContactForm);
@@ -19,6 +20,8 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  const contactMutation = trpc.contact.useMutation();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -29,30 +32,29 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      await contactMutation.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        role: formData.role,
+        company: formData.company,
+        favPart: formData.favPart,
+        message: formData.message,
       });
 
-      if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({
-          name: '',
-          email: '',
-          role: '',
-          company: '',
-          favPart: '',
-          message: '',
-        });
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        role: '',
+        company: '',
+        favPart: '',
+        message: '',
+      });
 
-        setTimeout(() => {
-          setShowContactForm(false);
-          setSubmitStatus('idle');
-        }, 2000);
-      } else {
-        setSubmitStatus('error');
-      }
+      setTimeout(() => {
+        setShowContactForm(false);
+        setSubmitStatus('idle');
+      }, 2000);
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');

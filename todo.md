@@ -78,13 +78,13 @@
 - [x] Implement contact form submission → database save + owner notification
 
 ## Phase 7: Database & Backend
-- [ ] Create database schema for contacts table
+- [x] Create database schema for contacts table
 - [ ] Create database schema for chat_logs table (optional, for analytics)
-- [ ] Implement `/api/chat` endpoint (Claude API integration)
-- [ ] Implement `/api/contact` endpoint (form submission + notification)
+- [x] Implement `/api/chat` endpoint (Claude API integration)
+- [x] Implement `/api/contact` endpoint (form submission + notification)
 - [ ] Implement `/api/projects` endpoint (static or DB-backed)
-- [ ] Set up owner notification system for contact form submissions
-- [ ] Test all API endpoints
+- [x] Set up owner notification system for contact form submissions
+- [x] Test all API endpoints
 
 ## Phase 8: Styling & Polish
 - [ ] Apply dark theme with circuit/PCB aesthetic
