@@ -12,10 +12,11 @@ import ResearchSection from "./pages/Research";
 import SkillsSection from "./pages/Skills";
 import AchievementsSection from "./pages/Achievements";
 import { useAppStore } from "@/stores/appStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import JarvisChat from "./components/JarvisChat";
 import RecruiterMode from "./pages/RecruiterMode";
 import ContactForm from "./components/ContactForm";
+import { LoadingScreen } from "./components/LoadingScreen";
 
 function Router() {
   const mode = useAppStore((state) => state.mode);
@@ -49,6 +50,9 @@ function Router() {
 }
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+
   // Load recruiter mode preference from localStorage on mount
   useEffect(() => {
     const savedMode = localStorage.getItem('portfolioMode') as 'recruiter' | '3d' | null;
@@ -63,10 +67,47 @@ function App() {
     localStorage.setItem('portfolioMode', mode);
   }, [mode]);
 
+  // Simulate loading progress
+  useEffect(() => {
+    // Start loading
+    setIsLoading(true);
+    setProgress(10);
+
+    // Simulate asset loading
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 90) {
+          return prev + Math.random() * 20;
+        }
+        return prev;
+      });
+    }, 300);
+
+    // Complete loading when DOM is ready
+    const completeLoading = () => {
+      setProgress(100);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 600);
+    };
+
+    if (document.readyState === 'complete') {
+      completeLoading();
+    } else {
+      window.addEventListener('load', completeLoading);
+    }
+
+    return () => {
+      clearInterval(progressInterval);
+      window.removeEventListener('load', completeLoading);
+    };
+  }, []);
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
+          <LoadingScreen isLoading={isLoading} progress={progress} />
           <Toaster />
           <Router />
           <ContactForm />
