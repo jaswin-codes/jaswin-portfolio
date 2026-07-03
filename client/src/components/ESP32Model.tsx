@@ -10,6 +10,14 @@ interface ESP32ModelProps {
   onComponentClick?: (componentId: string) => void;
 }
 
+interface RotationState {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  lastInteractionTime: number;
+}
+
 export const ESP32Model = ({
   isIntroAnimating,
   onIntroComplete,
@@ -21,6 +29,14 @@ export const ESP32Model = ({
   const [introPhase, setIntroPhase] = useState<'flying' | 'led' | 'name' | 'settle'>(
     isIntroAnimating ? 'flying' : 'settle'
   );
+  const rotationRef = useRef<RotationState>({
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    lastInteractionTime: 0,
+  });
+  const INTERACTION_PAUSE_TIME = 3000; // 3 seconds pause after user interaction
 
   // Intro animation spring
   const introSpring = useSpring({
@@ -47,13 +63,38 @@ export const ESP32Model = ({
     },
   });
 
-  // Idle rotation
+  // Idle rotation with inertia damping
   useFrame(() => {
-    if (groupRef.current && introPhase === 'settle' && !isIntroAnimating) {
-      groupRef.current.rotation.x += 0.001;
-      groupRef.current.rotation.y += 0.002;
+    if (!groupRef.current || introPhase !== 'settle' || isIntroAnimating) return;
+
+    const now = Date.now();
+    const timeSinceInteraction = now - rotationRef.current.lastInteractionTime;
+    const isInPausePeriod = timeSinceInteraction < INTERACTION_PAUSE_TIME;
+
+    if (isInPausePeriod) {
+      // During pause period, apply damping to velocity
+      rotationRef.current.vx *= 0.95;
+      rotationRef.current.vy *= 0.95;
+    } else {
+      // After pause, apply slow idle rotation
+      rotationRef.current.vx = 0.0005; // Much slower than before
+      rotationRef.current.vy = 0.001;
     }
+
+    // Apply rotation
+    groupRef.current.rotation.x += rotationRef.current.vx;
+    groupRef.current.rotation.y += rotationRef.current.vy;
   });
+
+  // Track user interaction (from OrbitControls)
+  useEffect(() => {
+    const handleMouseMove = () => {
+      rotationRef.current.lastInteractionTime = Date.now();
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const components = [
     { id: 'esp-wroom', label: 'ESP-WROOM-32', position: [0, 0, 0.15], size: [0.8, 0.6, 0.1] },

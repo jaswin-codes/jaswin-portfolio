@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { useAppStore } from '@/stores/appStore';
@@ -41,122 +41,6 @@ const projectScreens: ProjectScreen[] = [
     scale: [1, 1, 1],
   },
 ];
-
-function RobotPOVScene() {
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [cameraPos, setCameraPos] = useState([0, 0, 3]);
-  const keysPressed = useRef<Record<string, boolean>>({});
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      keysPressed.current[e.key.toLowerCase()] = true;
-    };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      keysPressed.current[e.key.toLowerCase()] = false;
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
-
-  return (
-    <Canvas className="w-full h-full">
-      <PerspectiveCamera makeDefault position={cameraPos as [number, number, number]} fov={75} />
-      <OrbitControls enableZoom={true} enablePan={true} />
-
-      <color attach="background" args={['#0a0a0a']} />
-
-      {/* Lighting */}
-      <ambientLight intensity={0.6} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} />
-      <pointLight position={[-10, -10, 10]} intensity={0.8} color="#00ff88" />
-
-      {/* Room Floor */}
-      <mesh position={[0, -2, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
-        <meshStandardMaterial color="#1a1a1a" metalness={0.1} roughness={0.9} />
-      </mesh>
-
-      {/* Room Walls */}
-      {/* Back wall */}
-      <mesh position={[0, 0, -8]} receiveShadow>
-        <planeGeometry args={[20, 10]} />
-        <meshStandardMaterial color="#0d0d0d" metalness={0.1} roughness={0.95} />
-      </mesh>
-
-      {/* Left wall */}
-      <mesh position={[-10, 0, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-        <planeGeometry args={[16, 10]} />
-        <meshStandardMaterial color="#0d0d0d" metalness={0.1} roughness={0.95} />
-      </mesh>
-
-      {/* Right wall */}
-      <mesh position={[10, 0, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-        <planeGeometry args={[16, 10]} />
-        <meshStandardMaterial color="#0d0d0d" metalness={0.1} roughness={0.95} />
-      </mesh>
-
-      {/* Project Screens */}
-      {projectScreens.map((screen) => {
-        const project = projects.find((p) => p.id === screen.id);
-        return (
-          <group key={screen.id} position={screen.position} rotation={screen.rotation}>
-            {/* Screen Frame */}
-            <mesh
-              onClick={() => setSelectedProject(screen.id)}
-              castShadow
-              receiveShadow
-            >
-              <boxGeometry args={[2, 1.5, 0.1]} />
-              <meshStandardMaterial
-                color={selectedProject === screen.id ? '#00ff88' : '#1a1a1a'}
-                metalness={0.6}
-                roughness={0.4}
-                emissive={selectedProject === screen.id ? '#00ff88' : '#000000'}
-                emissiveIntensity={selectedProject === screen.id ? 0.3 : 0}
-              />
-            </mesh>
-
-            {/* Screen Content */}
-            <mesh position={[0, 0, 0.06]}>
-              <boxGeometry args={[1.8, 1.3, 0.01]} />
-              <meshStandardMaterial
-                color="#0a0a0a"
-                metalness={0.2}
-                roughness={0.8}
-              />
-            </mesh>
-
-            {/* Project Label */}
-            <mesh position={[0, -0.5, 0.1]}>
-              <boxGeometry args={[1.6, 0.3, 0.01]} />
-              <meshStandardMaterial
-                color="#00ff88"
-                emissive="#00ff88"
-                emissiveIntensity={0.5}
-              />
-            </mesh>
-          </group>
-        );
-      })}
-
-      {/* Robot (simple representation) */}
-      <group position={[0, -1.5, 2]}>
-        <mesh castShadow>
-          <boxGeometry args={[0.5, 1, 0.5]} />
-          <meshStandardMaterial color="#00ff88" metalness={0.5} roughness={0.5} />
-        </mesh>
-        <pointLight position={[0, 0.5, 0]} intensity={1} color="#00ff88" distance={3} />
-      </group>
-    </Canvas>
-  );
-}
 
 export default function ProjectsSection() {
   const [, setLocation] = useLocation();
@@ -269,6 +153,19 @@ export default function ProjectsSection() {
         </p>
       </motion.div>
 
+      {/* Instructions */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="absolute bottom-8 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm"
+        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+      >
+        <p className="font-bold mb-2">CONTROLS:</p>
+        <p>• Click project screens to view details</p>
+        <p>• Use mouse to rotate the view</p>
+      </motion.div>
+
       {/* Project Detail Modal */}
       {project && (
         <motion.div
@@ -280,7 +177,7 @@ export default function ProjectsSection() {
         >
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-900 border border-green-500 rounded-lg p-8 max-w-md w-full mx-4"
+            className="bg-gray-900 border border-green-500 rounded-lg p-8 max-w-md w-full mx-4 max-h-96 overflow-y-auto"
           >
             <div className="flex justify-between items-start mb-4">
               <h2 className="text-2xl font-bold text-white">{project.name}</h2>

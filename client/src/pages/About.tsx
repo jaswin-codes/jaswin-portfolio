@@ -70,77 +70,45 @@ export default function AboutSection() {
 
       {/* Business Card Stack */}
       <div className="flex items-center justify-center min-h-[500px] px-4">
-        <div className="relative w-full max-w-md h-96">
-          <AnimatePresence mode="wait" custom={1}>
+        <div className="relative w-full max-w-md">
+          <AnimatePresence mode="wait">
             <motion.div
               key={currentCardIndex}
-              custom={1}
-              variants={cardVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                y: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              className="absolute inset-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="w-full"
             >
-              {/* Card Back */}
-              <motion.div
-                initial={{ rotateY: 0 }}
-                animate={{ rotateY: 180 }}
-                transition={{ duration: 0.6 }}
-                className="w-full h-full"
-                style={{ perspective: '1000px' }}
-              >
-                <div
-                  className="w-full h-full bg-gradient-to-br from-green-900 to-black rounded-lg shadow-2xl p-8 flex flex-col justify-between border border-green-500/30"
-                  style={{
-                    backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg)',
-                  }}
-                >
-                  <div>
-                    <h2 className="text-2xl font-bold text-white mb-4" style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    }}>
-                      {currentCard.title}
-                    </h2>
-                    <div className="text-green-400 whitespace-pre-wrap text-sm leading-relaxed" style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}>
-                      {currentCard.content}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-green-500/30">
-                    <span className="text-green-400 text-xs" style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}>
-                      Card {currentCardIndex + 1} of {businessCards.length}
-                    </span>
-                    <span className="text-green-400 text-xs" style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}>
-                      JASWIN CHINTHALA
-                    </span>
+              <div className="bg-gradient-to-br from-green-900 to-black rounded-lg shadow-2xl p-8 border border-green-500/30 min-h-96 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-3xl font-bold text-white mb-6" style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                  }}>
+                    {currentCard.title}
+                  </h2>
+                  <div className="text-green-400 whitespace-pre-wrap text-sm leading-relaxed" style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}>
+                    {currentCard.content}
                   </div>
                 </div>
-              </motion.div>
+
+                <div className="flex items-center justify-between pt-6 border-t border-green-500/30 mt-6">
+                  <span className="text-green-400 text-xs" style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}>
+                    Card {currentCardIndex + 1} of {businessCards.length}
+                  </span>
+                  <span className="text-green-400 text-xs" style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}>
+                    JASWIN CHINTHALA
+                  </span>
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Card Stack Shadow Effect */}
-          {[2, 1].map((offset) => (
-            <motion.div
-              key={`shadow-${offset}`}
-              className="absolute inset-0 bg-gradient-to-br from-green-900 to-black rounded-lg border border-green-500/20"
-              style={{
-                transform: `translateY(${offset * 8}px) translateX(${offset * 4}px)`,
-                zIndex: -offset,
-              }}
-            />
-          ))}
         </div>
       </div>
 

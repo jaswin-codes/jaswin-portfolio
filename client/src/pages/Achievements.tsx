@@ -48,11 +48,11 @@ const generateWaveform = (type: 'sine' | 'square' | 'ramp' | 'flatline'): Wavefo
 
 export default function AchievementsSection() {
   const [, setLocation] = useLocation();
-  const [selectedAchievement, setSelectedAchievement] = useState<string | null>(null);
   const [probePos, setProbePos] = useState({ x: 50, y: 50 });
+  const [selectedByProbe, setSelectedByProbe] = useState<string | null>(null);
 
-  const selectedItem = selectedAchievement
-    ? achievements.find((a) => a.id === selectedAchievement)
+  const selectedItem = selectedByProbe
+    ? achievements.find((a) => a.id === selectedByProbe)
     : null;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -60,6 +60,24 @@ export default function AchievementsSection() {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setProbePos({ x, y });
+
+    // Detect which waveform row the probe is over
+    const waveformContainer = e.currentTarget.querySelector('[data-waveforms]');
+    if (waveformContainer) {
+      const waveformRows = waveformContainer.querySelectorAll('[data-achievement-id]');
+      waveformRows.forEach((row) => {
+        const rowRect = row.getBoundingClientRect();
+        const containerRect = e.currentTarget.getBoundingClientRect();
+        const probeY = e.clientY - containerRect.top;
+        
+        if (probeY >= rowRect.top - containerRect.top && probeY <= rowRect.bottom - containerRect.top) {
+          const achievementId = row.getAttribute('data-achievement-id');
+          if (achievementId) {
+            setSelectedByProbe(achievementId);
+          }
+        }
+      });
+    }
   };
 
   return (
@@ -123,16 +141,17 @@ export default function AchievementsSection() {
             />
 
             {/* Waveforms */}
-            <div className="absolute inset-0 flex flex-col justify-around p-8">
-              {achievements.map((achievement, idx) => {
+            <div className="absolute inset-0 flex flex-col justify-around p-8" data-waveforms>
+              {achievements.map((achievement) => {
                 const waveform = generateWaveform(achievement.waveformType);
                 const pathData = `M ${waveform.points.map((p) => `${p[0]},${p[1]}`).join(' L ')}`;
+                const isSelected = selectedByProbe === achievement.id;
 
                 return (
                   <motion.div
                     key={achievement.id}
+                    data-achievement-id={achievement.id}
                     className="relative h-20 cursor-pointer"
-                    onClick={() => setSelectedAchievement(achievement.id)}
                     whileHover={{ scale: 1.02 }}
                   >
                     {/* Waveform SVG */}
@@ -143,11 +162,11 @@ export default function AchievementsSection() {
                     >
                       <path
                         d={pathData}
-                        stroke="#00ff88"
-                        strokeWidth="2"
+                        stroke={isSelected ? '#ffff00' : '#00ff88'}
+                        strokeWidth={isSelected ? '3' : '2'}
                         fill="none"
                         style={{
-                          filter: 'drop-shadow(0 0 4px #00ff88)',
+                          filter: isSelected ? 'drop-shadow(0 0 8px #ffff00)' : 'drop-shadow(0 0 4px #00ff88)',
                         }}
                       />
                     </svg>
@@ -156,13 +175,13 @@ export default function AchievementsSection() {
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 text-green-400 text-xs font-bold" style={{
                       fontFamily: "'JetBrains Mono', monospace",
                     }}>
-                      {achievement.date}
+                      {achievement.title}
                     </div>
 
-                    {/* Hover Highlight */}
-                    {selectedAchievement === achievement.id && (
+                    {/* Selection Highlight */}
+                    {isSelected && (
                       <motion.div
-                        className="absolute inset-0 border-2 border-green-400 rounded"
+                        className="absolute inset-0 border-2 border-yellow-300 rounded"
                         animate={{ opacity: [0.5, 1, 0.5] }}
                         transition={{ duration: 1, repeat: Infinity }}
                       />
@@ -223,64 +242,55 @@ export default function AchievementsSection() {
         >
           PROBE
         </motion.div>
+
+        {/* Instructions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="absolute bottom-8 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          <p className="font-bold mb-2">CONTROLS:</p>
+          <p>• Move probe to select achievement</p>
+          <p>• Details appear on the right</p>
+        </motion.div>
       </motion.div>
 
-      {/* Achievement Detail Modal */}
+      {/* Achievement Detail Panel */}
       <AnimatePresence>
         {selectedItem && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center z-20 bg-black/70"
-            onClick={() => setSelectedAchievement(null)}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-gray-900 border-2 border-yellow-300 rounded-lg p-6 max-w-sm"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border-2 border-green-500 rounded-lg p-8 max-w-md w-full mx-4"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">{selectedItem.title}</h2>
-                  <p className="text-green-400 text-sm mt-1">{selectedItem.type}</p>
-                </div>
-                <button
-                  onClick={() => setSelectedAchievement(null)}
-                  className="text-green-400 hover:text-green-300"
-                >
-                  <X size={24} />
-                </button>
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-xl font-bold text-white">{selectedItem.title}</h2>
+                <p className="text-yellow-300 text-sm mt-1">{selectedItem.type}</p>
               </div>
+              <button
+                onClick={() => setSelectedByProbe(null)}
+                className="text-yellow-300 hover:text-yellow-200"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-              <p className="text-gray-400 text-sm mb-4" style={{
+            <p className="text-gray-300 text-sm mb-4">{selectedItem.description}</p>
+
+            <div className="flex items-center gap-2 pt-4 border-t border-yellow-300/30">
+              <span className="text-yellow-300 text-xs font-bold" style={{
                 fontFamily: "'JetBrains Mono', monospace",
               }}>
                 {selectedItem.date}
-              </p>
-
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {selectedItem.description}
-              </p>
-            </motion.div>
+              </span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Instructions */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
-      >
-        <p className="text-green-400 text-sm" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          move probe • click waveform to explore
-        </p>
-      </motion.div>
     </div>
   );
 }

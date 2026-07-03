@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
@@ -15,6 +15,12 @@ interface SkillParticle {
   proficiency: number;
 }
 
+interface MagnetPosition {
+  x: number;
+  y: number;
+  isDragging: boolean;
+}
+
 const roleMagnets = [
   { id: 'embedded', label: 'Embedded Intern', color: '#0088ff' },
   { id: 'ml', label: 'ML Research', color: '#00ff88' },
@@ -26,8 +32,19 @@ export default function SkillsSection() {
   const [, setLocation] = useLocation();
   const [particles, setParticles] = useState<SkillParticle[]>([]);
   const [selectedMagnet, setSelectedMagnet] = useState<string | null>(null);
+  const [magnetPositions, setMagnetPositions] = useState<Record<string, MagnetPosition>>({
+    embedded: { x: 100, y: 100, isDragging: false },
+    ml: { x: 700, y: 100, isDragging: false },
+    'ai-safety': { x: 100, y: 500, isDragging: false },
+    web: { x: 700, y: 500, isDragging: false },
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
+  const dragRef = useRef<string | null>(null);
+
+  const BOUNDARY_PADDING = 60;
+  const CONTAINER_WIDTH = 1000;
+  const CONTAINER_HEIGHT = 600;
 
   // Initialize particles
   useEffect(() => {
@@ -39,8 +56,8 @@ export default function SkillsSection() {
         allSkills.push({
           id: `skill-${id++}`,
           name: skill.name,
-          x: Math.random() * 800,
-          y: Math.random() * 600,
+          x: Math.random() * (CONTAINER_WIDTH - 100) + 50,
+          y: Math.random() * (CONTAINER_HEIGHT - 100) + 50,
           vx: (Math.random() - 0.5) * 2,
           vy: (Math.random() - 0.5) * 2,
           cluster: cluster.name,
@@ -64,20 +81,18 @@ export default function SkillsSection() {
           let vx = p.vx;
           let vy = p.vy;
 
-          // Bounce off walls
-          if (x < 0 || x > 800) vx *= -1;
-          if (y < 0 || y > 600) vy *= -1;
+          // Bounce off walls with padding
+          if (x < BOUNDARY_PADDING || x > CONTAINER_WIDTH - BOUNDARY_PADDING) vx *= -0.8;
+          if (y < BOUNDARY_PADDING || y > CONTAINER_HEIGHT - BOUNDARY_PADDING) vy *= -0.8;
 
-          x = Math.max(0, Math.min(800, x));
-          y = Math.max(0, Math.min(600, y));
+          x = Math.max(BOUNDARY_PADDING, Math.min(CONTAINER_WIDTH - BOUNDARY_PADDING, x));
+          y = Math.max(BOUNDARY_PADDING, Math.min(CONTAINER_HEIGHT - BOUNDARY_PADDING, y));
 
           // Magnet attraction
           if (selectedMagnet) {
-            const magnetX = selectedMagnet === 'embedded' ? 100 : selectedMagnet === 'ml' ? 700 : selectedMagnet === 'ai-safety' ? 100 : 700;
-            const magnetY = selectedMagnet === 'embedded' || selectedMagnet === 'ml' ? 100 : 500;
-
-            const dx = magnetX - x;
-            const dy = magnetY - y;
+            const magnet = magnetPositions[selectedMagnet];
+            const dx = magnet.x - x;
+            const dy = magnet.y - y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < 300) {
@@ -105,7 +120,44 @@ export default function SkillsSection() {
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [selectedMagnet]);
+  }, [selectedMagnet, magnetPositions]);
+
+  const handleMagnetMouseDown = (magnetId: string) => {
+    dragRef.current = magnetId;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!dragRef.current || !containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Constrain to boundaries
+    const constrainedX = Math.max(BOUNDARY_PADDING, Math.min(CONTAINER_WIDTH - BOUNDARY_PADDING, x));
+    const constrainedY = Math.max(BOUNDARY_PADDING, Math.min(CONTAINER_HEIGHT - BOUNDARY_PADDING, y));
+
+    setMagnetPositions((prev) => ({
+      ...prev,
+      [dragRef.current!]: {
+        ...prev[dragRef.current!],
+        x: constrainedX,
+        y: constrainedY,
+        isDragging: true,
+      },
+    }));
+  };
+
+  const handleMouseUp = () => {
+    dragRef.current = null;
+    setMagnetPositions((prev) => ({
+      ...prev,
+      ...Object.keys(prev).reduce((acc, key) => {
+        acc[key] = { ...prev[key], isDragging: false };
+        return acc;
+      }, {} as Record<string, MagnetPosition>),
+    }));
+  };
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden">
@@ -146,7 +198,10 @@ export default function SkillsSection() {
       {/* Magnetic Field Simulator */}
       <div
         ref={containerRef}
-        className="relative w-full h-screen bg-gradient-to-br from-gray-950 via-black to-gray-950 overflow-hidden"
+        className="relative w-full h-screen bg-gradient-to-br from-gray-950 via-black to-gray-950 overflow-hidden border-2 border-green-500/20"
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         {/* Magnetic Field Lines */}
         <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
@@ -166,15 +221,15 @@ export default function SkillsSection() {
               key={particle.id}
               className="absolute w-16 h-16 flex items-center justify-center rounded-full cursor-pointer"
               style={{
-                left: `${(particle.x / 800) * 100}%`,
-                top: `${(particle.y / 600) * 100}%`,
+                left: `${particle.x}px`,
+                top: `${particle.y}px`,
                 transform: 'translate(-50%, -50%)',
               }}
               whileHover={{ scale: 1.2 }}
             >
               {/* Skill Bubble */}
               <motion.div
-                className="w-full h-full rounded-full flex items-center justify-center text-center text-xs font-bold relative overflow-hidden"
+                className="w-full h-full rounded-full flex items-center justify-center text-center text-xs font-bold relative overflow-hidden p-1"
                 style={{
                   backgroundColor: `${clusterColor}20`,
                   border: `2px solid ${clusterColor}`,
@@ -193,19 +248,17 @@ export default function SkillsSection() {
         {/* Role Magnets */}
         <div className="absolute inset-0 pointer-events-none">
           {roleMagnets.map((magnet) => {
-            const positions: Record<string, [string, string]> = {
-              embedded: ['5%', '10%'],
-              ml: ['85%', '10%'],
-              'ai-safety': ['5%', '85%'],
-              web: ['85%', '85%'],
-            };
-            const [left, top] = positions[magnet.id];
-
+            const pos = magnetPositions[magnet.id];
             return (
               <motion.div
                 key={magnet.id}
-                className="absolute w-24 h-24 flex items-center justify-center cursor-pointer pointer-events-auto"
-                style={{ left, top, transform: 'translate(-50%, -50%)' }}
+                className="absolute w-24 h-24 flex items-center justify-center cursor-grab pointer-events-auto active:cursor-grabbing"
+                style={{
+                  left: `${pos.x}px`,
+                  top: `${pos.y}px`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+                onMouseDown={() => handleMagnetMouseDown(magnet.id)}
                 onClick={() => setSelectedMagnet(selectedMagnet === magnet.id ? null : magnet.id)}
                 whileHover={{ scale: 1.1 }}
               >
@@ -229,6 +282,19 @@ export default function SkillsSection() {
             );
           })}
         </div>
+
+        {/* Instructions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="absolute bottom-8 right-8 bg-black/70 border border-green-500/30 rounded p-4 max-w-xs text-green-400 text-sm"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          <p className="font-bold mb-2">CONTROLS:</p>
+          <p>• Drag magnets to move them</p>
+          <p>• Click magnet to attract skills</p>
+        </motion.div>
       </div>
 
       {/* Legend */}
@@ -249,23 +315,14 @@ export default function SkillsSection() {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: cluster.color }}
               />
-              <span className="text-gray-300 text-xs">{cluster.label}</span>
+              <span className="text-green-400 text-xs" style={{
+                fontFamily: "'JetBrains Mono', monospace",
+              }}>
+                {cluster.name}
+              </span>
             </div>
           ))}
         </div>
-      </motion.div>
-
-      {/* Instructions */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute bottom-8 right-8 text-right"
-      >
-        <p className="text-green-400 text-sm" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          click a magnet to attract skills
-        </p>
       </motion.div>
     </div>
   );

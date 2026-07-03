@@ -18,6 +18,8 @@ export default function Landing() {
   const skipTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
+  const [namePosition, setNamePosition] = useState<'center' | 'top'>('center');
+  const nameTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (!isIntroComplete) {
@@ -27,16 +29,19 @@ export default function Landing() {
     return () => {
       if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
       if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+      if (nameTimerRef.current) clearTimeout(nameTimerRef.current);
     };
   }, [isIntroComplete]);
 
   useEffect(() => {
     if (isIntroComplete) {
       hintTimerRef.current = setTimeout(() => setShowHint(true), 7000);
+      nameTimerRef.current = setTimeout(() => setNamePosition('top'), 5000);
     }
 
     return () => {
       if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+      if (nameTimerRef.current) clearTimeout(nameTimerRef.current);
     };
   }, [isIntroComplete]);
 
@@ -44,6 +49,12 @@ export default function Landing() {
     setIntroComplete();
     setShowSkipButton(false);
   };
+
+  useEffect(() => {
+    return () => {
+      if (nameTimerRef.current) clearTimeout(nameTimerRef.current);
+    };
+  }, []);
 
   const handleComponentClick = (componentId: string) => {
     const sectionMap: Record<string, any> = {
@@ -103,8 +114,12 @@ export default function Landing() {
       {isIntroComplete && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            ...(namePosition === 'top' && { y: -200 })
+          }}
+          transition={{ duration: namePosition === 'top' ? 0.8 : 1 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
           <h1 className="text-6xl md:text-7xl font-bold text-center text-white" style={{
