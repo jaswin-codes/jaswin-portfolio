@@ -18,27 +18,15 @@ interface ProjectScreen {
 const projectScreens: ProjectScreen[] = [
   {
     id: 'afriguard',
-    position: [-3, 1.5, -5],
-    rotation: [0, Math.PI / 4, 0],
-    scale: [1, 1, 1],
+    position: [-2, 0, -5],
+    rotation: [0, Math.PI / 6, 0],
+    scale: [1.2, 1.2, 1],
   },
   {
     id: 'hyperspectral',
-    position: [3, 1.5, -5],
-    rotation: [0, -Math.PI / 4, 0],
-    scale: [1, 1, 1],
-  },
-  {
-    id: 'uct-racing',
-    position: [-3, -1.5, -5],
-    rotation: [0, Math.PI / 4, 0],
-    scale: [1, 1, 1],
-  },
-  {
-    id: 'emi-lab',
-    position: [3, -1.5, -5],
-    rotation: [0, -Math.PI / 4, 0],
-    scale: [1, 1, 1],
+    position: [2, 0, -5],
+    rotation: [0, -Math.PI / 6, 0],
+    scale: [1.2, 1.2, 1],
   },
 ];
 

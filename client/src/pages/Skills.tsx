@@ -12,7 +12,7 @@ interface SkillParticle {
   vx: number;
   vy: number;
   cluster: string;
-  proficiency: number;
+  proficiency: 'novice' | 'intermediate' | 'advanced';
 }
 
 interface MagnetPosition {
@@ -235,9 +235,9 @@ export default function SkillsSection() {
                   border: `2px solid ${clusterColor}`,
                   color: clusterColor,
                 }}
-                animate={{
-                  boxShadow: `0 0 ${10 + particle.proficiency / 10}px ${clusterColor}`,
-                }}
+              animate={{
+                boxShadow: `0 0 ${10 + (particle.proficiency === 'advanced' ? 8 : particle.proficiency === 'intermediate' ? 5 : 2)}px ${clusterColor}`,
+              }}
               >
                 {particle.name}
               </motion.div>

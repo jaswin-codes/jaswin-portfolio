@@ -29,6 +29,8 @@ export const ESP32Model = ({
   const [introPhase, setIntroPhase] = useState<'flying' | 'led' | 'name' | 'settle'>(
     isIntroAnimating ? 'flying' : 'settle'
   );
+  const [ledBlinks, setLedBlinks] = useState(0);
+  const ledBlinkRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const rotationRef = useRef<RotationState>({
     x: 0,
     y: 0,
@@ -37,6 +39,35 @@ export const ESP32Model = ({
     lastInteractionTime: 0,
   });
   const INTERACTION_PAUSE_TIME = 3000; // 3 seconds pause after user interaction
+
+  // LED blink animation
+  useEffect(() => {
+    if (introPhase === 'led') {
+      let blinkCount = 0;
+      let isOn = true;
+
+      ledBlinkRef.current = setInterval(() => {
+        if (isOn) {
+          blinkCount++;
+          if (blinkCount >= 3) {
+            // After 3 blinks, trigger explosion and move to name phase
+            clearInterval(ledBlinkRef.current);
+            setIntroPhase('name');
+            setTimeout(() => {
+              setIntroPhase('settle');
+              onIntroComplete?.();
+            }, 800); // Faster name reveal
+            return;
+          }
+        }
+        isOn = !isOn;
+      }, 800); // 800ms per blink state = ~1.6s for 2 full blinks
+
+      return () => {
+        if (ledBlinkRef.current) clearInterval(ledBlinkRef.current);
+      };
+    }
+  }, [introPhase, onIntroComplete]);
 
   // Intro animation spring
   const introSpring = useSpring({
@@ -52,13 +83,6 @@ export const ESP32Model = ({
     onRest: () => {
       if (introPhase === 'flying') {
         setIntroPhase('led');
-        setTimeout(() => {
-          setIntroPhase('name');
-          setTimeout(() => {
-            setIntroPhase('settle');
-            onIntroComplete?.();
-          }, 1500);
-        }, 1000);
       }
     },
   });
@@ -165,7 +189,7 @@ export const ESP32Model = ({
         <meshStandardMaterial
           color="#ff0000"
           emissive="#ff0000"
-          emissiveIntensity={introPhase === 'led' ? 1 : 0.2}
+          emissiveIntensity={introPhase === 'led' && ledBlinks < 3 ? (ledBlinks % 2 === 0 ? 1 : 0.1) : introPhase === 'name' ? 2 : 0.2}
           metalness={0.8}
           roughness={0.2}
         />

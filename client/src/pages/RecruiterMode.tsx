@@ -266,21 +266,23 @@ export default function RecruiterMode() {
                 className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6"
               >
                 <h3 className="text-lg font-bold text-white mb-4">{cluster.label}</h3>
-                <div className="space-y-3">
-                  {cluster.skills.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between items-center mb-1">
+                <div className="space-y-2">
+                  {cluster.skills.map((skill) => {
+                    const profLevel = skill.proficiency as 'novice' | 'intermediate' | 'advanced';
+                    const badgeColors = {
+                      advanced: 'bg-green-500/30 text-green-400 border border-green-500',
+                      intermediate: 'bg-blue-500/30 text-blue-400 border border-blue-500',
+                      novice: 'bg-gray-600/30 text-gray-300 border border-gray-600',
+                    };
+                    return (
+                      <div key={skill.name} className="flex items-center justify-between">
                         <span className="text-gray-300 text-sm">{skill.name}</span>
-                        <span className="text-green-400 text-xs">{skill.proficiency}%</span>
+                        <span className={`text-xs font-semibold px-2 py-1 rounded ${badgeColors[profLevel]}`}>
+                          {profLevel.charAt(0).toUpperCase() + profLevel.slice(1)}
+                        </span>
                       </div>
-                      <div className="w-full bg-gray-800 rounded-full h-2">
-                        <div
-                          className="bg-green-500 h-2 rounded-full transition-all"
-                          style={{ width: `${skill.proficiency}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
             ))}
