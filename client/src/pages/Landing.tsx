@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { navigateWithTransition } from '@/App';
+import PCBBackground from '@/components/PCBBackground';
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -85,6 +86,8 @@ export default function Landing() {
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
+      {/* PCB Background with animated edge glow */}
+      <PCBBackground />
       {/* 3D Canvas */}
       <Canvas className="w-full h-full">
         <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={75} />
