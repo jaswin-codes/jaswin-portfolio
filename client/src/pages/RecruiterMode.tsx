@@ -41,7 +41,7 @@ export default function RecruiterMode() {
             <h1 className="text-4xl font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Jaswin Chinthala
             </h1>
-            <p className="text-green-400 text-lg">Electrical Engineering Student & ML Engineer</p>
+            <p className="text-green-400 text-lg">Electrical Engineering Student</p>
           </div>
           <div className="flex gap-4">
             <Button

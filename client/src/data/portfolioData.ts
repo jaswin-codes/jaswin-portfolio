@@ -188,8 +188,8 @@ export const skillClusters: SkillCluster[] = [
     color: '#0088ff',
     skills: [
       { name: 'C Programming', proficiency: 'intermediate', cluster: 'embedded' },
-      { name: 'C/C++', proficiency: 'intermediate', cluster: 'embedded' },
-      { name: 'ESP32', proficiency: 'intermediate', cluster: 'embedded' },
+      { name: 'C/C++', proficiency: 'novice', cluster: 'embedded' },
+      { name: 'ESP32', proficiency: 'novice', cluster: 'embedded' },
       { name: 'mmWave Radar', proficiency: 'novice', cluster: 'embedded' },
       { name: 'RTOS', proficiency: 'novice', cluster: 'embedded' },
       { name: 'Circuit Logic', proficiency: 'novice', cluster: 'embedded' },
@@ -227,7 +227,7 @@ export const skillClusters: SkillCluster[] = [
     label: 'Tools',
     color: '#cccccc',
     skills: [
-      { name: 'Git', proficiency: 'intermediate', cluster: 'tools' },
+      { name: 'Git', proficiency: 'novice', cluster: 'tools' },
       { name: 'GitHub', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'VS Code', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'PyAutoGUI', proficiency: 'intermediate', cluster: 'tools' },
