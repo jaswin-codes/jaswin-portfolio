@@ -276,8 +276,12 @@ export default function ProjectsSection() {
                   <img
                     src={project.thumbnail}
                     alt={project.name}
-                    className="w-full h-full object-cover"
-                    style={{ filter: 'brightness(0.7) saturate(1.2)' }}
+                    className="w-full h-full"
+                    style={{
+                      objectFit: project.id === 'afriguard' ? 'contain' : 'cover',
+                      filter: project.id === 'afriguard' ? 'none' : 'brightness(0.7) saturate(1.2)',
+                      background: project.id === 'afriguard' ? '#1a2332' : 'transparent',
+                    }}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 40%, #0a0f0a)' }} />

@@ -21,7 +21,7 @@ Built an end-to-end evaluation pipeline with automated response generation, LLM-
 Created an interactive Streamlit dashboard for exploring results by model, language, and harm category.`,
     githubLink: 'https://github.com/ubayd-hattas/AfriGuard',
     liveLink: 'https://afriguard.streamlit.app/',
-    thumbnail: 'https://opengraph.githubassets.com/1/ubayd-hattas/AfriGuard',
+    thumbnail: '/manus-storage/afriguard-logo_5f6eb771.png',
   },
   {
     id: 'hyperspectral',
