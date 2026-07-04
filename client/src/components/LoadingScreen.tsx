@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import PCBBackground from '@/components/PCBBackground';
 
 interface LoadingScreenProps {
   isLoading: boolean;
@@ -35,9 +34,6 @@ export const LoadingScreen = ({ isLoading, progress = 0 }: LoadingScreenProps) =
       transition={{ duration: 0.6 }}
       className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* PCB Background with animated edge glow */}
-      <PCBBackground />
-
       {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" preserveAspectRatio="none">
