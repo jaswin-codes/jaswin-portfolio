@@ -1,7 +1,7 @@
 
 // ─── Static asset URLs (uploaded via manus-upload-file --webdev) ───────────────
-export const RESUME_URL = '/manus-storage/Jaswin_Research_CV_d1a4d9f5.pdf';
-export const RESEARCH_POSTER_URL = '/manus-storage/research_poster_358fb6ff.png';
+export const RESUME_URL = '/resume.pdf';
+export const RESEARCH_POSTER_URL = '/research-poster.png';
 
 export const projects: Project[] = [
   {
@@ -21,7 +21,7 @@ Built an end-to-end evaluation pipeline with automated response generation, LLM-
 Created an interactive Streamlit dashboard for exploring results by model, language, and harm category.`,
     githubLink: 'https://github.com/ubayd-hattas/AfriGuard',
     liveLink: 'https://afriguard.streamlit.app/',
-    thumbnail: '/manus-storage/afriguard-logo_5f6eb771.png',
+    thumbnail: '/afriguard-logo.png',
   },
   {
     id: 'hyperspectral',
