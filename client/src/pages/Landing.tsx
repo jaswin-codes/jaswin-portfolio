@@ -7,6 +7,7 @@ import { ESP32Model } from '@/components/ESP32Model';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
+import { navigateWithTransition } from '@/App';
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -57,7 +58,7 @@ export default function Landing() {
   }, []);
 
   const handleComponentClick = (componentId: string) => {
-    const sectionMap: Record<string, any> = {
+    const sectionMap: Record<string, string> = {
       'esp-wroom': 'projects',
       'usb-port': 'about',
       'voltage-reg': 'experience',
@@ -68,8 +69,8 @@ export default function Landing() {
 
     const section = sectionMap[componentId];
     if (section) {
-      setCurrentSection(section);
-      setLocation(`/${section}`);
+      setCurrentSection(section as any);
+      navigateWithTransition(`/${section}`, section);
     }
   };
 

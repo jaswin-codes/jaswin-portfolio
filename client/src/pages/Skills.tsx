@@ -26,6 +26,8 @@ const roleMagnets = [
   { id: 'ml', label: 'ML Research', color: '#00ff88' },
   { id: 'ai-safety', label: 'AI Safety', color: '#ff0088' },
   { id: 'web', label: 'Full-Stack', color: '#ff6600' },
+  { id: 'power', label: 'Power / Energy', color: '#ffaa00' },
+  { id: 'tools', label: 'Tools', color: '#cccccc' },
 ];
 
 export default function SkillsSection() {
@@ -33,10 +35,12 @@ export default function SkillsSection() {
   const [particles, setParticles] = useState<SkillParticle[]>([]);
   const [selectedMagnet, setSelectedMagnet] = useState<string | null>(null);
   const [magnetPositions, setMagnetPositions] = useState<Record<string, MagnetPosition>>({
-    embedded: { x: 100, y: 100, isDragging: false },
-    ml: { x: 700, y: 100, isDragging: false },
-    'ai-safety': { x: 100, y: 500, isDragging: false },
-    web: { x: 700, y: 500, isDragging: false },
+    embedded: { x: 80, y: 80, isDragging: false },
+    ml: { x: 860, y: 80, isDragging: false },
+    'ai-safety': { x: 80, y: 480, isDragging: false },
+    web: { x: 860, y: 480, isDragging: false },
+    power: { x: 460, y: 60, isDragging: false },
+    tools: { x: 460, y: 500, isDragging: false },
   });
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);

@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group, Mesh, Material } from 'three';
+import { Group } from 'three';
 import { useSpring, animated } from '@react-spring/three';
 
 interface ESP32ModelProps {
@@ -11,10 +11,6 @@ interface ESP32ModelProps {
 }
 
 interface RotationState {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
   lastInteractionTime: number;
 }
 
@@ -26,177 +22,158 @@ export const ESP32Model = ({
 }: ESP32ModelProps) => {
   const groupRef = useRef<Group>(null);
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
-  const [introPhase, setIntroPhase] = useState<'flying' | 'led' | 'name' | 'settle'>(
-    isIntroAnimating ? 'flying' : 'settle'
+  // intro phases: 'fly-in' → 'blink' → 'explode' → 'settle'
+  const [introPhase, setIntroPhase] = useState<'fly-in' | 'blink' | 'explode' | 'settle'>(
+    isIntroAnimating ? 'fly-in' : 'settle'
   );
-  const [ledBlinks, setLedBlinks] = useState(0);
-  const ledBlinkRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
-  const rotationRef = useRef<RotationState>({
-    x: 0,
-    y: 0,
-    vx: 0,
-    vy: 0,
-    lastInteractionTime: 0,
-  });
-  const INTERACTION_PAUSE_TIME = 3000; // 3 seconds pause after user interaction
+  // ledOn drives the blink toggle
+  const [ledOn, setLedOn] = useState(false);
+  const [exploding, setExploding] = useState(false);
 
-  // LED blink animation
-  useEffect(() => {
-    if (introPhase === 'led') {
-      let blinkCount = 0;
-      let isOn = true;
+  const rotationRef = useRef<RotationState>({ lastInteractionTime: 0 });
+  const INTERACTION_PAUSE_TIME = 3000;
 
-      ledBlinkRef.current = setInterval(() => {
-        if (isOn) {
-          blinkCount++;
-          if (blinkCount >= 3) {
-            // After 3 blinks, trigger explosion and move to name phase
-            clearInterval(ledBlinkRef.current);
-            setIntroPhase('name');
-            setTimeout(() => {
-              setIntroPhase('settle');
-              onIntroComplete?.();
-            }, 800); // Faster name reveal
-            return;
-          }
-        }
-        isOn = !isOn;
-      }, 800); // 800ms per blink state = ~1.6s for 2 full blinks
-
-      return () => {
-        if (ledBlinkRef.current) clearInterval(ledBlinkRef.current);
-      };
-    }
-  }, [introPhase, onIntroComplete]);
-
-  // Intro animation spring
-  const introSpring = useSpring({
-    from: { posY: -5, rotX: Math.PI, rotY: 0, rotZ: 0, scale: 0.5 },
+  // ── Intro sequence ──────────────────────────────────────────────────────────
+  // Phase 1: fly-in spring (0 → ~0.8s)
+  const flyInSpring = useSpring({
+    from: { posY: -6, rotY: Math.PI * 2, scale: 0.3 },
     to: {
-      posY: introPhase === 'flying' ? 0 : 0,
-      rotX: introPhase === 'flying' ? 0 : 0,
-      rotY: introPhase === 'flying' ? Math.PI * 2 : 0,
-      rotZ: introPhase === 'flying' ? Math.PI * 0.5 : 0,
+      posY: introPhase !== 'settle' ? 0 : 0,
+      rotY: 0,
       scale: 1,
     },
-    config: { duration: 2000 },
+    config: { tension: 120, friction: 18 },
     onRest: () => {
-      if (introPhase === 'flying') {
-        setIntroPhase('led');
-      }
+      if (introPhase === 'fly-in') setIntroPhase('blink');
     },
   });
 
-  // Idle rotation with inertia damping
-  useFrame(() => {
-    if (!groupRef.current || introPhase !== 'settle' || isIntroAnimating) return;
+  // Phase 2: blink 2 times then explode (total ~1.2s)
+  useEffect(() => {
+    if (introPhase !== 'blink') return;
+    let count = 0;
+    setLedOn(true);
+    const interval = setInterval(() => {
+      count++;
+      setLedOn((v) => !v);
+      if (count >= 4) {
+        // 4 toggles = 2 full blinks
+        clearInterval(interval);
+        setLedOn(true);
+        setIntroPhase('explode');
+      }
+    }, 150); // 150ms per toggle → 4 toggles = 600ms
+    return () => clearInterval(interval);
+  }, [introPhase]);
 
+  // Phase 3: explosion flash then settle (300ms)
+  useEffect(() => {
+    if (introPhase !== 'explode') return;
+    setExploding(true);
+    const t = setTimeout(() => {
+      setExploding(false);
+      setIntroPhase('settle');
+      onIntroComplete?.();
+    }, 300);
+    return () => clearTimeout(t);
+  }, [introPhase, onIntroComplete]);
+
+  // ── Idle rotation with inertia damping ──────────────────────────────────────
+  useFrame(() => {
+    if (!groupRef.current || introPhase !== 'settle') return;
     const now = Date.now();
     const timeSinceInteraction = now - rotationRef.current.lastInteractionTime;
-    const isInPausePeriod = timeSinceInteraction < INTERACTION_PAUSE_TIME;
-
-    if (isInPausePeriod) {
-      // During pause period, apply damping to velocity
-      rotationRef.current.vx *= 0.95;
-      rotationRef.current.vy *= 0.95;
-    } else {
-      // After pause, apply slow idle rotation
-      rotationRef.current.vx = 0.0005; // Much slower than before
-      rotationRef.current.vy = 0.001;
+    if (timeSinceInteraction > INTERACTION_PAUSE_TIME) {
+      groupRef.current.rotation.y += 0.003;
     }
-
-    // Apply rotation
-    groupRef.current.rotation.x += rotationRef.current.vx;
-    groupRef.current.rotation.y += rotationRef.current.vy;
   });
 
-  // Track user interaction (from OrbitControls)
   useEffect(() => {
     const handleMouseMove = () => {
       rotationRef.current.lastInteractionTime = Date.now();
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // ── LED emissive intensity ──────────────────────────────────────────────────
+  const ledIntensity = exploding ? 8 : introPhase === 'blink' ? (ledOn ? 2 : 0.05) : 0.3;
+
   const components = [
-    { id: 'esp-wroom', label: 'ESP-WROOM-32', position: [0, 0, 0.15], size: [0.8, 0.6, 0.1] },
-    { id: 'usb-port', label: 'USB-PORT', position: [-1.5, 0, 0.1], size: [0.3, 0.2, 0.15] },
-    { id: 'voltage-reg', label: 'AMS1117-3.3', position: [1.2, -0.8, 0.08], size: [0.25, 0.2, 0.08] },
-    { id: 'cp2102', label: 'CP2102', position: [-1.2, -0.8, 0.08], size: [0.3, 0.25, 0.08] },
-    { id: 'gpio-pins', label: 'GPIO PINS', position: [0, 1.5, 0.05], size: [2.5, 0.15, 0.08] },
-    { id: 'crystal', label: '40MHz XTAL', position: [0.8, 0.6, 0.08], size: [0.2, 0.2, 0.08] },
+    { id: 'esp-wroom',    label: 'ESP-WROOM-32',  position: [0, 0, 0.15] as [number,number,number],      size: [0.8, 0.6, 0.1] as [number,number,number] },
+    { id: 'usb-port',     label: 'USB-PORT',       position: [-1.5, 0, 0.1] as [number,number,number],    size: [0.3, 0.2, 0.15] as [number,number,number] },
+    { id: 'voltage-reg',  label: 'AMS1117-3.3',    position: [1.2, -0.8, 0.08] as [number,number,number], size: [0.25, 0.2, 0.08] as [number,number,number] },
+    { id: 'cp2102',       label: 'CP2102',         position: [-1.2, -0.8, 0.08] as [number,number,number],size: [0.3, 0.25, 0.08] as [number,number,number] },
+    { id: 'gpio-pins',    label: 'GPIO PINS',      position: [0, 1.5, 0.05] as [number,number,number],    size: [2.5, 0.15, 0.08] as [number,number,number] },
+    { id: 'crystal',      label: '40MHz XTAL',     position: [0.8, 0.6, 0.08] as [number,number,number],  size: [0.2, 0.2, 0.08] as [number,number,number] },
   ];
 
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
+    // @ts-ignore – animated.group is valid at runtime
+    <animated.group
+      ref={groupRef}
+      position-y={flyInSpring.posY}
+      rotation-y={flyInSpring.rotY}
+      scale={flyInSpring.scale}
+    >
       {/* Main PCB Board */}
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
-        <boxGeometry args={[3, 2, 0.08] as [number, number, number]} />
+        <boxGeometry args={[3, 2, 0.08]} />
         <meshStandardMaterial color="#1a6b2e" metalness={0.3} roughness={0.7} />
       </mesh>
 
-      {/* PCB Texture/Grid */}
+      {/* PCB surface layer */}
       <mesh position={[0, 0, 0.05]}>
-        <boxGeometry args={[3, 2, 0.01] as [number, number, number]} />
+        <boxGeometry args={[3, 2, 0.01]} />
         <meshStandardMaterial color="#0d4620" metalness={0.2} roughness={0.8} />
       </mesh>
 
       {/* Components */}
       {components.map((comp) => (
         <group key={comp.id}>
-          {/* Component Box */}
           <mesh
-            position={[comp.position[0], comp.position[1], comp.position[2]]}
-            onPointerEnter={() => {
-              setHoveredComponent(comp.id);
-              onComponentHover?.(comp.id);
-            }}
-            onPointerLeave={() => {
-              setHoveredComponent(null);
-              onComponentHover?.(null);
-            }}
-            onClick={() => onComponentClick?.(comp.id)}
+            position={comp.position}
+            onPointerEnter={(e) => { e.stopPropagation(); setHoveredComponent(comp.id); onComponentHover?.(comp.id); }}
+            onPointerLeave={() => { setHoveredComponent(null); onComponentHover?.(null); }}
+            onClick={(e) => { e.stopPropagation(); onComponentClick?.(comp.id); }}
             castShadow
-            receiveShadow
           >
-            <boxGeometry args={comp.size as [number, number, number]} />
+            <boxGeometry args={comp.size} />
             <meshStandardMaterial
               color={hoveredComponent === comp.id ? '#00ff88' : '#0d2815'}
               metalness={0.4}
               roughness={0.6}
               emissive={hoveredComponent === comp.id ? '#00ff88' : '#000000'}
-              emissiveIntensity={hoveredComponent === comp.id ? 0.5 : 0}
+              emissiveIntensity={hoveredComponent === comp.id ? 0.6 : 0}
             />
           </mesh>
-
-          {/* Component Label */}
+          {/* flag dot above component */}
           <mesh position={[comp.position[0], comp.position[1], comp.position[2] + 0.3]}>
-            <boxGeometry args={[0.1, 0.1, 0.01]} />
-            <meshStandardMaterial
-              color="#00ff88"
-              emissive="#00ff88"
-              emissiveIntensity={0.8}
-            />
+            <sphereGeometry args={[0.04, 8, 8]} />
+            <meshStandardMaterial color="#00ff88" emissive="#00ff88" emissiveIntensity={0.9} />
           </mesh>
         </group>
       ))}
 
       {/* LED Indicator */}
-      <mesh position={[0.5, 0.3, 0.2]} castShadow>
+      <mesh position={[0.5, 0.3, 0.22]} castShadow>
         <sphereGeometry args={[0.08, 16, 16]} />
         <meshStandardMaterial
-          color="#ff0000"
-          emissive="#ff0000"
-          emissiveIntensity={introPhase === 'led' && ledBlinks < 3 ? (ledBlinks % 2 === 0 ? 1 : 0.1) : introPhase === 'name' ? 2 : 0.2}
+          color={exploding ? '#ffffff' : '#ff2200'}
+          emissive={exploding ? '#ffffff' : '#ff2200'}
+          emissiveIntensity={ledIntensity}
           metalness={0.8}
           roughness={0.2}
         />
       </mesh>
 
-      {/* Ambient Light Glow */}
+      {/* explosion point-light burst */}
+      {exploding && (
+        <pointLight position={[0, 0, 1]} intensity={20} color="#ff8800" distance={8} />
+      )}
+
+      {/* Ambient board glow */}
       <pointLight position={[0, 0, 1]} intensity={1.5} color="#00ff88" distance={5} />
-    </group>
+    </animated.group>
   );
 };
