@@ -48,7 +48,7 @@ export const ESP32Model = ({
     },
   });
 
-  // Phase 2: blink 2 times then explode (total ~1.2s)
+  // Phase 2: blink 2 times then explode (total ~2.8s)
   useEffect(() => {
     if (introPhase !== 'blink') return;
     let count = 0;
@@ -62,11 +62,11 @@ export const ESP32Model = ({
         setLedOn(true);
         setIntroPhase('explode');
       }
-    }, 150); // 150ms per toggle → 4 toggles = 600ms
+    }, 400); // 400ms per toggle → 4 toggles = 1.6s of visible blinking
     return () => clearInterval(interval);
   }, [introPhase]);
 
-  // Phase 3: explosion flash then settle (300ms)
+  // Phase 3: explosion flash then settle (700ms)
   useEffect(() => {
     if (introPhase !== 'explode') return;
     setExploding(true);
@@ -74,7 +74,7 @@ export const ESP32Model = ({
       setExploding(false);
       setIntroPhase('settle');
       onIntroComplete?.();
-    }, 300);
+    }, 700);
     return () => clearTimeout(t);
   }, [introPhase, onIntroComplete]);
 

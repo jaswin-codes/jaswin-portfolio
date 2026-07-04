@@ -27,33 +27,15 @@ Created an interactive Streamlit dashboard for exploring results by model, langu
     id: 'hyperspectral',
     name: 'Hyperspectral Freshness',
     description: 'Predicting Post-Harvest Freshness Using Simulated Hyperspectral Signatures',
-    shortDescription: 'Hardware model to capture real hyperspectral data coming soon',
+    shortDescription: '**Coming Soon:** Hardware product using sensors to capture real hyperspectral data',
     techStack: ['Python', 'NumPy', 'Pandas', 'Scikit-learn', 'Matplotlib', 'Hyperspectral Imaging'],
-    details: `Coming Soon: Hardware model to capture real hyperspectral data.
+    details: `**Coming Soon:** A hardware product using sensors to capture real hyperspectral data — taking the research into a physical device.
 
-Developed a computational, theory-driven framework to predict post-harvest freshness in fruits and vegetables, serving as a low-cost, scalable alternative to traditional lab-based analysis.
+Using the research I did on simulated hyperspectral signatures, I am building a low-cost hardware sensor system that can detect post-harvest freshness in fruits and vegetables before visible spoilage appears.
 
-Adapted key concepts from the University of Florida's FreshID research to model the relationship between simulated hyperspectral signatures, biochemical indicators (e.g., glucosinolates), and produce senescence.
-
-Built a Python-based simulation to rank feature importance, successfully demonstrating that specific spectral regions (Red-edge at 760nm and NIR at 1100nm) are highly predictive of freshness before visible spoilage occurs.
-
-Presented findings and methodologies to an academic panel as part of a STEM Research Methodology Workshop hosted by Scientific Caribbean Foundation, Inc.`,
+The goal is to translate the simulation findings (Red-edge at 760nm, NIR at 1100nm as key freshness indicators) into a portable, real-world device accessible without lab equipment.`,
     githubLink: 'https://github.com/jaswin-codes',
     thumbnail: RESEARCH_POSTER_URL,
-  },
-  {
-    id: 'hackathon',
-    name: 'Hackathon',
-    description: 'Global South AI Safety Hackathon — AfriGuard Project',
-    shortDescription: 'Competed in the Global South AI Safety Hackathon building AfriGuard',
-    techStack: ['Python', 'AI Safety', 'LLM Evaluation', 'Streamlit', 'Red Teaming'],
-    details: `Participated in the Global South AI Safety Hackathon, building AfriGuard — the first comprehensive red-teaming framework targeting safety vulnerabilities in South African languages.
-
-Collaborated with a team to design, build, and present a full evaluation pipeline within the hackathon timeframe. The project evaluated four frontier LLMs across seven South African languages with 1,120 adversarial evaluations.
-
-The hackathon experience accelerated development of the evaluation methodology and brought together researchers focused on AI safety for underrepresented languages in the Global South.`,
-    githubLink: 'https://github.com/ubayd-hattas/AfriGuard',
-    liveLink: 'https://afriguard.streamlit.app/',
   },
   {
     id: 'vibecoded',
@@ -97,6 +79,7 @@ export const experiences: Experience[] = [
     bulletPoints: [
       'Collaborating on technical documentation for cooling architecture, specifically X2.4 fan integration',
       'Gaining exposure to electric drivetrain architecture and battery thermal management systems',
+      'Gaining knowledge on telemetry systems for communication of data',
     ],
     skills: ['C++', 'ESP32', 'Thermal Modelling', 'Formula Student', 'Battery Management'],
     logo: 'https://via.placeholder.com/64?text=UCT+Racing',
@@ -244,9 +227,9 @@ export const skillClusters: SkillCluster[] = [
     label: 'Tools',
     color: '#cccccc',
     skills: [
-      { name: 'Git', proficiency: 'advanced', cluster: 'tools' },
-      { name: 'GitHub', proficiency: 'advanced', cluster: 'tools' },
-      { name: 'VS Code', proficiency: 'advanced', cluster: 'tools' },
+      { name: 'Git', proficiency: 'intermediate', cluster: 'tools' },
+      { name: 'GitHub', proficiency: 'intermediate', cluster: 'tools' },
+      { name: 'VS Code', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'PyAutoGUI', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'Selenium', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'OpenCV', proficiency: 'intermediate', cluster: 'tools' },

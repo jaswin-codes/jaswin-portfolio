@@ -7,7 +7,7 @@ A highly interactive personal portfolio that doubles as an immersive 3D experien
 ## Live Features
 
 ### Landing — 3D ESP32 Scene
-The homepage renders a procedural ESP32 microcontroller model in Three.js. On load, an intro animation plays: LED blinks twice then explodes, followed by the name fading in and sliding up above the board within ~2 seconds. After the intro, users can rotate the board freely with mouse drag, hover over individual components to see glowing tooltips, and click any component to navigate to its corresponding section world. An idle hint ("click a component to explore →") appears after 7 seconds of inactivity.
+The homepage renders a procedural ESP32 microcontroller model in Three.js. On load, an intro animation plays: LED blinks twice (400 ms per toggle) then explodes with a 700 ms flash, followed by the name fading in and sliding up above the board in ~1 second. After the intro, users can rotate the board freely with mouse drag, hover over individual components to see glowing tooltips, and click any component to navigate to its corresponding section world. An idle hint ("click a component to explore →") appears after 7 seconds of inactivity.
 
 | Component | Section |
 |---|---|
@@ -26,17 +26,16 @@ The Recruiter Mode flat layout includes: Hero, About Me, Experience, Projects, R
 ### Section Worlds (3D Mode)
 
 **Projects — Robot POV Lab**
-A 3D room with four project screens mounted on the walls. Hover to highlight, click to open a detail modal with description, tech stack, GitHub link, and live demo link where available.
+A 3D room with three project screens mounted on the walls. Hover to highlight, click to open a detail modal with description, tech stack, GitHub link, and live demo link where available. The Hyperspectral Freshness modal renders **Coming Soon** in bold green to distinguish the hardware project from the research paper.
 
 | Project | Status | Links |
 |---|---|---|
 | AfriGuard | Complete | [GitHub](https://github.com/ubayd-hattas/AfriGuard) · [Dashboard](https://afriguard.streamlit.app/) |
-| Hyperspectral Freshness | Complete (hardware coming soon) | — |
-| Hackathon | Complete | [GitHub](https://github.com/ubayd-hattas/AfriGuard) |
+| Hyperspectral Freshness | **Coming Soon** — hardware sensor product | — |
 | Vibecoded | Complete | — |
 
 **About Me — Business Card Stack**
-Eight business cards cycle on click: Name → Education → Interests → Research Focus → LinkedIn → GitHub → Location → Let's Connect. The first card shows only the name (no title label). Cards 3 & 4 (Interests, Research Focus) appear before cards 5 & 6 (LinkedIn, GitHub).
+Eight business cards cycle with a smooth horizontal slide-left/right transition animation. Navigation is via Previous/Next arrow buttons or dot indicators. The first card shows only the name (no title label). Card order: Name → Education → Interests → Research Focus → LinkedIn → GitHub → Location → Let's Connect. All card content is centred.
 
 **Experience — Elevator UI**
 An elevator panel with three floor buttons. Clicking a floor animates the elevator and slides in a detail panel.
@@ -44,7 +43,7 @@ An elevator panel with three floor buttons. Clicking a floor animates the elevat
 | Floor | Role |
 |---|---|
 | EMi Lab | Vacation Work Student — BMS & swappable battery research |
-| UCT Racing | Power Subsystem Member — cooling architecture & drivetrain |
+| UCT Racing | Power Subsystem Member — cooling architecture, drivetrain & telemetry systems |
 | Scientific Caribbean Foundation | Undergraduate Student Researcher — hyperspectral imaging |
 
 **Research — Electron Journey PCB**
@@ -55,8 +54,10 @@ A top-down PCB scene with colour-coded research chips. Press **E** near a chip t
 | Hyperspectral Imaging | Complete — poster & methodology available |
 | Swappable Battery | Coming Soon (EMi Lab) |
 
+Note: AfriGuard chip removed from the PCB scene (it is a project, not a research paper).
+
 **Skills — Magnetic Field Simulator**
-Six draggable role-magnet clusters (Machine Learning, AI Safety, Embedded Systems, Power/Energy, Web Dev, Tools) with skill bubbles that respond to drag position. Each skill displays a Novice / Intermediate / Advanced badge.
+Six draggable role-magnet clusters (Machine Learning, AI Safety, Embedded Systems, Power/Energy, Web Dev, Tools) with skill bubbles that respond to drag position. Each skill displays a Novice / Intermediate / Advanced badge. Git, GitHub, and VS Code are rated **Intermediate**.
 
 **Achievements — Oscilloscope Viewer**
 A CRT-style phosphor screen with waveforms for each achievement. Move the probe cursor over a waveform to reveal the achievement detail card.
@@ -66,6 +67,18 @@ A CRT-style phosphor screen with waveforms for each achievement. Move the probe 
 | Student of the Year | Grade 11 |
 | President's Award — Bronze | Grade 12 |
 | National Chess Champion | — |
+
+### Leadership & Involvement (Recruiter Mode)
+
+| Role | Organisation |
+|---|---|
+| Treasurer | Interact Club (Rotary International) |
+| Student Wellness and Leadership | Student Representative Council (SRC) |
+| Class Representative | EEE1008 — Electrical Engineering (UCT) |
+
+Interact Club: Managed budgets and financial records over R5000+ for community fundraising. 1 of 4 Board Members organizing events and service activities.
+
+SRC: Represented the student body as 1 of 9 in school governance. Organized mental health and wellness events; mentored cohort of class representatives.
 
 ### Jarvis AI Chatbot
 A floating chatbot (bottom-right) powered by the built-in LLM API. The system prompt is specific to Jaswin's background, projects, and experience. The chatbot detects recruiter intent and surfaces the contact form when appropriate. Text-to-speech is available via the speaker icon toggle.
@@ -103,7 +116,7 @@ A persistent "Resume" button (bottom-left in 3D mode) opens the CV PDF in a new 
 client/src/
   pages/
     Landing.tsx          ← ESP32 3D landing scene
-    Projects.tsx         ← Robot POV Lab (4 project screens)
+    Projects.tsx         ← Robot POV Lab (3 project screens)
     About.tsx            ← Business Card Stack
     Experience.tsx       ← Elevator UI
     Research.tsx         ← Electron Journey PCB

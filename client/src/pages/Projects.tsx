@@ -115,10 +115,9 @@ export default function ProjectsSection() {
   const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
 
   const screenData = [
-    { id: 'afriguard',    position: [-3.2, 0.2, -4] as [number,number,number], rotation: [0, Math.PI / 10, 0] as [number,number,number] },
-    { id: 'hyperspectral', position: [-0.8, 0.2, -5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
-    { id: 'hackathon',   position: [1.8, 0.2, -5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
-    { id: 'vibecoded',   position: [4.2, 0.2, -4] as [number,number,number], rotation: [0, -Math.PI / 10, 0] as [number,number,number] },
+    { id: 'afriguard',    position: [-3.5, 0.2, -4.5] as [number,number,number], rotation: [0, Math.PI / 8, 0] as [number,number,number] },
+    { id: 'hyperspectral', position: [0, 0.2, -5.5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
+    { id: 'vibecoded',   position: [3.5, 0.2, -4.5] as [number,number,number], rotation: [0, -Math.PI / 8, 0] as [number,number,number] },
   ];
 
   return (
@@ -301,9 +300,13 @@ export default function ProjectsSection() {
                   {project.shortDescription}
                 </p>
 
-                <p className="text-gray-300 text-sm leading-relaxed mb-5 whitespace-pre-line">
-                  {project.details}
-                </p>
+                <div className="text-gray-300 text-sm leading-relaxed mb-5 whitespace-pre-line">
+                  {project.details.split('**Coming Soon:**').map((part, i) =>
+                    i === 0 ? part : (
+                      <span key={i}><strong className="text-green-400 font-bold">Coming Soon:</strong>{part}</span>
+                    )
+                  )}
+                </div>
 
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mb-5">

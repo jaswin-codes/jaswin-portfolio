@@ -322,14 +322,14 @@ export default function RecruiterMode() {
           <div className="space-y-4">
             {[
               {
-                role: 'President',
+                role: 'Treasurer',
                 org: 'Interact Club',
-                detail: 'Led the school chapter of Interact Club (Rotary International), organising community service initiatives and managing a team of student volunteers.',
+                detail: 'Managed budgets and financial records over R5000+ for community fundraising reaching multiple local organizations. 1 of 4 Board Members organizing events, running meetings and participated in various service events.',
               },
               {
-                role: 'Student Representative',
+                role: 'Student Wellness and Leadership',
                 org: 'Student Representative Council (SRC)',
-                detail: 'Elected to the SRC, serving as a liaison between the student body and school administration on academic and welfare matters.',
+                detail: 'Represented the student body as 1 of 9 in school governance, contributing to welfare and leadership initiatives. Organized mental health and wellness events along with counsellor; mentored cohort of class representatives.',
               },
               {
                 role: 'Class Representative',

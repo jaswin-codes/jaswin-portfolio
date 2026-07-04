@@ -1,34 +1,53 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { businessCards } from '@/data/portfolioData';
-import { ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function AboutSection() {
   const [, setLocation] = useLocation();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const prevIndex = useRef(0);
 
   const handleNextCard = () => {
+    setDirection(1);
+    prevIndex.current = currentCardIndex;
     setCurrentCardIndex((prev) => (prev + 1) % businessCards.length);
+  };
+
+  const handlePrevCard = () => {
+    setDirection(-1);
+    prevIndex.current = currentCardIndex;
+    setCurrentCardIndex((prev) => (prev - 1 + businessCards.length) % businessCards.length);
+  };
+
+  const handleDotClick = (index: number) => {
+    setDirection(index > currentCardIndex ? 1 : -1);
+    prevIndex.current = currentCardIndex;
+    setCurrentCardIndex(index);
   };
 
   const currentCard = businessCards[currentCardIndex];
 
-  const cardVariants = {
-    enter: (direction: number) => ({
-      y: direction > 0 ? 1000 : -1000,
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
       opacity: 0,
+      scale: 0.95,
     }),
     center: {
-      zIndex: 1,
-      y: 0,
+      x: 0,
       opacity: 1,
+      scale: 1,
+      transition: { duration: 0.35, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
     },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      y: direction < 0 ? 1000 : -1000,
+    exit: (dir: number) => ({
+      x: dir > 0 ? -300 : 300,
       opacity: 0,
+      scale: 0.95,
+      transition: { duration: 0.25, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] },
     }),
   };
 
@@ -53,7 +72,7 @@ export default function AboutSection() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-16"
+        className="text-center mb-12"
       >
         <h1 className="text-5xl font-bold text-white" style={{
           fontFamily: "'Space Grotesk', sans-serif",
@@ -69,42 +88,49 @@ export default function AboutSection() {
       </motion.div>
 
       {/* Business Card Stack */}
-      <div className="flex items-center justify-center min-h-[500px] px-4">
-        <div className="relative w-full max-w-md">
-          <AnimatePresence mode="wait">
+      <div className="flex items-center justify-center px-4">
+        <div className="relative w-full max-w-lg overflow-hidden">
+          <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentCardIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               className="w-full"
             >
-              <div className="bg-gradient-to-br from-green-900 to-black rounded-lg shadow-2xl p-8 border border-green-500/30 min-h-96 flex flex-col justify-between">
-                <div>
+              <div
+                className="rounded-xl shadow-2xl border border-green-500/30 min-h-[420px] flex flex-col"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0,40,20,0.95) 0%, rgba(0,10,5,0.98) 100%)',
+                  boxShadow: '0 0 40px rgba(0,255,136,0.08), inset 0 0 60px rgba(0,255,136,0.03)',
+                }}
+              >
+                {/* Card content — centred */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10">
                   {currentCard.type !== 'name' && (
-                    <h2 className="text-3xl font-bold text-white mb-6" style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    }}>
+                    <h2
+                      className="text-2xl font-bold text-white mb-5"
+                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                    >
                       {currentCard.title}
                     </h2>
                   )}
-                  <div className="text-green-400 whitespace-pre-wrap text-sm leading-relaxed" style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}>
+                  <div
+                    className="text-green-400 whitespace-pre-wrap text-sm leading-relaxed"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
                     {currentCard.content}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-6 border-t border-green-500/30 mt-6">
-                  <span className="text-green-400 text-xs" style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}>
-                    Card {currentCardIndex + 1} of {businessCards.length}
+                {/* Card footer */}
+                <div className="flex items-center justify-between px-8 py-4 border-t border-green-500/20">
+                  <span className="text-green-400/60 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                    {currentCardIndex + 1} / {businessCards.length}
                   </span>
-                  <span className="text-green-400 text-xs" style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}>
+                  <span className="text-green-400/60 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                     JASWIN CHINTHALA
                   </span>
                 </div>
@@ -114,40 +140,49 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* Click to Next Indicator */}
+      {/* Navigation controls */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="flex flex-col items-center justify-center gap-4 mt-12"
+        transition={{ delay: 0.4 }}
+        className="flex flex-col items-center gap-5 mt-8"
       >
-        <Button
-          onClick={handleNextCard}
-          className="bg-green-500/20 text-green-400 border border-green-500/50 hover:bg-green-500/30"
-        >
-          Next Card
-          <ChevronDown className="ml-2 w-4 h-4" />
-        </Button>
-        <p className="text-green-400 text-sm text-center" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          click to reveal more →
-        </p>
-      </motion.div>
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={handlePrevCard}
+            variant="outline"
+            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-10 h-10 p-0"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+          <p className="text-green-400/70 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            click to reveal more →
+          </p>
+          <Button
+            onClick={handleNextCard}
+            variant="outline"
+            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-10 h-10 p-0"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+        </div>
 
-      {/* Card Indicators */}
-      <div className="flex justify-center gap-2 mt-8">
-        {businessCards.map((_, index) => (
-          <motion.button
-            key={index}
-            onClick={() => setCurrentCardIndex(index)}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              index === currentCardIndex ? 'bg-green-400' : 'bg-green-400/30'
-            }`}
-            whileHover={{ scale: 1.2 }}
-          />
-        ))}
-      </div>
+        {/* Dot indicators */}
+        <div className="flex justify-center gap-2">
+          {businessCards.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`rounded-full transition-all duration-200 ${
+                index === currentCardIndex
+                  ? 'w-4 h-2 bg-green-400'
+                  : 'w-2 h-2 bg-green-400/30 hover:bg-green-400/60'
+              }`}
+              whileHover={{ scale: 1.2 }}
+            />
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
