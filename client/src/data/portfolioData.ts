@@ -41,6 +41,35 @@ Presented findings and methodologies to an academic panel as part of a STEM Rese
     githubLink: 'https://github.com/jaswin-codes',
     thumbnail: RESEARCH_POSTER_URL,
   },
+  {
+    id: 'hackathon',
+    name: 'Hackathon',
+    description: 'Global South AI Safety Hackathon — AfriGuard Project',
+    shortDescription: 'Competed in the Global South AI Safety Hackathon building AfriGuard',
+    techStack: ['Python', 'AI Safety', 'LLM Evaluation', 'Streamlit', 'Red Teaming'],
+    details: `Participated in the Global South AI Safety Hackathon, building AfriGuard — the first comprehensive red-teaming framework targeting safety vulnerabilities in South African languages.
+
+Collaborated with a team to design, build, and present a full evaluation pipeline within the hackathon timeframe. The project evaluated four frontier LLMs across seven South African languages with 1,120 adversarial evaluations.
+
+The hackathon experience accelerated development of the evaluation methodology and brought together researchers focused on AI safety for underrepresented languages in the Global South.`,
+    githubLink: 'https://github.com/ubayd-hattas/AfriGuard',
+    liveLink: 'https://afriguard.streamlit.app/',
+  },
+  {
+    id: 'vibecoded',
+    name: 'Vibecoded',
+    description: 'Multi-modal automation and recognition systems',
+    shortDescription: 'Neural wake-word detection, biometric voiceprints, and gesture recognition',
+    techStack: ['Python', 'PyAutoGUI', 'Selenium', 'OpenCV', 'FFT', 'MediaPipe'],
+    details: `A collection of multi-modal automation and recognition projects built through rapid prototyping and creative engineering.
+
+Architected a system integrating neural wake-word detection, biometric voiceprints, and an FFT-based audio pipeline for clap-pattern recognition and sound-activated triggers.
+
+Reduced event registration time from 30 seconds to <1 second by building a Selenium automation script, overcoming cross-origin iframe security barriers via screen-coordinate automation with PyAutoGUI.
+
+Achieved real-time recognition of gesture sequences using 21-point landmark tracking and rule-based finger state detection with a framework scaling toward multi-modal audio cues and an expanded gesture vocabulary.`,
+    githubLink: 'https://github.com/jaswin-codes',
+  },
 ];
 
 export const experiences: Experience[] = [
@@ -50,14 +79,12 @@ export const experiences: Experience[] = [
     role: 'Vacation Work Student',
     duration: 'Feb 2026 – Present',
     location: 'Cape Town, Western Cape, South Africa',
-    description: 'Developing an ESP32-based safety vest using Bluetooth communication to relay signals to e-scooter controls.',
+    description: 'Focusing on Battery Management Systems and swappable battery technology for electric vehicles.',
     bulletPoints: [
-      '1 of 8 members developing an ESP32-based safety vest using Bluetooth communication to relay signals to e-scooter controls',
-      'Integrating mmWave radar sensors for obstacle detection and real-time LED-based direction signaling',
-      'Learning about Battery Management Systems (BMS) and Battery Health',
-      'Authoring a technical report on swappable batteries for EV use',
+      'Conducting literature review on digital twin models and battery management systems (BMS) for electric vehicles',
+      'Authoring a technical report on swappable battery architectures for EV and e-mobility applications',
     ],
-    skills: ['ESP32', 'Bluetooth', 'mmWave Radar', 'BMS', 'Embedded Systems'],
+    skills: ['BMS', 'Digital Twin', 'Battery Management', 'Technical Writing', 'EV Systems'],
     logo: 'https://via.placeholder.com/64?text=EMi+Lab',
   },
   {
@@ -66,10 +93,10 @@ export const experiences: Experience[] = [
     role: 'Power Subsystem Member',
     duration: 'Feb 2026 – Present',
     location: 'Cape Town, Western Cape, South Africa',
-    description: 'Collaborating on technical documentation for cooling architecture, specifically X2.4 fan integration.',
+    description: 'Contributing to the power subsystem of UCT Racing\'s Formula Student electric vehicle.',
     bulletPoints: [
       'Collaborating on technical documentation for cooling architecture, specifically X2.4 fan integration',
-      'Gaining knowledge on telemetry systems for communication of data',
+      'Gaining exposure to electric drivetrain architecture and battery thermal management systems',
     ],
     skills: ['C++', 'ESP32', 'Thermal Modelling', 'Formula Student', 'Battery Management'],
     logo: 'https://via.placeholder.com/64?text=UCT+Racing',
@@ -95,7 +122,7 @@ export const experiences: Experience[] = [
 export const research: Research[] = [
   {
     id: 'hyperspectral',
-    title: 'Hyperspectral Freshness',
+    title: 'Hyperspectral Imaging',
     organization: 'Scientific Caribbean Foundation, Inc.',
     date: 'May 2026',
     summary: 'Developed a computational framework to predict post-harvest freshness using simulated hyperspectral signatures as a low-cost alternative to lab-based analysis. Mentored by Dr. Juan F. Arratia (Scientific Caribbean Foundation) and Prof. Komla Folly (UCT).',
@@ -107,17 +134,15 @@ export const research: Research[] = [
     },
   },
   {
-    id: 'afriguard',
-    title: 'AfriGuard',
-    organization: 'Global South AI Safety Hackathon',
-    date: 'Jun 2026',
-    summary: 'First comprehensive red-teaming framework for South African languages. Evaluated 4 frontier LLMs across 7 languages with 1,120 adversarial evaluations.',
-    methodology: 'Automated adversarial evaluation pipeline, LLM-as-judge harm scoring, 4 harm categories × 3 attack styles × 7 languages × 4 models.',
-    outcome: 'Discovered catastrophic safety failures in low-resource languages (50.1% ASR vs 24.4% English baseline). Published transparently with interactive Streamlit dashboard.',
-    skills: ['AI Safety', 'Red Teaming', 'Python', 'LLM Evaluation', 'Streamlit'],
-    assets: {
-      paper: 'https://github.com/ubayd-hattas/AfriGuard',
-    },
+    id: 'swappable-battery',
+    title: 'Swappable Battery',
+    organization: 'EMi Lab',
+    date: 'Coming Soon',
+    summary: 'Research into swappable battery architectures for electric vehicles and e-mobility applications, exploring digital twin models and battery management systems.',
+    methodology: 'Literature review on digital twin models for BMS, analysis of swappable battery standards, and technical report authoring on viability for EV use cases.',
+    outcome: 'Coming Soon — ongoing research at EMi Lab.',
+    skills: ['BMS', 'Digital Twin', 'Battery Management', 'EV Systems', 'Technical Writing'],
+    assets: {},
   },
 ];
 
@@ -134,7 +159,7 @@ export const achievements: Achievement[] = [
     id: 'presidents-award',
     title: "President's Award - Bronze",
     type: 'Community Service',
-    date: '2024',
+    date: 'Grade 12',
     description: "Awarded the President's Award at Bronze level for community service and personal development.",
     waveformType: 'square',
   },
@@ -142,7 +167,7 @@ export const achievements: Achievement[] = [
     id: 'chess-champion',
     title: 'National Chess Champion',
     type: 'Competitive Achievement',
-    date: '2023',
+    date: '',
     description: 'Achieved National Chess Champion title through competitive excellence and strategic mastery.',
     waveformType: 'ramp',
   },
@@ -229,11 +254,12 @@ export const skillClusters: SkillCluster[] = [
   },
 ];
 
+// Cards reordered: 1 (name only), 2 (education), then 6+7 swapped to positions 3+4, then original 3+4 at 5+6
 export const businessCards: BusinessCard[] = [
   {
     id: 1,
-    title: 'Name & Title',
-    content: 'Jaswin Chinthala\nMechatronics Engineering Student, UCT',
+    title: 'Name',
+    content: 'Jaswin Chinthala',
     type: 'name',
   },
   {
@@ -244,33 +270,33 @@ export const businessCards: BusinessCard[] = [
   },
   {
     id: 3,
-    title: 'LinkedIn',
-    content: 'linkedin.com/in/jaswin-chinthala',
-    type: 'linkedin',
-  },
-  {
-    id: 4,
-    title: 'GitHub',
-    content: 'github.com/jaswin-codes',
-    type: 'github',
-  },
-  {
-    id: 5,
-    title: 'Location',
-    content: 'Cape Town, South Africa 🇿🇦',
-    type: 'location',
-  },
-  {
-    id: 6,
     title: 'Interests',
     content: 'AI Safety, Battery Tech, Embedded Systems, Robotics',
     type: 'interests',
   },
   {
-    id: 7,
+    id: 4,
     title: 'Research Focus',
     content: 'Low-resource Language Safety, Post-harvest Freshness Detection',
     type: 'research',
+  },
+  {
+    id: 5,
+    title: 'LinkedIn',
+    content: 'linkedin.com/in/jaswin-chinthala',
+    type: 'linkedin',
+  },
+  {
+    id: 6,
+    title: 'GitHub',
+    content: 'github.com/jaswin-codes',
+    type: 'github',
+  },
+  {
+    id: 7,
+    title: 'Location',
+    content: 'Cape Town, South Africa 🇿🇦',
+    type: 'location',
   },
   {
     id: 8,

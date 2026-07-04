@@ -115,14 +115,16 @@ export default function ProjectsSection() {
   const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
 
   const screenData = [
-    { id: 'afriguard',    position: [-2.2, 0.2, -4] as [number,number,number], rotation: [0, Math.PI / 8, 0] as [number,number,number] },
-    { id: 'hyperspectral', position: [2.2, 0.2, -4] as [number,number,number], rotation: [0, -Math.PI / 8, 0] as [number,number,number] },
+    { id: 'afriguard',    position: [-3.2, 0.2, -4] as [number,number,number], rotation: [0, Math.PI / 10, 0] as [number,number,number] },
+    { id: 'hyperspectral', position: [-0.8, 0.2, -5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
+    { id: 'hackathon',   position: [1.8, 0.2, -5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
+    { id: 'vibecoded',   position: [4.2, 0.2, -4] as [number,number,number], rotation: [0, -Math.PI / 10, 0] as [number,number,number] },
   ];
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
-      <Canvas className="w-full h-full" onClick={() => setSelectedProject(null)}>
+      <Canvas className="w-full h-full">
         <PerspectiveCamera makeDefault position={[0, 0.5, 4]} fov={70} />
         <OrbitControls
           enableZoom={true}

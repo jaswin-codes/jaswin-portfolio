@@ -314,6 +314,46 @@ export default function RecruiterMode() {
           </div>
         </motion.section>
 
+        {/* Leadership Section */}
+        <motion.section variants={itemVariants} className="space-y-4">
+          <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            Leadership & Involvement
+          </h2>
+          <div className="space-y-4">
+            {[
+              {
+                role: 'President',
+                org: 'Interact Club',
+                detail: 'Led the school chapter of Interact Club (Rotary International), organising community service initiatives and managing a team of student volunteers.',
+              },
+              {
+                role: 'Student Representative',
+                org: 'Student Representative Council (SRC)',
+                detail: 'Elected to the SRC, serving as a liaison between the student body and school administration on academic and welfare matters.',
+              },
+              {
+                role: 'Class Representative',
+                org: 'EEE1008 — Electrical Engineering',
+                detail: 'Elected class representative for EEE1008 at UCT, facilitating communication between students and the course lecturer.',
+              },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors"
+              >
+                <div className="flex justify-between items-start mb-1">
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{item.role}</h3>
+                    <p className="text-green-400 text-sm">{item.org}</p>
+                  </div>
+                </div>
+                <p className="text-gray-300 text-sm mt-2">{item.detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
         {/* Contact Section */}
         <motion.section variants={itemVariants} className="text-center py-12">
           <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>

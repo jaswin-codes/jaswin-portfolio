@@ -82,11 +82,13 @@ export default function AboutSection() {
             >
               <div className="bg-gradient-to-br from-green-900 to-black rounded-lg shadow-2xl p-8 border border-green-500/30 min-h-96 flex flex-col justify-between">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-6" style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                  }}>
-                    {currentCard.title}
-                  </h2>
+                  {currentCard.type !== 'name' && (
+                    <h2 className="text-3xl font-bold text-white mb-6" style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                    }}>
+                      {currentCard.title}
+                    </h2>
+                  )}
                   <div className="text-green-400 whitespace-pre-wrap text-sm leading-relaxed" style={{
                     fontFamily: "'JetBrains Mono', monospace",
                   }}>

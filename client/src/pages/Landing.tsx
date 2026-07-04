@@ -37,7 +37,7 @@ export default function Landing() {
   useEffect(() => {
     if (isIntroComplete) {
       hintTimerRef.current = setTimeout(() => setShowHint(true), 7000);
-      nameTimerRef.current = setTimeout(() => setNamePosition('top'), 5000);
+      nameTimerRef.current = setTimeout(() => setNamePosition('top'), 2000);
     }
 
     return () => {
@@ -120,7 +120,7 @@ export default function Landing() {
             y: 0,
             ...(namePosition === 'top' && { y: -200 })
           }}
-          transition={{ duration: namePosition === 'top' ? 0.8 : 1 }}
+          transition={{ duration: namePosition === 'top' ? 1.0 : 0.6 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
           <h1 className="text-6xl md:text-7xl font-bold text-center text-white" style={{

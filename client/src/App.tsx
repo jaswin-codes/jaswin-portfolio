@@ -93,7 +93,6 @@ function ResumeButton() {
       href={RESUME_URL}
       target="_blank"
       rel="noopener noreferrer"
-      download="Jaswin_Chinthala_CV.pdf"
       className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold select-none"
       style={{
         backgroundColor: 'rgba(0,0,0,0.75)',

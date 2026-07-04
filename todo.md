@@ -134,3 +134,15 @@
 - [ ] Add "Boot + Reset Button" section (blog/journal)
 - [ ] Update AfriGuard project status if award received
 - [ ] Add remaining project links (GitHub, live demos)
+
+## Phase 11: Changes_3.md Final Updates
+- [x] Fix name animation: move up in 1 second (faster)
+- [x] Fix resume button: white screen bug — open PDF in new tab instead
+- [x] Research: rename chip to "Hyperspectral Imaging", add "Coming Soon: Swappable Battery" chip
+- [x] Projects: fix click-to-show info in 3D mode, add Hackathon and Vibecoded projects
+- [x] Experience: EMi Lab — remove e-scooter, focus on BMS/battery management
+- [x] Experience: UCT Racing — replace 2nd bullet with drivetrain/battery thermal line
+- [x] Flashcards: remove title from card 1, swap cards 6&7 with 3&4
+- [x] Achievements: change President's Award to "Grade 12", remove 2023 from Chess Champion
+- [x] Recruiter Mode: add Leadership block (Interact Club, SRC, EEE1008 Class Rep)
+- [x] Update README with all changes

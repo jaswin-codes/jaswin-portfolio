@@ -12,8 +12,9 @@ interface ResearchComponent {
 }
 
 const researchComponents: ResearchComponent[] = [
-  { id: 'hyperspectral', position: { x: 28, y: 40 }, title: 'Hyperspectral Freshness', color: '#00ff88' },
-  { id: 'afriguard',     position: { x: 72, y: 55 }, title: 'AfriGuard',               color: '#ff0088' },
+  { id: 'hyperspectral',    position: { x: 25, y: 38 }, title: 'Hyperspectral Imaging',  color: '#00ff88' },
+  { id: 'afriguard',        position: { x: 72, y: 55 }, title: 'AfriGuard',              color: '#ff0088' },
+  { id: 'swappable-battery', position: { x: 50, y: 72 }, title: 'Swappable Battery',     color: '#ffaa00' },
 ];
 
 export default function ResearchSection() {
