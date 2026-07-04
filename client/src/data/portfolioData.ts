@@ -10,7 +10,7 @@ export const projects: Project[] = [
     description: 'Multilingual Safety Red-Teaming for South African Languages',
     shortDescription: 'First comprehensive red-teaming framework for South African languages',
     techStack: ['Python', 'AI Safety', 'Red Teaming', 'LLM Evaluation', 'Streamlit'],
-    details: `First comprehensive red-teaming evaluation framework targeting safety vulnerabilities in South African languages. Evaluated four frontier LLMs (GPT-OSS, Llama 3.3, Kimi K2.6, Qwen 3) across seven languages — English, isiZulu, isiXhosa, Afrikaans, Sesotho, Sepedi, and Tsonga.
+    details: `First comprehensive red-teaming evaluation framework targeting safety vulnerabilities in South African languages created by my team and I. Evaluated four frontier LLMs (GPT-OSS, Llama 3.3, Kimi K2.6, Qwen 3) across seven languages — English, isiZulu, isiXhosa, Afrikaans, Sesotho, Sepedi, and Tsonga.
 
 Ran 1,120 adversarial evaluations (40 seed prompts × 7 languages × 4 models) across four harm categories endemic to South Africa: financial fraud, xenophobic incitement, political disinformation, and gang/criminal facilitation in 3 different styles (direct, roleplay and hypothetical).
 
