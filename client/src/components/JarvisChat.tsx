@@ -30,7 +30,6 @@ export default function JarvisChat() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const chatMutation = trpc.chat.useMutation();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,7 +39,7 @@ export default function JarvisChat() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+    const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
@@ -56,13 +55,25 @@ export default function JarvisChat() {
     setIsLoading(true);
 
     try {
-      const data = await chatMutation.mutateAsync({
-        message: input,
-        conversationHistory: messages.map((m) => ({
-          role: m.role,
-          content: m.content,
-        })),
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: input,
+          conversationHistory: messages
+            .filter((m) => m.role !== 'system')
+            .map((m) => ({
+              role: m.role,
+              content: m.content,
+            })),
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Chat API error: ${response.status}`);
+      }
+
+      const data = await response.json();
 
       // Check for recruiter detection
       if (data.isRecruiter) {
