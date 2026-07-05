@@ -49,6 +49,8 @@ function useTransitionRouter() {
 // Expose navigate globally so Landing/sections can trigger transitions
 export let navigateWithTransition: (path: string, section?: string) => void = () => {};
 
+const ENABLE_JARVIS_CHAT = false;
+
 function Router({ navigateTo }: { navigateTo: (path: string, section?: string) => void }) {
   const mode = useAppStore((state) => state.mode);
 
@@ -61,7 +63,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
     return (
       <>
         <RecruiterMode />
-        {/* <JarvisChat /> */}
+        {ENABLE_JARVIS_CHAT && <JarvisChat />}
       </>
     );
   }
@@ -79,7 +81,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
         <Route path={"/404"} component={NotFound} />
         <Route component={NotFound} />
       </Switch>
-      {/* <JarvisChat /> */}
+      {ENABLE_JARVIS_CHAT && <JarvisChat />}
     </>
   );
 }
