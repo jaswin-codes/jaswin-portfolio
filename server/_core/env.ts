@@ -5,5 +5,5 @@ export const ENV = {
   oAuthServerUrl: process.env.OAUTH_SERVER_URL ?? "",
   ownerOpenId: process.env.OWNER_OPEN_ID ?? "",
   isProduction: process.env.NODE_ENV === "production",
-  openaiApiKey: process.env.OPENAI_API_KEY ?? "",
+  groqApiKey: process.env.GROQ_API_KEY ?? "",
 };
