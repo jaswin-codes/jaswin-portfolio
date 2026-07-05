@@ -215,8 +215,8 @@ const normalizeToolChoice = (
 const resolveApiUrl = () => "https://api.groq.com/openai/v1/chat/completions";
 
 const assertApiKey = () => {
-  if (!ENV.openaiApiKey) {
-    throw new Error("OPENAI_API_KEY is not configured");
+  if (!ENV.groqApiKey) {
+    throw new Error("GROQ_API_KEY is not configured");
   }
 };
 
@@ -402,7 +402,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      authorization: `Bearer ${ENV.openaiApiKey}`,
+      authorization: `Bearer ${ENV.groqApiKey}`,
     },
     body: JSON.stringify(payload),
   });
@@ -431,11 +431,11 @@ export type ModelsResponse = {
 
 export async function listLLMModels(): Promise<ModelsResponse> {
   assertApiKey();
-
-  const url = "https://api.openai.com/v1/models";
+  
+  const url = "https://api.groq.com/openai/v1/models";
 
   const response = await fetchWithBackoff(url, {
-    headers: { authorization: `Bearer ${ENV.openaiApiKey}` },
+    headers: { authorization: `Bearer ${ENV.groqApiKey}` },
   });
 
   if (!response.ok) {
