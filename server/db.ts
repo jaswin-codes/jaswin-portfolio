@@ -7,9 +7,10 @@ let _db: ReturnType<typeof drizzle> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  const dbUrl = process.env.DATABASE_URL || process.env.DATABASE_URI;
+  if (!_db && dbUrl) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _db = drizzle(dbUrl);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -113,8 +114,8 @@ export async function saveContact(data: {
       message: data.message,
     });
   } catch (error) {
-    console.error('[Database] Failed to save contact:', error);
-    throw error;
+    console.error('[Database] Failed to save contact to DB:', error);
+    // Don't re-throw so the API request can still succeed (especially since we also send notifications)
   }
 }
 

@@ -35,6 +35,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    return res.status(200).json({
+      response: "Hello! I am currently in standby mode because the GROQ_API_KEY environment variable is not configured. Please add GROQ_API_KEY to your Vercel or Railway deployment settings to activate me!",
+      isRecruiter: false
+    });
+  }
+
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -58,7 +65,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Groq API error:', response.status, errorText);
-      return res.status(500).json({ error: 'AI service error' });
+      return res.status(200).json({
+        response: "I encountered an error communicating with the AI service. Please ensure the Groq API key is valid and has sufficient quota.",
+        isRecruiter: false
+      });
     }
 
     const data = await response.json();
