@@ -80,11 +80,8 @@ Interact Club: Managed budgets and financial records over R5000+ for community f
 
 SRC: Represented the student body as 1 of 9 in school governance. Organized mental health and wellness events; mentored cohort of class representatives.
 
-### Jarvis AI Chatbot
-A floating chatbot (bottom-right) powered by the built-in LLM API. The system prompt is specific to Jaswin's background, projects, and experience. The chatbot detects recruiter intent and surfaces the contact form when appropriate. Text-to-speech is available via the speaker icon toggle.
-
 ### Contact Form
-Disabled by default. Surfaced via recruiter detection in the chatbot or the "Get in Touch" button in Recruiter Mode. Submissions are saved to the `contacts` database table and trigger an owner notification.
+Disabled by default. Surfaced via the "Get in Touch" button in Recruiter Mode. Submissions are saved to the `contacts` database table and trigger an owner notification.
 
 ### Loading Screen
 A circuit-themed loading screen with a progress bar, rotating icon, and dynamic status messages displays while 3D assets initialise. It dismisses automatically when the page is ready.
@@ -125,7 +122,6 @@ client/src/
     RecruiterMode.tsx    ← Flat recruiter layout
   components/
     ESP32Model.tsx       ← Procedural ESP32 3D model
-    JarvisChat.tsx       ← AI chatbot UI
     ContactForm.tsx      ← Contact form modal
     LoadingScreen.tsx    ← Circuit-themed loading screen
     SectionTransition.tsx← ESP32 flash transition between worlds
@@ -134,7 +130,7 @@ client/src/
   stores/
     appStore.ts          ← Zustand global state
 server/
-  routers.ts             ← tRPC procedures (chat, contact)
+  routers.ts             ← tRPC procedures (contact)
   db.ts                  ← Database helpers
 drizzle/
   schema.ts              ← users + contacts tables
@@ -202,7 +198,7 @@ pnpm db:push      # Generate + apply Drizzle migrations
 
 | Version | Changes |
 |---|---|
-| v1.0 | Initial build — ESP32 landing, 6 section worlds, Recruiter Mode, Jarvis chatbot |
+| v1.0 | Initial build — ESP32 landing, 6 section worlds, Recruiter Mode |
 | v1.1 | Bug fixes: name positioning, About cards, Skills dragging, Projects screens, Achievements probe, ESP32 rotation |
 | v1.2 | Custom loading screen with circuit-themed progress animation |
 | v1.3 | Content updates from CV: AfriGuard links, research poster, correct experience details |
