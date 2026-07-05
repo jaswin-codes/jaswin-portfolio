@@ -60,7 +60,7 @@ export default function JarvisChat() {
         body: JSON.stringify({
           message: input,
           conversationHistory: messages
-            .filter((m) => m.role !== 'system')
+            .filter((m) => (m.role as string) !== 'system')
             .map((m) => ({
               role: m.role,
               content: m.content,
