@@ -61,7 +61,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
     return (
       <>
         <RecruiterMode />
-        <JarvisChat />
+        {/* <JarvisChat /> */}
       </>
     );
   }
@@ -79,7 +79,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
         <Route path={"/404"} component={NotFound} />
         <Route component={NotFound} />
       </Switch>
-      <JarvisChat />
+      {/* <JarvisChat /> */}
     </>
   );
 }
