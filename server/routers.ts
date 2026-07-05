@@ -5,7 +5,6 @@ import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { invokeLLM } from "./_core/llm";
 import { saveContact } from "./db";
-import { notifyOwner } from "./_core/notification";
 
 export const appRouter = router({
   system: systemRouter,
@@ -109,12 +108,6 @@ Your job:
           company: input.company,
           favoritePart: input.favPart,
           message: input.message,
-        });
-
-        // Send owner notification
-        await notifyOwner({
-          title: 'New Portfolio Contact',
-          content: `${input.name} from ${input.company || 'Unknown'} (${input.email}) sent a message: ${input.message.substring(0, 100)}...`,
         });
 
         return { success: true };
