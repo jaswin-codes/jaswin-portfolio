@@ -96,7 +96,7 @@ Your job:
       role: z.string().optional(),
       company: z.string().optional(),
       favPart: z.string().optional(),
-      message: z.string().min(10),
+      message: z.string().min(1),
     }))
     .mutation(async ({ input }) => {
       // 1. Save to database
