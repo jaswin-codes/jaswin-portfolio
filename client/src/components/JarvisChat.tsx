@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Send, Volume2, VolumeX, MessageCircle, X } from 'lucide-react';
 import { useAppStore } from '@/stores/appStore';
-import { trpc } from '@/lib/trpc';
 
 interface Message {
   id: string;
@@ -30,9 +29,6 @@ export default function JarvisChat() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Use tRPC mutation so chatbot goes through Railway backend which has GROQ_API_KEY
-  const chatMutation = trpc.chat.useMutation();
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -57,14 +53,22 @@ export default function JarvisChat() {
     setIsLoading(true);
 
     try {
-      const conversationHistory = messages
-        .filter((m) => (m.role as string) !== 'system')
-        .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
-
-      const data = await chatMutation.mutateAsync({
-        message: input,
-        conversationHistory,
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: input,
+          conversationHistory: messages
+            .filter((m) => (m.role as string) !== 'system')
+            .map((m) => ({ role: m.role, content: m.content })),
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Chat API error: ${response.status}`);
+      }
+
+      const data = await response.json();
 
       // Check for recruiter detection
       if (data.isRecruiter) {
