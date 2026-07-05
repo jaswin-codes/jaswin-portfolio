@@ -66,7 +66,7 @@ Your job:
 
       const result = await invokeLLM({
         messages: messages as any,
-        model: 'gpt-4o-mini',
+        model: 'llama-3.3-70b-versatile',
       });
 
       const responseText = typeof result.choices[0]?.message.content === 'string'
