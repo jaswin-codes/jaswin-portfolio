@@ -13,7 +13,7 @@ import SkillsSection from "./pages/Skills";
 import AchievementsSection from "./pages/Achievements";
 import { useAppStore } from "@/stores/appStore";
 import { useEffect, useState, useCallback } from "react";
-import JarvisChat from "./components/JarvisChat";
+// import JarvisChat from "./components/JarvisChat";
 import RecruiterMode from "./pages/RecruiterMode";
 import ContactForm from "./components/ContactForm";
 import { LoadingScreen } from "./components/LoadingScreen";
@@ -61,7 +61,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
     return (
       <>
         <RecruiterMode />
-        <JarvisChat />
+        {/* <JarvisChat /> */}
       </>
     );
   }
@@ -79,7 +79,7 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
         <Route path={"/404"} component={NotFound} />
         <Route component={NotFound} />
       </Switch>
-      <JarvisChat />
+      {/* <JarvisChat /> */}
     </>
   );
 }
