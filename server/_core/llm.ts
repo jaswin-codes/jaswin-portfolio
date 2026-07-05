@@ -212,7 +212,7 @@ const normalizeToolChoice = (
   return toolChoice;
 };
 
-const resolveApiUrl = () => "https://api.openai.com/v1/chat/completions";
+const resolveApiUrl = () => "https://api.groq.com/openai/v1/chat/completions";
 
 const assertApiKey = () => {
   if (!ENV.openaiApiKey) {
