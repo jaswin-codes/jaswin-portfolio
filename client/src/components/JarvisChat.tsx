@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Send, Volume2, VolumeX, MessageCircle, X } from 'lucide-react';
 import { useAppStore } from '@/stores/appStore';
-import { trpc } from '@/lib/trpc';
 
 interface Message {
   id: string;
