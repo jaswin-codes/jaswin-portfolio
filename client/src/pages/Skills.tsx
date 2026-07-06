@@ -164,7 +164,7 @@ export default function SkillsSection() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-black overflow-hidden">
+    <div className="relative w-full min-h-screen bg-black overflow-hidden border-2 border-green-500/20">
       {/* Back Button */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -202,7 +202,7 @@ export default function SkillsSection() {
       {/* Magnetic Field Simulator */}
       <div
         ref={containerRef}
-        className="relative w-full h-screen bg-gradient-to-br from-gray-950 via-black to-gray-950 overflow-hidden border-2 border-green-500/20"
+        className="relative w-full h-screen bg-gradient-to-br from-gray-950 via-black to-gray-950 overflow-hidden"
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
@@ -305,7 +305,7 @@ export default function SkillsSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute bottom-8 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs"
+        className="absolute bottom-20 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs"
       >
         <p className="text-green-400 font-bold mb-3 text-sm" style={{
           fontFamily: "'JetBrains Mono', monospace",

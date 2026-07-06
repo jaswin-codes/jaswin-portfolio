@@ -201,6 +201,11 @@
     text-shadow: 0 0 10px rgba(16, 185, 137, 0.8), 0 0 20px rgba(16, 185, 137, 0.4);
   }
 
+  #manus-previewer-root,
+  #manus-previewer-content-root {
+    display: none !important;
+  }
+
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem;
