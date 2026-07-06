@@ -1,10 +1,10 @@
-# Jaswin Chinthala — Interactive Portfolio Website
+# Jaswin Chinthala - Interactive Portfolio Website
 
-A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents Jaswin's work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
+A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents Jaswin's (my) work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
 
 ## What The Site Does
 
-The app centers on a 3D ESP32 hub. Clicking components transitions into themed section worlds, and the recruiter layout provides a scrollable version of the same portfolio content. The current implementation also includes local asset delivery for the resume and research poster, a contact form backed by the database, and a persistent mode toggle stored in `localStorage`.
+The app centers on a 3D ESP32 hub that is rotatable. Clicking components transitions into themed section worlds, and the recruiter layout provides a scrollable version of the same portfolio content. The current implementation also includes local asset delivery for the resume and research poster, a contact form backed by the database, and a persistent mode toggle stored in `localStorage`.
 
 ### Landing Page
 
