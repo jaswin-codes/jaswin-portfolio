@@ -115,7 +115,7 @@ export default function RecruiterMode() {
             Experience
           </h2>
           <div className="space-y-4">
-            {experiences.map((exp, idx) => (
+            {experiences.map((exp) => (
               <motion.div
                 key={exp.id}
                 variants={itemVariants}
@@ -336,9 +336,9 @@ export default function RecruiterMode() {
                 org: 'EEE1008 — Electrical Engineering',
                 detail: 'Elected class representative for EEE1008 at UCT, facilitating communication between students and the course lecturer.',
               },
-            ].map((item, idx) => (
+            ].map((item) => (
               <motion.div
-                key={idx}
+                key={item.role}
                 variants={itemVariants}
                 className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors"
               >

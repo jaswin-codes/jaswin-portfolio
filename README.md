@@ -1,15 +1,16 @@
 # Jaswin Chinthala — Interactive Portfolio Website
 
-A highly interactive personal portfolio that doubles as an immersive 3D experience, built with React 19, Three.js, Framer Motion, tRPC, and Tailwind CSS 4. The site showcases Jaswin's work as an embedded systems and ML engineer, with a recruiter-friendly flat-layout fallback mode.
+A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents Jaswin's work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
 
----
+## What The Site Does
 
-## Live Features
+The app centers on a 3D ESP32 hub. Clicking components transitions into themed section worlds, and the recruiter layout provides a scrollable version of the same portfolio content. The current implementation also includes local asset delivery for the resume and research poster, a contact form backed by the database, and a persistent mode toggle stored in `localStorage`.
 
-### Landing — 3D ESP32 Scene
-The homepage renders a procedural ESP32 microcontroller model in Three.js. On load, an intro animation plays: LED blinks twice (400 ms per toggle) then explodes with a 700 ms flash, followed by the name fading in and sliding up above the board in ~1 second. After the intro, users can rotate the board freely with mouse drag, hover over individual components to see glowing tooltips, and click any component to navigate to its corresponding section world. An idle hint ("click a component to explore →") appears after 7 seconds of inactivity.
+### Landing Page
 
-| Component | Section |
+The homepage renders a procedural ESP32 model in Three.js. The intro sequence animates the board, then reveals the portfolio name and component labels. After the intro, users can drag to rotate the board, hover components for tooltips, and click a component to open its section world.
+
+| ESP32 Component | Section |
 |---|---|
 | ESP-WROOM-32 | Projects |
 | USB Port | About Me |
@@ -18,78 +19,56 @@ The homepage renders a procedural ESP32 microcontroller model in Three.js. On lo
 | GPIO Pins | Skills & Tools |
 | Crystal Oscillator | Achievements |
 
-### Recruiter Mode
-A persistent toggle (top-right in 3D mode, top-left in recruiter mode) switches between the immersive 3D worlds and a clean, scrollable flat layout. The selected mode is saved to `localStorage` and restored on next visit.
+### Section Worlds In 3D Mode
 
-The Recruiter Mode flat layout includes: Hero, About Me, Experience, Projects, Research, Skills & Tools, Achievements, **Leadership & Involvement**, and Contact.
-
-### Section Worlds (3D Mode)
-
-**Projects — Robot POV Lab**
-A 3D room with three project screens mounted on the walls. Hover to highlight, click to open a detail modal with description, tech stack, GitHub link, and live demo link where available. The Hyperspectral Freshness modal renders **Coming Soon** in bold green to distinguish the hardware project from the research paper.
+**Projects - Robot POV Lab**
+A 3D room with three wall-mounted project screens. Hover highlights a screen and click opens a detail modal with the project description, tech stack, and links when available.
 
 | Project | Status | Links |
 |---|---|---|
-| AfriGuard | Complete | [GitHub](https://github.com/ubayd-hattas/AfriGuard) · [Dashboard](https://afriguard.streamlit.app/) |
-| Hyperspectral Freshness | **Coming Soon** — hardware sensor product | — |
-| Vibecoded | Complete | — |
+| AfriGuard | Complete | GitHub + live dashboard |
+| Hyperspectral Freshness | Coming Soon | GitHub placeholder |
+| Vibecoded | Complete | GitHub placeholder |
 
-**About Me — Business Card Stack**
-Eight business cards cycle with a smooth horizontal slide-left/right transition animation. Navigation is via Previous/Next arrow buttons or dot indicators. The first card shows only the name (no title label). Card order: Name → Education → Interests → Research Focus → LinkedIn → GitHub → Location → Let's Connect. All card content is centred.
+**About Me - Business Card Stack**
+An animated card carousel with Previous/Next controls and dot indicators. The cards are centered and ordered as name, education, interests, research focus, LinkedIn, GitHub, location, and connect.
 
-**Experience — Elevator UI**
-An elevator panel with three floor buttons. Clicking a floor animates the elevator and slides in a detail panel.
+**Experience - Elevator UI**
+An elevator-style panel with animated floor selection and a sliding details panel.
 
-| Floor | Role |
-|---|---|
-| EMi Lab | Vacation Work Student — BMS & swappable battery research |
-| UCT Racing | Power Subsystem Member — cooling architecture, drivetrain & telemetry systems |
-| Scientific Caribbean Foundation | Undergraduate Student Researcher — hyperspectral imaging |
-
-**Research — Electron Journey PCB**
-A top-down PCB scene with colour-coded research chips. Press **E** near a chip to open its detail panel.
+**Research - Electron Journey PCB**
+A top-down PCB scene with research chips. Press `E` near a chip to open the detail card.
 
 | Chip | Status |
 |---|---|
-| Hyperspectral Imaging | Complete — poster & methodology available |
-| Swappable Battery | Coming Soon (EMi Lab) |
+| Hyperspectral Imaging | Complete |
+| Swappable Battery | Coming Soon |
 
-Note: AfriGuard chip removed from the PCB scene (it is a project, not a research paper).
+**Skills - Magnetic Field Simulator**
+Draggable role magnets move around a full-screen magnetic field with skill bubbles distributed across the viewport. The field includes Machine Learning, AI Safety, Embedded Systems, Power / Energy, Web Dev, and Tools clusters. Skill bubbles show proficiency levels and remain interactive while dragging magnets.
 
-**Skills — Magnetic Field Simulator**
-Six draggable role-magnet clusters (Machine Learning, AI Safety, Embedded Systems, Power/Energy, Web Dev, Tools) with skill bubbles that respond to drag position. Each skill displays a Novice / Intermediate / Advanced badge. Git, GitHub, and VS Code are rated **Intermediate**.
-
-**Achievements — Oscilloscope Viewer**
-A CRT-style phosphor screen with waveforms for each achievement. Move the probe cursor over a waveform to reveal the achievement detail card.
+**Achievements - Oscilloscope Viewer**
+A CRT-style waveform display where moving the probe over a waveform reveals the achievement card.
 
 | Achievement | Date |
 |---|---|
 | Student of the Year | Grade 11 |
-| President's Award — Bronze | Grade 12 |
-| National Chess Champion | — |
+| President's Award - Bronze | Grade 12 |
+| National Chess Champion | - |
 
-### Leadership & Involvement (Recruiter Mode)
+### Recruiter Mode
 
-| Role | Organisation |
-|---|---|
-| Treasurer | Interact Club (Rotary International) |
-| Student Wellness and Leadership | Student Representative Council (SRC) |
-| Class Representative | EEE1008 — Electrical Engineering (UCT) |
+Recruiter Mode replaces the 3D scenes with a flat, scrollable portfolio. It includes sections for Hero, About Me, Experience, Projects, Research, Skills & Tools, Achievements, Leadership & Involvement, and Contact.
 
-Interact Club: Managed budgets and financial records over R5000+ for community fundraising. 1 of 4 Board Members organizing events and service activities.
-
-SRC: Represented the student body as 1 of 9 in school governance. Organized mental health and wellness events; mentored cohort of class representatives.
+The mode preference is saved to `localStorage` and restored automatically on next load.
 
 ### Contact Form
-Disabled by default. Surfaced via the "Get in Touch" button in Recruiter Mode. Submissions are saved to the `contacts` database table and trigger an owner notification.
 
-### Loading Screen
-A circuit-themed loading screen with a progress bar, rotating icon, and dynamic status messages displays while 3D assets initialise. It dismisses automatically when the page is ready.
+The contact form is disabled by default and opened from Recruiter Mode. Submissions are stored in the `contacts` table and can trigger owner notifications through the server side workflow.
 
 ### Resume Button
-A persistent "Resume" button (bottom-left in 3D mode) opens the CV PDF in a new browser tab.
 
----
+A persistent Resume button is shown in 3D mode and opens the CV PDF in a new tab.
 
 ## Tech Stack
 
@@ -101,11 +80,8 @@ A persistent "Resume" button (bottom-left in 3D mode) opens the CV PDF in a new 
 | API | tRPC 11, Express 4 |
 | Database | MySQL / TiDB via Drizzle ORM |
 | Auth | Manus OAuth |
-| LLM | Built-in Forge API (via `server/_core/llm.ts`) |
-| Notifications | Built-in notification API (via `server/_core/notification.ts`) |
-| Fonts | Space Grotesk (headings), JetBrains Mono (code/labels) |
-
----
+| LLM / Notifications | Built-in Forge APIs |
+| Fonts | Space Grotesk and JetBrains Mono |
 
 ## Project Structure
 
@@ -113,74 +89,54 @@ A persistent "Resume" button (bottom-left in 3D mode) opens the CV PDF in a new 
 client/src/
   pages/
     Landing.tsx          ← ESP32 3D landing scene
-    Projects.tsx         ← Robot POV Lab (3 project screens)
-    About.tsx            ← Business Card Stack
+    Projects.tsx         ← Robot POV Lab
+    About.tsx            ← Business card carousel
     Experience.tsx       ← Elevator UI
     Research.tsx         ← Electron Journey PCB
-    Skills.tsx           ← Magnetic Field Simulator
-    Achievements.tsx     ← Oscilloscope Viewer
+    Skills.tsx           ← Magnetic field simulator
+    Achievements.tsx     ← Oscilloscope viewer
     RecruiterMode.tsx    ← Flat recruiter layout
   components/
     ESP32Model.tsx       ← Procedural ESP32 3D model
     ContactForm.tsx      ← Contact form modal
     LoadingScreen.tsx    ← Circuit-themed loading screen
-    SectionTransition.tsx← ESP32 flash transition between worlds
+    SectionTransition.tsx← Transition animation between worlds
   data/
-    portfolioData.ts     ← All content (projects, experience, research, etc.)
+    portfolioData.ts     ← Site content and assets
   stores/
     appStore.ts          ← Zustand global state
 server/
-  routers.ts             ← tRPC procedures (contact)
+  routers.ts             ← tRPC procedures
   db.ts                  ← Database helpers
 drizzle/
-  schema.ts              ← users + contacts tables
+  schema.ts              ← users and contacts tables
 ```
-
----
 
 ## Static Assets
 
 | Asset | Path |
 |---|---|
-| CV / Resume PDF | `/manus-storage/Jaswin_Research_CV_d1a4d9f5.pdf` |
-| Research Poster PNG | `/manus-storage/research_poster_358fb6ff.png` |
+| CV / Resume PDF | `/resume.pdf` |
+| Research Poster PNG | `/research-poster.png` |
+| AfriGuard Logo | `/afriguard-logo.png` |
 
-Assets are hosted via Manus static storage and referenced by URL in `portfolioData.ts`.
-
----
+These files are served from `client/public` and referenced from `client/src/data/portfolioData.ts`.
 
 ## Database Schema
 
-**users** — Manus OAuth user records (auto-managed by auth flow).
+**users** - Manus OAuth user records managed by the auth flow.
 
-**contacts** — Contact form submissions.
+**contacts** - Contact form submissions.
 
 | Column | Type | Notes |
 |---|---|---|
 | id | int PK | Auto-increment |
 | name | varchar(255) | Submitter name |
 | email | varchar(320) | Submitter email |
-| role | varchar(255) | Role / company |
-| favourite_part | text | Favourite part of portfolio |
+| role | varchar(255) | Role or company |
+| favourite_part | text | Favourite part of the site |
 | message | text | Free-form message |
 | createdAt | timestamp | Auto-set on insert |
-
----
-
-## Environment Variables
-
-All secrets are injected automatically by the Manus platform. Do not commit `.env` files.
-
-| Variable | Purpose |
-|---|---|
-| `DATABASE_URL` | MySQL connection string |
-| `JWT_SECRET` | Session cookie signing |
-| `BUILT_IN_FORGE_API_KEY` | LLM + notification API key (server) |
-| `BUILT_IN_FORGE_API_URL` | LLM + notification API base URL |
-| `VITE_FRONTEND_FORGE_API_KEY` | LLM API key (client) |
-| `VITE_FRONTEND_FORGE_API_URL` | LLM API base URL (client) |
-
----
 
 ## Development
 
@@ -189,17 +145,11 @@ pnpm install
 pnpm dev          # Start dev server on :3000
 pnpm check        # TypeScript type check
 pnpm test         # Run Vitest tests
-pnpm db:push      # Generate + apply Drizzle migrations
+pnpm db:push      # Generate and apply Drizzle migrations
 ```
 
----
+## Notes
 
-## Changelog
-
-| Version | Changes |
-|---|---|
-| v1.0 | Initial build — ESP32 landing, 6 section worlds, Recruiter Mode |
-| v1.1 | Bug fixes: name positioning, About cards, Skills dragging, Projects screens, Achievements probe, ESP32 rotation |
-| v1.2 | Custom loading screen with circuit-themed progress animation |
-| v1.3 | Content updates from CV: AfriGuard links, research poster, correct experience details |
-| v1.4 | Changes_3: faster name animation, resume PDF fix, Research rename + Swappable Battery chip, 4 project screens (Hackathon + Vibecoded), EMi Lab BMS focus, UCT Racing drivetrain bullet, flashcard reorder, achievements date fixes, Leadership block in Recruiter Mode |
+- The app now uses local public assets for the resume and poster instead of Manus storage URLs.
+- The three 3D section worlds are Projects, Skills, and Achievements, with the remaining content available through the other section pages and Recruiter Mode.
+- The current layout keeps the design consistent across the immersive mode and the recruiter mode without adding new visual systems.

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,23 +9,19 @@ export default function AboutSection() {
   const [, setLocation] = useLocation();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
-  const prevIndex = useRef(0);
 
   const handleNextCard = () => {
     setDirection(1);
-    prevIndex.current = currentCardIndex;
     setCurrentCardIndex((prev) => (prev + 1) % businessCards.length);
   };
 
   const handlePrevCard = () => {
     setDirection(-1);
-    prevIndex.current = currentCardIndex;
     setCurrentCardIndex((prev) => (prev - 1 + businessCards.length) % businessCards.length);
   };
 
   const handleDotClick = (index: number) => {
     setDirection(index > currentCardIndex ? 1 : -1);
-    prevIndex.current = currentCardIndex;
     setCurrentCardIndex(index);
   };
 

@@ -51,12 +51,6 @@ export default function Landing() {
     setShowSkipButton(false);
   };
 
-  useEffect(() => {
-    return () => {
-      if (nameTimerRef.current) clearTimeout(nameTimerRef.current);
-    };
-  }, []);
-
   const handleComponentClick = (componentId: string) => {
     const sectionMap: Record<string, string> = {
       'esp-wroom': 'projects',
