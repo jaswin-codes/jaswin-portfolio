@@ -240,7 +240,7 @@ export default function ProjectsSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="absolute bottom-20 left-6 z-10 rounded-lg border p-3 text-xs"
+        className="absolute bottom-28 left-6 z-10 rounded-lg border p-3 text-xs"
         style={{ backgroundColor: 'rgba(0,0,0,0.7)', borderColor: '#00ff8840', color: '#00ff88', fontFamily: "'JetBrains Mono', monospace", backdropFilter: 'blur(8px)' }}
       >
         <p className="font-bold mb-1">CONTROLS</p>

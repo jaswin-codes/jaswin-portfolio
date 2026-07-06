@@ -21,6 +21,20 @@ interface MagnetPosition {
   isDragging: boolean;
 }
 
+const getViewportDimensions = () => ({
+  width: typeof window !== 'undefined' ? window.innerWidth : 1280,
+  height: typeof window !== 'undefined' ? window.innerHeight : 800,
+});
+
+const createInitialMagnetPositions = (width: number, height: number): Record<string, MagnetPosition> => ({
+  embedded: { x: width * 0.08, y: height * 0.12, isDragging: false },
+  ml: { x: width * 0.86, y: height * 0.12, isDragging: false },
+  'ai-safety': { x: width * 0.08, y: height * 0.78, isDragging: false },
+  web: { x: width * 0.86, y: height * 0.78, isDragging: false },
+  power: { x: width * 0.46, y: height * 0.08, isDragging: false },
+  tools: { x: width * 0.46, y: height * 0.84, isDragging: false },
+});
+
 const roleMagnets = [
   { id: 'embedded', label: 'Embedded Intern', color: '#0088ff' },
   { id: 'ml', label: 'ML Research', color: '#00ff88' },
@@ -34,24 +48,37 @@ export default function SkillsSection() {
   const [, setLocation] = useLocation();
   const [particles, setParticles] = useState<SkillParticle[]>([]);
   const [selectedMagnet, setSelectedMagnet] = useState<string | null>(null);
-  const [magnetPositions, setMagnetPositions] = useState<Record<string, MagnetPosition>>({
-    embedded: { x: 80, y: 80, isDragging: false },
-    ml: { x: 860, y: 80, isDragging: false },
-    'ai-safety': { x: 80, y: 480, isDragging: false },
-    web: { x: 860, y: 480, isDragging: false },
-    power: { x: 460, y: 60, isDragging: false },
-    tools: { x: 460, y: 500, isDragging: false },
-  });
+  const [dimensions, setDimensions] = useState(getViewportDimensions);
+  const [magnetPositions, setMagnetPositions] = useState<Record<string, MagnetPosition>>(() =>
+    createInitialMagnetPositions(getViewportDimensions().width, getViewportDimensions().height)
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const dragRef = useRef<string | null>(null);
 
   const BOUNDARY_PADDING = 60;
-  const CONTAINER_WIDTH = 1000;
-  const CONTAINER_HEIGHT = 600;
+  const CONTAINER_WIDTH = dimensions.width;
+  const CONTAINER_HEIGHT = dimensions.height;
+
+  useEffect(() => {
+    const handleResize = () => setDimensions(getViewportDimensions());
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setMagnetPositions(createInitialMagnetPositions(CONTAINER_WIDTH, CONTAINER_HEIGHT));
+  }, [CONTAINER_WIDTH, CONTAINER_HEIGHT]);
 
   // Initialize particles
   useEffect(() => {
+    if (particles.length > 0) return;
+
     const allSkills: SkillParticle[] = [];
     let id = 0;
 
@@ -71,7 +98,7 @@ export default function SkillsSection() {
     });
 
     setParticles(allSkills);
-  }, []);
+  }, [CONTAINER_HEIGHT, CONTAINER_WIDTH, particles.length]);
 
   // Physics simulation
   useEffect(() => {
@@ -305,7 +332,7 @@ export default function SkillsSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute bottom-20 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs"
+        className="absolute bottom-32 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs"
       >
         <p className="text-green-400 font-bold mb-3 text-sm" style={{
           fontFamily: "'JetBrains Mono', monospace",
