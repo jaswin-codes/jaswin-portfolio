@@ -56,7 +56,7 @@ export default function SkillsSection() {
   const animationRef = useRef<number | undefined>(undefined);
   const dragRef = useRef<string | null>(null);
 
-  const BOUNDARY_PADDING = 60;
+  const BOUNDARY_PADDING = 48;
   const CONTAINER_WIDTH = dimensions.width;
   const CONTAINER_HEIGHT = dimensions.height;
 
@@ -300,10 +300,7 @@ export default function SkillsSection() {
                     border: `2px solid ${magnet.color}`,
                     color: magnet.color,
                   }}
-                  animate={selectedMagnet === magnet.id ? {
-                    boxShadow: `0 0 30px ${magnet.color}`,
-                    scale: 1.1,
-                  } : {
+                  animate={{
                     boxShadow: `0 0 10px ${magnet.color}`,
                   }}
                 >
@@ -319,7 +316,7 @@ export default function SkillsSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="absolute bottom-8 right-8 bg-black/70 border border-green-500/30 rounded p-4 max-w-xs text-green-400 text-sm"
+          className="absolute bottom-6 right-6 bg-black/70 border border-green-500/30 rounded p-4 max-w-xs text-green-400 text-sm pointer-events-none"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
           <p className="font-bold mb-2">CONTROLS:</p>
@@ -332,7 +329,7 @@ export default function SkillsSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute bottom-32 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs"
+        className="absolute bottom-16 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs pointer-events-none"
       >
         <p className="text-green-400 font-bold mb-3 text-sm" style={{
           fontFamily: "'JetBrains Mono', monospace",

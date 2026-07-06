@@ -248,7 +248,7 @@ export default function AchievementsSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="absolute bottom-28 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm"
+          className="absolute bottom-16 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm pointer-events-none"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
           <p className="font-bold mb-2">CONTROLS:</p>
