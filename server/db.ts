@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, contacts } from "../drizzle/schema";
-import { ENV } from './_core/env';
+import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -57,8 +57,8 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values.role = user.role;
       updateSet.role = user.role;
     } else if (user.openId === ENV.ownerOpenId) {
-      values.role = 'admin';
-      updateSet.role = 'admin';
+      values.role = "admin";
+      updateSet.role = "admin";
     }
 
     if (!values.lastSignedIn) {
@@ -85,7 +85,11 @@ export async function getUserByOpenId(openId: string) {
     return undefined;
   }
 
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.openId, openId))
+    .limit(1);
 
   return result.length > 0 ? result[0] : undefined;
 }
@@ -100,7 +104,7 @@ export async function saveContact(data: {
 }): Promise<void> {
   const db = await getDb();
   if (!db) {
-    console.warn('[Database] Cannot save contact: database not available');
+    console.warn("[Database] Cannot save contact: database not available");
     return;
   }
 
@@ -114,7 +118,7 @@ export async function saveContact(data: {
       message: data.message,
     });
   } catch (error) {
-    console.error('[Database] Failed to save contact to DB:', error);
+    console.error("[Database] Failed to save contact to DB:", error);
     // Don't re-throw so the API request can still succeed (especially since we also send notifications)
   }
 }

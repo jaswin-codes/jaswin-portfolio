@@ -29,7 +29,7 @@ function useTransitionRouter() {
   const [pendingPath, setPendingPath] = useState<string | null>(null);
 
   const navigateTo = useCallback((path: string, section?: string) => {
-    setTargetSection(section || path.replace('/', ''));
+    setTargetSection(section || path.replace("/", ""));
     setIsTransitioning(true);
     setPendingPath(path);
   }, []);
@@ -42,21 +42,33 @@ function useTransitionRouter() {
     setIsTransitioning(false);
   }, [pendingPath, setLocation]);
 
-  return { navigateTo, isTransitioning, targetSection, handleTransitionComplete };
+  return {
+    navigateTo,
+    isTransitioning,
+    targetSection,
+    handleTransitionComplete,
+  };
 }
 
 // Expose navigate globally so Landing/sections can trigger transitions
-export let navigateWithTransition: (path: string, section?: string) => void = () => {};
+export let navigateWithTransition: (
+  path: string,
+  section?: string
+) => void = () => {};
 
-function Router({ navigateTo }: { navigateTo: (path: string, section?: string) => void }) {
-  const mode = useAppStore((state) => state.mode);
+function Router({
+  navigateTo,
+}: {
+  navigateTo: (path: string, section?: string) => void;
+}) {
+  const mode = useAppStore(state => state.mode);
 
   // Expose globally
   useEffect(() => {
     navigateWithTransition = navigateTo;
   }, [navigateTo]);
 
-  if (mode === 'recruiter') {
+  if (mode === "recruiter") {
     return (
       <>
         <RecruiterMode />
@@ -83,8 +95,8 @@ function Router({ navigateTo }: { navigateTo: (path: string, section?: string) =
 
 // ── Resume download button (always visible in 3D mode) ──────────────────────
 function ResumeButton() {
-  const mode = useAppStore((state) => state.mode);
-  if (mode === 'recruiter') return null;
+  const mode = useAppStore(state => state.mode);
+  if (mode === "recruiter") return null;
   return (
     <motion.a
       href={RESUME_URL}
@@ -92,16 +104,16 @@ function ResumeButton() {
       rel="noopener noreferrer"
       className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold select-none"
       style={{
-        backgroundColor: 'rgba(0,0,0,0.75)',
-        borderColor: '#00ff88',
-        color: '#00ff88',
+        backgroundColor: "rgba(0,0,0,0.75)",
+        borderColor: "#00ff88",
+        color: "#00ff88",
         fontFamily: "'JetBrains Mono', monospace",
-        backdropFilter: 'blur(8px)',
+        backdropFilter: "blur(8px)",
       }}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1.5 }}
-      whileHover={{ backgroundColor: 'rgba(0,255,136,0.15)', scale: 1.03 }}
+      whileHover={{ backgroundColor: "rgba(0,255,136,0.15)", scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
     >
       <FileDown size={16} />
@@ -113,20 +125,26 @@ function ResumeButton() {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const { navigateTo, isTransitioning, targetSection, handleTransitionComplete } = useTransitionRouter();
+  const {
+    navigateTo,
+    isTransitioning,
+    targetSection,
+    handleTransitionComplete,
+  } = useTransitionRouter();
 
   // Load recruiter mode preference from localStorage on mount
   useEffect(() => {
-    const savedMode = localStorage.getItem('portfolioMode') as 'recruiter' | '3d' | null;
+    const savedMode = localStorage.getItem("portfolioMode") as
+      "recruiter" | "3d" | null;
     if (savedMode) {
       useAppStore.setState({ mode: savedMode });
     }
   }, []);
 
   // Save recruiter mode preference to localStorage on change
-  const mode = useAppStore((state) => state.mode);
+  const mode = useAppStore(state => state.mode);
   useEffect(() => {
-    localStorage.setItem('portfolioMode', mode);
+    localStorage.setItem("portfolioMode", mode);
   }, [mode]);
 
   // Simulate loading progress
@@ -134,20 +152,20 @@ function App() {
     setIsLoading(true);
     setProgress(10);
     const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev < 90 ? prev + Math.random() * 20 : prev));
+      setProgress(prev => (prev < 90 ? prev + Math.random() * 20 : prev));
     }, 300);
     const completeLoading = () => {
       setProgress(100);
       setTimeout(() => setIsLoading(false), 600);
     };
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       completeLoading();
     } else {
-      window.addEventListener('load', completeLoading);
+      window.addEventListener("load", completeLoading);
     }
     return () => {
       clearInterval(progressInterval);
-      window.removeEventListener('load', completeLoading);
+      window.removeEventListener("load", completeLoading);
     };
   }, []);
 

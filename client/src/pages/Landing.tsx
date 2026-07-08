@@ -1,26 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
-import { useAppStore } from '@/stores/appStore';
-import { ESP32Model } from '@/components/ESP32Model';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
-import { motion } from 'framer-motion';
-import { navigateWithTransition } from '@/App';
+import { useEffect, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { useAppStore } from "@/stores/appStore";
+import { ESP32Model } from "@/components/ESP32Model";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
+import { motion } from "framer-motion";
+import { navigateWithTransition } from "@/App";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
-  const setCurrentSection = useAppStore((state) => state.setCurrentSection);
-  const isIntroComplete = useAppStore((state) => state.isIntroComplete);
-  const setIntroComplete = useAppStore((state) => state.setIntroComplete);
+  const setCurrentSection = useAppStore(state => state.setCurrentSection);
+  const isIntroComplete = useAppStore(state => state.isIntroComplete);
+  const setIntroComplete = useAppStore(state => state.setIntroComplete);
   const [showSkipButton, setShowSkipButton] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const skipTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const skipTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
-  const [namePosition, setNamePosition] = useState<'center' | 'top'>('center');
-  const nameTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [namePosition, setNamePosition] = useState<"center" | "top">("center");
+  const nameTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (!isIntroComplete) {
@@ -37,7 +43,7 @@ export default function Landing() {
   useEffect(() => {
     if (isIntroComplete) {
       hintTimerRef.current = setTimeout(() => setShowHint(true), 7000);
-      nameTimerRef.current = setTimeout(() => setNamePosition('top'), 2000);
+      nameTimerRef.current = setTimeout(() => setNamePosition("top"), 2000);
     }
 
     return () => {
@@ -53,12 +59,12 @@ export default function Landing() {
 
   const handleComponentClick = (componentId: string) => {
     const sectionMap: Record<string, string> = {
-      'esp-wroom': 'projects',
-      'usb-port': 'about',
-      'voltage-reg': 'experience',
-      'cp2102': 'research',
-      'gpio-pins': 'skills',
-      'crystal': 'achievements',
+      "esp-wroom": "projects",
+      "usb-port": "about",
+      "voltage-reg": "experience",
+      cp2102: "research",
+      "gpio-pins": "skills",
+      crystal: "achievements",
     };
 
     const section = sectionMap[componentId];
@@ -69,12 +75,12 @@ export default function Landing() {
   };
 
   const componentLabels: Record<string, string> = {
-    'esp-wroom': 'PROJECTS',
-    'usb-port': 'ABOUT ME',
-    'voltage-reg': 'EXPERIENCE',
-    'cp2102': 'RESEARCH',
-    'gpio-pins': 'SKILLS & TOOLS',
-    'crystal': 'ACHIEVEMENTS',
+    "esp-wroom": "PROJECTS",
+    "usb-port": "ABOUT ME",
+    "voltage-reg": "EXPERIENCE",
+    cp2102: "RESEARCH",
+    "gpio-pins": "SKILLS & TOOLS",
+    crystal: "ACHIEVEMENTS",
   };
 
   return (
@@ -83,14 +89,14 @@ export default function Landing() {
       <Canvas className="w-full h-full">
         <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={75} />
         <OrbitControls enableZoom={true} enablePan={true} autoRotate={false} />
-        
-        <color attach="background" args={['#000000']} />
-        
+
+        <color attach="background" args={["#000000"]} />
+
         {/* Lighting */}
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-10, -10, 10]} intensity={0.5} color="#00ff88" />
-        
+
         {/* ESP32 Model */}
         <ESP32Model
           isIntroAnimating={!isIntroComplete}
@@ -101,7 +107,11 @@ export default function Landing() {
 
         {/* Post-processing */}
         <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} />
+          <Bloom
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.9}
+            intensity={1.5}
+          />
         </EffectComposer>
       </Canvas>
 
@@ -112,15 +122,18 @@ export default function Landing() {
           animate={{
             opacity: 1,
             y: 0,
-            ...(namePosition === 'top' && { y: -200 })
+            ...(namePosition === "top" && { y: -200 }),
           }}
-          transition={{ duration: namePosition === 'top' ? 1.0 : 0.6 }}
+          transition={{ duration: namePosition === "top" ? 1.0 : 0.6 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <h1 className="text-6xl md:text-7xl font-bold text-center text-white" style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-          }}>
+          <h1
+            className="text-6xl md:text-7xl font-bold text-center text-white"
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              textShadow: "0 0 20px rgba(0, 255, 136, 0.5)",
+            }}
+          >
             Jaswin Chinthala
           </h1>
         </motion.div>
@@ -151,10 +164,13 @@ export default function Landing() {
           transition={{ delay: 0.5 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
         >
-          <p className="text-green-400 text-center" style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '14px',
-          }}>
+          <p
+            className="text-green-400 text-center"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "14px",
+            }}
+          >
             click a component to explore →
           </p>
         </motion.div>
@@ -167,14 +183,20 @@ export default function Landing() {
           animate={{ opacity: 1, y: 0 }}
           className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10 text-center"
         >
-          <p className="text-white font-bold text-lg" style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-          }}>
+          <p
+            className="text-white font-bold text-lg"
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
+          >
             {componentLabels[hoveredComponent]}
           </p>
-          <p className="text-green-400 text-sm" style={{
-            fontFamily: "'JetBrains Mono', monospace",
-          }}>
+          <p
+            className="text-green-400 text-sm"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+            }}
+          >
             {hoveredComponent.toUpperCase()}
           </p>
         </motion.div>
@@ -190,7 +212,7 @@ export default function Landing() {
           <Button
             onClick={() => {
               const setMode = useAppStore.getState().setMode;
-              setMode('recruiter');
+              setMode("recruiter");
             }}
             variant="outline"
             className="bg-black/50 border-blue-500 text-blue-400 hover:bg-blue-500/10"

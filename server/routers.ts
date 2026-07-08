@@ -19,14 +19,16 @@ export const appRouter = router({
   }),
 
   contact: publicProcedure
-    .input(z.object({
-      name: z.string().min(1),
-      email: z.string().email(),
-      role: z.string().optional(),
-      company: z.string().optional(),
-      favPart: z.string().optional(),
-      message: z.string().min(1),
-    }))
+    .input(
+      z.object({
+        name: z.string().min(1),
+        email: z.string().email(),
+        role: z.string().optional(),
+        company: z.string().optional(),
+        favPart: z.string().optional(),
+        message: z.string().min(1),
+      })
+    )
     .mutation(async ({ input }) => {
       // 1. Save to database
       await saveContact({
@@ -46,30 +48,40 @@ export const appRouter = router({
             embeds: [
               {
                 title: "📬 New Portfolio Contact Submission",
-                color: 0x00FF88, // Mint green
+                color: 0x00ff88, // Mint green
                 fields: [
                   { name: "Name", value: input.name || "N/A", inline: true },
                   { name: "Email", value: input.email || "N/A", inline: true },
                   { name: "Role", value: input.role || "N/A", inline: true },
-                  { name: "Company", value: input.company || "N/A", inline: true },
-                  { name: "Favorite Part", value: input.favPart || "N/A", inline: true },
-                  { name: "Message", value: input.message || "N/A" }
+                  {
+                    name: "Company",
+                    value: input.company || "N/A",
+                    inline: true,
+                  },
+                  {
+                    name: "Favorite Part",
+                    value: input.favPart || "N/A",
+                    inline: true,
+                  },
+                  { name: "Message", value: input.message || "N/A" },
                 ],
-                timestamp: new Date().toISOString()
-              }
-            ]
+                timestamp: new Date().toISOString(),
+              },
+            ],
           };
 
           await fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
           });
         } catch (discordError) {
           console.error("Failed to send Discord webhook:", discordError);
         }
       } else {
-        console.log("Discord notification skipped: DISCORD_WEBHOOK_URL is not set");
+        console.log(
+          "Discord notification skipped: DISCORD_WEBHOOK_URL is not set"
+        );
       }
 
       return { success: true };
