@@ -1,30 +1,36 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { X, Send } from 'lucide-react';
-import { useAppStore } from '@/stores/appStore';
-import { trpc } from '@/lib/trpc';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { X, Send } from "lucide-react";
+import { useAppStore } from "@/stores/appStore";
+import { trpc } from "@/lib/trpc";
 
 export default function ContactForm() {
-  const showContactForm = useAppStore((state) => state.showContactForm);
-  const setShowContactForm = useAppStore((state) => state.setShowContactForm);
+  const showContactForm = useAppStore(state => state.showContactForm);
+  const setShowContactForm = useAppStore(state => state.setShowContactForm);
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    role: '',
-    company: '',
-    favPart: '',
-    message: '',
+    name: "",
+    email: "",
+    role: "",
+    company: "",
+    favPart: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   const contactMutation = trpc.contact.useMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,23 +47,23 @@ export default function ContactForm() {
         message: formData.message,
       });
 
-      setSubmitStatus('success');
+      setSubmitStatus("success");
       setFormData({
-        name: '',
-        email: '',
-        role: '',
-        company: '',
-        favPart: '',
-        message: '',
+        name: "",
+        email: "",
+        role: "",
+        company: "",
+        favPart: "",
+        message: "",
       });
 
       setTimeout(() => {
         setShowContactForm(false);
-        setSubmitStatus('idle');
+        setSubmitStatus("idle");
       }, 2000);
     } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -77,13 +83,16 @@ export default function ContactForm() {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
             className="bg-gradient-to-b from-gray-900 to-black border-2 border-green-500 rounded-lg p-8 max-w-md w-full"
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white" style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-              }}>
+              <h2
+                className="text-2xl font-bold text-white"
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
+              >
                 Get in Touch
               </h2>
               <button
@@ -94,7 +103,7 @@ export default function ContactForm() {
               </button>
             </div>
 
-            {submitStatus === 'success' ? (
+            {submitStatus === "success" ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -209,7 +218,7 @@ export default function ContactForm() {
                   />
                 </div>
 
-                {submitStatus === 'error' && (
+                {submitStatus === "error" && (
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

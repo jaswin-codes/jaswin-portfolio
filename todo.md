@@ -1,6 +1,7 @@
 # Jaswin Portfolio Website — TODO
 
 ## Phase 1: Foundation & Setup
+
 - [x] Install Three.js, @react-three/fiber, @react-three/drei, @react-three/postprocessing
 - [x] Install Framer Motion for UI animations
 - [x] Install Zustand for global state management
@@ -10,6 +11,7 @@
 - [x] Create Zustand store for app state (mode, currentSection, isIntroComplete, jarvisOpen, etc.)
 
 ## Phase 2: Landing Page & ESP32 Scene
+
 - [x] Build procedural ESP32 3D model using Three.js (board, components, pins)
 - [x] Implement intro animation sequence: LED explosion → name reveal → board settle
 - [x] Add "Skip Intro" button with prefers-reduced-motion support
@@ -22,6 +24,7 @@
 - [x] Set up React Router for deep-linkable section routes
 
 ## Phase 3: Section Worlds — Part 1
+
 - [x] **Projects (Robot POV Lab):** Build Three.js room with WASD controls
 - [x] Implement first-person camera and robot movement
 - [x] Create project screens mounted on walls (AfriGuard, Hyperspectral, UCT Racing, EMi Lab)
@@ -37,6 +40,7 @@
 - [x] Add floor counter and directory sign
 
 ## Phase 4: Section Worlds — Part 2
+
 - [x] **Research (Electron Journey PCB):** Build top-down PCB scene with WASD electron movement
 - [x] Implement glowing electron with trailing glow effect
 - [x] Create research component chips on PCB
@@ -52,6 +56,7 @@
 - [x] Add scanline overlay and barrel distortion effects
 
 ## Phase 5: Recruiter Mode
+
 - [x] Create persistent toggle in top-right corner (saved to localStorage)
 - [x] Build flat layout scaffold with all sections as scrollable cards
 - [x] Implement fade-out 3D scene → slide-in flat layout transition
@@ -68,6 +73,7 @@
 - [ ] Test with screen readers for accessibility
 
 ## Phase 6: Jarvis AI Chatbot
+
 - [x] Create floating chatbot UI in bottom-right corner
 - [x] Implement chat panel with message history
 - [x] Integrate Claude API via backend endpoint
@@ -78,6 +84,7 @@
 - [x] Implement contact form submission → database save + owner notification
 
 ## Phase 7: Database & Backend
+
 - [x] Create database schema for contacts table
 - [ ] Create database schema for chat_logs table (optional, for analytics)
 - [x] Implement `/api/chat` endpoint (Claude API integration)
@@ -87,6 +94,7 @@
 - [x] Test all API endpoints
 
 ## Phase 8: Styling & Polish
+
 - [x] Apply dark theme with circuit/PCB aesthetic
 - [x] Add glowing effects and bloom post-processing
 - [x] Implement smooth transitions between sections
@@ -99,6 +107,7 @@
 - [ ] Compress and optimize all assets
 
 ## Phase 9: Loading Screen
+
 - [x] Create LoadingScreen component with progress animation
 - [x] Implement progress tracking for 3D assets
 - [x] Add circuit-themed loading animation
@@ -106,6 +115,7 @@
 - [ ] Test loading screen on slow network
 
 ## Phase 10: Content & Testing
+
 - [ ] Add project logos and thumbnails
 - [ ] Add company logos (EMi Lab, UCT Racing, Scientific Caribbean Foundation)
 - [ ] Add research poster and certificate assets
@@ -118,6 +128,7 @@
 - [ ] Performance audit (< 3s on 4G, 60fps on mid-tier laptop)
 
 ## Phase 10: Launch Prep
+
 - [ ] Final content review — replace all "COMING SOON" placeholders
 - [ ] Accessibility audit (keyboard, screen reader, reduced motion)
 - [ ] Cross-browser testing (Chrome, Firefox, Safari, Edge)
@@ -128,6 +139,7 @@
 - [ ] Set up custom domain (if applicable)
 
 ## Post-Launch (Future)
+
 - [ ] Enable contact form for engaged visitors only
 - [ ] Collect recruiter feedback and iterate
 - [ ] Add "Antenna" section (creative side projects)
@@ -136,6 +148,7 @@
 - [ ] Add remaining project links (GitHub, live demos)
 
 ## Phase 11: Changes_3.md Final Updates
+
 - [x] Fix name animation: move up in 1 second (faster)
 - [x] Fix resume button: white screen bug — open PDF in new tab instead
 - [x] Research: rename chip to "Hyperspectral Imaging", add "Coming Soon: Swappable Battery" chip

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
-import { motion, AnimatePresence } from 'framer-motion';
-import { experiences } from '@/data/portfolioData';
-import { X } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
+import { experiences } from "@/data/portfolioData";
+import { X } from "lucide-react";
 
 export default function ExperienceSection() {
   const [, setLocation] = useLocation();
@@ -20,7 +20,8 @@ export default function ExperienceSection() {
     }
   };
 
-  const selectedExperience = selectedFloor !== null ? experiences[selectedFloor] : null;
+  const selectedExperience =
+    selectedFloor !== null ? experiences[selectedFloor] : null;
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden">
@@ -31,7 +32,7 @@ export default function ExperienceSection() {
         className="absolute top-8 left-8 z-10"
       >
         <Button
-          onClick={() => setLocation('/')}
+          onClick={() => setLocation("/")}
           variant="outline"
           className="bg-black/50 border-green-500 text-green-400 hover:bg-green-500/10"
         >
@@ -45,15 +46,21 @@ export default function ExperienceSection() {
         animate={{ opacity: 1 }}
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-5 text-center pointer-events-none"
       >
-        <h1 className="text-5xl font-bold text-white" style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-        }}>
+        <h1
+          className="text-5xl font-bold text-white"
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            textShadow: "0 0 20px rgba(0, 255, 136, 0.5)",
+          }}
+        >
           EXPERIENCE
         </h1>
-        <p className="text-green-400 text-sm mt-4" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
+        <p
+          className="text-green-400 text-sm mt-4"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
           AMS1117-3.3
         </p>
       </motion.div>
@@ -68,10 +75,17 @@ export default function ExperienceSection() {
           <div className="bg-gray-800 border-4 border-gray-600 rounded-lg p-8 shadow-2xl">
             {/* Floor Counter Display */}
             <div className="bg-black rounded p-4 mb-6 text-center border border-green-500/50">
-              <div className="text-green-400 text-3xl font-bold" style={{
-                fontFamily: "'JetBrains Mono', monospace",
-              }}>
-                {isMoving ? '...' : selectedFloor !== null ? `FLOOR ${selectedFloor + 1}` : '---'}
+              <div
+                className="text-green-400 text-3xl font-bold"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
+              >
+                {isMoving
+                  ? "..."
+                  : selectedFloor !== null
+                    ? `FLOOR ${selectedFloor + 1}`
+                    : "---"}
               </div>
             </div>
 
@@ -83,13 +97,16 @@ export default function ExperienceSection() {
                   onClick={() => handleFloorClick(index)}
                   className={`w-full py-3 px-4 rounded font-bold transition-all ${
                     selectedFloor === index
-                      ? 'bg-green-500 text-black border-2 border-green-400'
-                      : 'bg-gray-700 text-green-400 border-2 border-gray-600 hover:bg-gray-600'
+                      ? "bg-green-500 text-black border-2 border-green-400"
+                      : "bg-gray-700 text-green-400 border-2 border-gray-600 hover:bg-gray-600"
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="text-sm" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  <div
+                    className="text-sm"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
                     FLOOR {index + 1}
                   </div>
                   <div className="text-xs mt-1">{exp.company}</div>
@@ -122,18 +139,28 @@ export default function ExperienceSection() {
                 transition={{ duration: 0.4 }}
                 className="bg-gradient-to-br from-gray-900 to-black border-2 border-green-500/50 rounded-lg p-8 max-w-md w-full"
               >
-                <h2 className="text-3xl font-bold text-white mb-2" style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                }}>
+                <h2
+                  className="text-3xl font-bold text-white mb-2"
+                  style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                  }}
+                >
                   {selectedExperience.company}
                 </h2>
-                <p className="text-green-400 font-bold mb-1">{selectedExperience.role}</p>
-                <p className="text-gray-400 text-sm mb-4" style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}>
+                <p className="text-green-400 font-bold mb-1">
+                  {selectedExperience.role}
+                </p>
+                <p
+                  className="text-gray-400 text-sm mb-4"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}
+                >
                   {selectedExperience.duration}
                 </p>
-                <p className="text-gray-400 text-sm mb-4">{selectedExperience.location}</p>
+                <p className="text-gray-400 text-sm mb-4">
+                  {selectedExperience.location}
+                </p>
 
                 <p className="text-gray-300 text-sm mb-4 leading-relaxed">
                   {selectedExperience.description}
@@ -142,7 +169,10 @@ export default function ExperienceSection() {
                 {selectedExperience.bulletPoints.length > 0 && (
                   <ul className="space-y-2 mb-4">
                     {selectedExperience.bulletPoints.map((point, idx) => (
-                      <li key={idx} className="text-gray-300 text-sm flex gap-2">
+                      <li
+                        key={idx}
+                        className="text-gray-300 text-sm flex gap-2"
+                      >
                         <span className="text-green-400">▸</span>
                         <span>{point}</span>
                       </li>
@@ -152,7 +182,7 @@ export default function ExperienceSection() {
 
                 {selectedExperience.skills.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {selectedExperience.skills.map((skill) => (
+                    {selectedExperience.skills.map(skill => (
                       <span
                         key={skill}
                         className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/50"
@@ -174,14 +204,18 @@ export default function ExperienceSection() {
         animate={{ opacity: 1 }}
         className="absolute bottom-8 right-8 bg-gray-800 border-2 border-gray-600 rounded p-4 max-w-xs"
       >
-        <p className="text-green-400 font-bold mb-2 text-sm" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
+        <p
+          className="text-green-400 font-bold mb-2 text-sm"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
           DIRECTORY
         </p>
         {experiences.map((exp, idx) => (
           <p key={exp.id} className="text-gray-300 text-xs mb-1">
-            <span className="text-green-400">Floor {idx + 1}:</span> {exp.company}
+            <span className="text-green-400">Floor {idx + 1}:</span>{" "}
+            {exp.company}
           </p>
         ))}
       </motion.div>

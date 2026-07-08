@@ -45,13 +45,13 @@ export interface Achievement {
   type: string;
   date: string;
   description: string;
-  waveformType: 'sine' | 'square' | 'ramp' | 'flatline';
+  waveformType: "sine" | "square" | "ramp" | "flatline";
 }
 
 export interface Skill {
   name: string;
   proficiency: number; // 0-100
-  cluster: 'ml' | 'ai-safety' | 'embedded' | 'power' | 'web' | 'tools';
+  cluster: "ml" | "ai-safety" | "embedded" | "power" | "web" | "tools";
 }
 
 export interface SkillCluster {
@@ -65,5 +65,12 @@ export interface BusinessCard {
   id: number;
   title: string;
   content: string | React.ReactNode;
-  type: 'name' | 'education' | 'linkedin' | 'github' | 'location' | 'interests' | 'coming-soon';
+  type:
+    | "name"
+    | "education"
+    | "linkedin"
+    | "github"
+    | "location"
+    | "interests"
+    | "coming-soon";
 }

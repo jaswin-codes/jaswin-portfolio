@@ -10,25 +10,25 @@ The app centers on a 3D ESP32 hub that is rotatable. Clicking components transit
 
 The homepage renders a procedural ESP32 model in Three.js. The intro sequence animates the board, then reveals the portfolio name and component labels. After the intro, users can drag to rotate the board, hover components for tooltips, and click a component to open its section world.
 
-| ESP32 Component | Section |
-|---|---|
-| ESP-WROOM-32 | Projects |
-| USB Port | About Me |
-| Voltage Regulator | Experience |
-| CP2102 | Research |
-| GPIO Pins | Skills & Tools |
-| Crystal Oscillator | Achievements |
+| ESP32 Component    | Section        |
+| ------------------ | -------------- |
+| ESP-WROOM-32       | Projects       |
+| USB Port           | About Me       |
+| Voltage Regulator  | Experience     |
+| CP2102             | Research       |
+| GPIO Pins          | Skills & Tools |
+| Crystal Oscillator | Achievements   |
 
 ### Section Worlds In 3D Mode
 
 **Projects - Robot POV Lab**
 A 3D room with three wall-mounted project screens. Hover highlights a screen and click opens a detail modal with the project description, tech stack, and links when available.
 
-| Project | Status | Links |
-|---|---|---|
-| AfriGuard | Complete | GitHub + live dashboard |
-| Hyperspectral Freshness | Coming Soon | GitHub placeholder |
-| Vibecoded | Complete | GitHub placeholder |
+| Project                 | Status      | Links                   |
+| ----------------------- | ----------- | ----------------------- |
+| AfriGuard               | Complete    | GitHub + live dashboard |
+| Hyperspectral Freshness | Coming Soon | GitHub placeholder      |
+| Vibecoded               | Complete    | GitHub placeholder      |
 
 **About Me - Business Card Stack**
 An animated card carousel with Previous/Next controls and dot indicators. The cards are centered and ordered as name, education, interests, research focus, LinkedIn, GitHub, location, and connect.
@@ -39,10 +39,10 @@ An elevator-style panel with animated floor selection and a sliding details pane
 **Research - Electron Journey PCB**
 A top-down PCB scene with research chips. Press `E` near a chip to open the detail card.
 
-| Chip | Status |
-|---|---|
-| Hyperspectral Imaging | Complete |
-| Swappable Battery | Coming Soon |
+| Chip                  | Status      |
+| --------------------- | ----------- |
+| Hyperspectral Imaging | Complete    |
+| Swappable Battery     | Coming Soon |
 
 **Skills - Magnetic Field Simulator**
 Draggable role magnets move around a full-screen magnetic field with skill bubbles distributed across the viewport. The field includes Machine Learning, AI Safety, Embedded Systems, Power / Energy, Web Dev, and Tools clusters. Skill bubbles show proficiency levels and remain interactive while dragging magnets.
@@ -50,11 +50,11 @@ Draggable role magnets move around a full-screen magnetic field with skill bubbl
 **Achievements - Oscilloscope Viewer**
 A CRT-style waveform display where moving the probe over a waveform reveals the achievement card.
 
-| Achievement | Date |
-|---|---|
-| Student of the Year | Grade 11 |
+| Achievement                | Date     |
+| -------------------------- | -------- |
+| Student of the Year        | Grade 11 |
 | President's Award - Bronze | Grade 12 |
-| National Chess Champion | - |
+| National Chess Champion    | -        |
 
 ### Recruiter Mode
 
@@ -72,16 +72,16 @@ A persistent Resume button is shown in 3D mode and opens the CV PDF in a new tab
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 19, TypeScript, Tailwind CSS 4, Framer Motion |
-| 3D | Three.js, @react-three/fiber, @react-three/drei, @react-three/postprocessing |
-| State | Zustand |
-| API | tRPC 11, Express 4 |
-| Database | MySQL / TiDB via Drizzle ORM |
-| Auth | Manus OAuth |
-| LLM / Notifications | Built-in Forge APIs |
-| Fonts | Space Grotesk and JetBrains Mono |
+| Layer               | Technology                                                                   |
+| ------------------- | ---------------------------------------------------------------------------- |
+| Frontend            | React 19, TypeScript, Tailwind CSS 4, Framer Motion                          |
+| 3D                  | Three.js, @react-three/fiber, @react-three/drei, @react-three/postprocessing |
+| State               | Zustand                                                                      |
+| API                 | tRPC 11, Express 4                                                           |
+| Database            | MySQL / TiDB via Drizzle ORM                                                 |
+| Auth                | Manus OAuth                                                                  |
+| LLM / Notifications | Built-in Forge APIs                                                          |
+| Fonts               | Space Grotesk and JetBrains Mono                                             |
 
 ## Project Structure
 
@@ -114,11 +114,11 @@ drizzle/
 
 ## Static Assets
 
-| Asset | Path |
-|---|---|
-| CV / Resume PDF | `/resume.pdf` |
+| Asset               | Path                   |
+| ------------------- | ---------------------- |
+| CV / Resume PDF     | `/resume.pdf`          |
 | Research Poster PNG | `/research-poster.png` |
-| AfriGuard Logo | `/afriguard-logo.png` |
+| AfriGuard Logo      | `/afriguard-logo.png`  |
 
 These files are served from `client/public` and referenced from `client/src/data/portfolioData.ts`.
 
@@ -128,15 +128,15 @@ These files are served from `client/public` and referenced from `client/src/data
 
 **contacts** - Contact form submissions.
 
-| Column | Type | Notes |
-|---|---|---|
-| id | int PK | Auto-increment |
-| name | varchar(255) | Submitter name |
-| email | varchar(320) | Submitter email |
-| role | varchar(255) | Role or company |
-| favourite_part | text | Favourite part of the site |
-| message | text | Free-form message |
-| createdAt | timestamp | Auto-set on insert |
+| Column         | Type         | Notes                      |
+| -------------- | ------------ | -------------------------- |
+| id             | int PK       | Auto-increment             |
+| name           | varchar(255) | Submitter name             |
+| email          | varchar(320) | Submitter email            |
+| role           | varchar(255) | Role or company            |
+| favourite_part | text         | Favourite part of the site |
+| message        | text         | Free-form message          |
+| createdAt      | timestamp    | Auto-set on insert         |
 
 ## Development
 
