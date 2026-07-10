@@ -172,7 +172,7 @@ export default function ExperienceSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute top-24 right-8 bg-gray-800 border-2 border-gray-600 rounded p-4 max-w-xs"
+        className="absolute bottom-8 right-8 bg-gray-800 border-2 border-gray-600 rounded p-2 max-w-[180px] text-xs"
       >
         <p className="text-green-400 font-bold mb-2 text-sm" style={{
           fontFamily: "'JetBrains Mono', monospace",
