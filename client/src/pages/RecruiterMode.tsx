@@ -408,7 +408,7 @@ export default function RecruiterMode() {
         </p>
       </motion.footer>
 
-      {/* Project Detail Modal - rendered at root level */}
+      {/* Project Detail Modal */}
       {selectedProject && (
         <div
           className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 md:p-8"
