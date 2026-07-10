@@ -180,7 +180,7 @@ export default function RecruiterMode() {
                     </span>
                   ))}
                 </div>
-                {(proj.githubLink || proj.liveLink) && (
+                {(proj.githubLink || proj.githubLinks || proj.liveLink) && (
                   <div className="flex gap-2">
                     {proj.githubLinks ? (
                       Object.entries(proj.githubLinks).map(([name, url]) => (
