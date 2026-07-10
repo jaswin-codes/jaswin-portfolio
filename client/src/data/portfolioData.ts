@@ -1,4 +1,3 @@
-
 // ─── Static asset URLs (uploaded via manus-upload-file --webdev) ───────────────
 export const RESUME_URL = '/resume.pdf';
 export const RESEARCH_POSTER_URL = '/research-poster.png';
@@ -38,51 +37,54 @@ The goal is to translate the simulation findings (Red-edge at 760nm, NIR at 1100
     thumbnail: RESEARCH_POSTER_URL,
   },
   {
-    id: 'vibecoded',
-    name: 'Vibecoded',
-    description: 'Multi-modal automation and recognition systems',
-    shortDescription: 'Neural wake-word detection, biometric voiceprints, and gesture recognition',
-    techStack: ['Python', 'PyAutoGUI', 'Selenium', 'OpenCV', 'FFT', 'MediaPipe'],
-    details: `A collection of multi-modal automation and recognition projects built through rapid prototyping and creative engineering.
+  id: 'vibecoded',
+  name: 'Vibecoded',
+  description: 'Multi-modal automation and recognition systems',
+  shortDescription: 'Neural wake-word detection, biometric voiceprints, and gesture recognition',
+  techStack: ['Python', 'PyAutoGUI', 'Selenium', 'OpenCV', 'FFT', 'MediaPipe'],
+  details: `A collection of multi-modal automation and recognition projects built through rapid prototyping and creative engineering.
 
-Architected a system integrating neural wake-word detection, biometric voiceprints, and an FFT-based audio pipeline for clap-pattern recognition and sound-activated triggers.
+Architected a system integrating neural wake-word detection, biometric voiceprints, and an FFT-based audio pipeline for clap-pattern recognition.
 
-Reduced event registration time from 30 seconds to <1 second by building a Selenium automation script, overcoming cross-origin iframe security barriers via screen-coordinate automation with PyAutoGUI.
+Reduced event registration time from 30 seconds to <1 second by building a Selenium automation script, overcoming cross-origin iframe security barriers.
 
-Achieved real-time recognition of gesture sequences using 21-point landmark tracking and rule-based finger state detection with a framework scaling toward multi-modal audio cues and an expanded gesture vocabulary.`,
-    githubLink: 'https://github.com/jaswin-codes',
+Achieved real-time recognition of gesture sequences using 21-point landmark tracking and rule-based finger state detection with a framework-agnostic approach.`,
+  githubLinks: {
+    jarvisAutomation: 'https://github.com/jaswin-codes/jarvis-automation',
+    jutsuCode: 'https://github.com/jaswin-codes/jutsu_code_stage1',
+    mscSignup: 'https://github.com/jaswin-codes/msc_signup',
   },
+},
 ];
 
 export const experiences: Experience[] = [
   {
     id: 'emi-lab',
     company: 'EMi Lab',
-    role: 'Vacation Work Student',
-    duration: 'Feb 2026 – Present',
+    role: 'Vacation Work Student - Electric Mobility Project',
+    duration: 'June 2026 - July 2026 (4 weeks)',
     location: 'Cape Town, Western Cape, South Africa',
-    description: 'Focusing on Battery Management Systems and swappable battery technology for electric vehicles.',
+    description: '',
     bulletPoints: [
-      'Conducting literature review on digital twin models and battery management systems (BMS) for electric vehicles',
-      'Authoring a technical report on swappable battery architectures for EV and e-mobility applications',
+      'Built foundational skills in MATLAB coursework covering Battery Management system modeling, cell balancing, and state-of-health tracking via Simulink and Simscape simulations in a team of 5 members',
+      'Authored a technical report on swappable battery architectures through academic literature reviews to propose 1 infrastructure configuration out of 4 for modular electric tuk-tuks',
     ],
-    skills: ['BMS', 'Digital Twin', 'Battery Management', 'Technical Writing', 'EV Systems'],
-    logo: 'https://via.placeholder.com/64?text=EMi+Lab',
+    skills: ['BMS', 'Digital Twin', 'Battery Management', 'Technical Writing', 'EV Systems', 'MATLAB', 'Simulink', 'Simscape'],
+    logo: '/emi-lab-logo.png',
   },
   {
     id: 'uct-racing',
     company: 'UCT Racing',
-    role: 'Power Subsystem Member',
-    duration: 'Feb 2026 – Present',
+    role: 'EV Research Subteam Lead & Power Subsystem Member',
+    duration: 'Feb 2026 - Present',
     location: 'Cape Town, Western Cape, South Africa',
-    description: 'Contributing to the power subsystem of UCT Racing\'s Formula Student electric vehicle.',
+    description: 'Incoming Subteam Lead for newly formed EV Research subteam; tasked with building the subteam\'s research focus on electric drivetrain architectures and battery chemistry beginning August 2026.',
     bulletPoints: [
-      'Collaborating on technical documentation for cooling architecture, specifically X2.4 fan integration',
-      'Gaining exposure to electric drivetrain architecture and battery thermal management systems',
-      'Gaining knowledge on telemetry systems for communication of data',
+      'Co-authored technical documentation for cooling architecture, specifically X2.4 fan integration.',
+      'Researching telemetry systems for a technical report on real-time vehicle data communication while building knowledge of battery thermal management.',
     ],
     skills: ['C++', 'ESP32', 'Thermal Modelling', 'Formula Student', 'Battery Management'],
-    logo: 'https://via.placeholder.com/64?text=UCT+Racing',
+    logo: '/uct-racing-logo.png',
   },
   {
     id: 'scientific-caribbean',
@@ -92,13 +94,11 @@ export const experiences: Experience[] = [
     location: 'Cape Town, Western Cape, South Africa',
     description: 'Completed a 2-week STEM Research Methodology Workshop with independent research framework.',
     bulletPoints: [
-      'Formulated independent, simulation-based research framework for post-harvest produce deterioration',
-      'Adapted core concepts from University of Florida\'s FreshID project to low-cost constraints',
-      'Evaluated simulated hyperspectral signatures and biochemical markers for freshness tracking',
-      'Designed and presented research poster before academic panel of judges',
+      'Formulated an independent, simulation-based research framework using Python for post-harvest produce deterioration, adapting core concepts from the University of Florida\'s FreshID project to lowcost constraints.',
+      'Evaluated simulated hyperspectral signatures and biochemical markers to track produce freshness, presenting empirical findings via a technical poster to an academic panel ',
     ],
     skills: ['Python', 'Data Modeling', 'Hyperspectral Imaging', 'Research', 'Scikit-learn'],
-    logo: 'https://via.placeholder.com/64?text=Scientific+Caribbean',
+    logo: '/Scientific-Caribbean-Foundation-logo.png',
   },
 ];
 
@@ -120,7 +120,7 @@ export const research: Research[] = [
     id: 'swappable-battery',
     title: 'Swappable Battery',
     organization: 'EMi Lab',
-    date: 'Coming Soon',
+    date: 'July 2026',
     summary: 'Research into swappable battery architectures for electric vehicles and e-mobility applications, exploring digital twin models and battery management systems.',
     methodology: 'Literature review on digital twin models for BMS, analysis of swappable battery standards, and technical report authoring on viability for EV use cases.',
     outcome: 'Coming Soon — ongoing research at EMi Lab.',
@@ -167,7 +167,7 @@ export const skillClusters: SkillCluster[] = [
       { name: 'NumPy', proficiency: 'intermediate', cluster: 'ml' },
       { name: 'Pandas', proficiency: 'intermediate', cluster: 'ml' },
       { name: 'Matplotlib', proficiency: 'intermediate', cluster: 'ml' },
-      { name: 'Hyperspectral Imaging', proficiency: 'intermediate', cluster: 'ml' },
+      { name: 'Hyperspectral Imaging', proficiency: 'novice', cluster: 'ml' },
       { name: 'TensorFlow', proficiency: 'novice', cluster: 'ml' },
     ],
   },
@@ -187,12 +187,10 @@ export const skillClusters: SkillCluster[] = [
     label: 'Embedded Systems',
     color: '#0088ff',
     skills: [
-      { name: 'C Programming', proficiency: 'intermediate', cluster: 'embedded' },
+      { name: 'Python Programming', proficiency: 'intermediate', cluster: 'embedded' },
       { name: 'C/C++', proficiency: 'novice', cluster: 'embedded' },
       { name: 'ESP32', proficiency: 'novice', cluster: 'embedded' },
       { name: 'mmWave Radar', proficiency: 'novice', cluster: 'embedded' },
-      { name: 'RTOS', proficiency: 'novice', cluster: 'embedded' },
-      { name: 'Circuit Logic', proficiency: 'novice', cluster: 'embedded' },
     ],
   },
   {
@@ -206,8 +204,6 @@ export const skillClusters: SkillCluster[] = [
       { name: 'Simscape Battery Onramp', proficiency: 'novice', cluster: 'power' },
       { name: 'Battery Thermal Management', proficiency: 'intermediate', cluster: 'power' },
       { name: 'Battery State Estimation', proficiency: 'novice', cluster: 'power' },
-      { name: 'Circuit Design', proficiency: 'novice', cluster: 'power' },
-      { name: 'KiCad', proficiency: 'novice', cluster: 'power' },
     ],
   },
   {
@@ -219,7 +215,7 @@ export const skillClusters: SkillCluster[] = [
       { name: 'TypeScript', proficiency: 'intermediate', cluster: 'web' },
       { name: 'Three.js', proficiency: 'novice', cluster: 'web' },
       { name: 'Tailwind', proficiency: 'intermediate', cluster: 'web' },
-      { name: 'Streamlit', proficiency: 'intermediate', cluster: 'web' },
+      { name: 'Streamlit', proficiency: 'novice', cluster: 'web' },
     ],
   },
   {
@@ -229,7 +225,6 @@ export const skillClusters: SkillCluster[] = [
     skills: [
       { name: 'Git', proficiency: 'novice', cluster: 'tools' },
       { name: 'GitHub', proficiency: 'intermediate', cluster: 'tools' },
-      { name: 'VS Code', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'PyAutoGUI', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'Selenium', proficiency: 'intermediate', cluster: 'tools' },
       { name: 'OpenCV', proficiency: 'intermediate', cluster: 'tools' },
@@ -298,6 +293,7 @@ export interface Project {
   techStack: string[];
   details: string;
   githubLink?: string;
+  githubLinks?: Record<string, string>;
   liveLink?: string;
   thumbnail?: string;
 }

@@ -182,7 +182,22 @@ export default function RecruiterMode() {
                 </div>
                 {(proj.githubLink || proj.liveLink) && (
                   <div className="flex gap-2">
-                    {proj.githubLink && (
+                    {proj.githubLinks ? (
+                      Object.entries(proj.githubLinks).map(([name, url]) => (
+                        <a
+                          key={name}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-green-400 hover:text-green-300 text-sm transition-colors"
+                        >
+                        <Github size={14} />
+                        {name === 'jarvisAutomation' ? 'Jarvis' :
+                         name === 'jutsuCode' ? 'Jutsu' :
+                         name === 'mscSignup' ? 'MSC Signup' : name}
+                      </a>
+                    ))
+                  ) : proj.githubLink && (
                       <a
                         href={proj.githubLink}
                         target="_blank"
@@ -322,9 +337,9 @@ export default function RecruiterMode() {
           <div className="space-y-4">
             {[
               {
-                role: 'Treasurer',
-                org: 'Interact Club',
-                detail: 'Managed budgets and financial records over R5000+ for community fundraising reaching multiple local organizations. 1 of 4 Board Members organizing events, running meetings and participated in various service events.',
+                role: 'Class Representative',
+                org: 'EEE1008 - Electrical Engineering',
+                detail: ' Elected 1 of 6 class representatives for a 170-student cohort; relayed student concerns to the TA, driving timely resolution and communication.',
               },
               {
                 role: 'Student Wellness and Leadership',
@@ -332,9 +347,9 @@ export default function RecruiterMode() {
                 detail: 'Represented the student body as 1 of 9 in school governance, contributing to welfare and leadership initiatives. Organized mental health and wellness events along with counsellor; mentored cohort of class representatives.',
               },
               {
-                role: 'Class Representative',
-                org: 'EEE1008 — Electrical Engineering',
-                detail: 'Elected class representative for EEE1008 at UCT, facilitating communication between students and the course lecturer.',
+                role: 'Treasurer',
+                org: 'Interact Club',
+                detail: 'Managed budgets and financial records over R5000+ for community fundraising reaching multiple local organizations. 1 of 4 Board Members organizing events, running meetings and participated in various service events.',
               },
             ].map((item) => (
               <motion.div

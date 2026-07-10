@@ -5,6 +5,7 @@ export interface Project {
   shortDescription: string;
   techStack: string[];
   githubLink?: string;
+  githubLinks?: Record<string, string>;
   liveLink?: string;
   logo?: string;
   thumbnail?: string;

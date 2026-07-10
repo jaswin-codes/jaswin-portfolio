@@ -323,7 +323,21 @@ export default function ProjectsSection() {
 
                 {/* Links */}
                 <div className="flex gap-3">
-                  {project.githubLink && (
+                  {project.githubLinks ? (
+                    Object.entries(project.githubLinks).map(([name, url]) => (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold transition-colors"
+                        style={{ backgroundColor: 'rgba(0,255,136,0.1)', borderColor: '#00ff88', color: '#00ff88' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.25)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.1)')}
+                      >
+                        <Github size={16} />
+                        {name === 'jarvisAutomation' ? 'Jarvis' :
+                         name === 'jutsuCode' ? 'Jutsu' :
+                         name === 'mscSignup' ? 'MSC Signup' : name}
+                     </a>
+                   ))
+                  ) : project.githubLink && (
                     <a href={project.githubLink} target="_blank" rel="noopener noreferrer"
                       className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold transition-colors"
                       style={{ backgroundColor: 'rgba(0,255,136,0.1)', borderColor: '#00ff88', color: '#00ff88' }}
