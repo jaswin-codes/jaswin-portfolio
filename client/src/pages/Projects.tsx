@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '@/data/portfolioData';
 import { X, Github, ExternalLink } from 'lucide-react';
 import { Mesh } from 'three';
+import { Project } from '@/types/portfolio';
 
 // ── Individual project screen mesh ──────────────────────────────────────────
 function ProjectScreen({
@@ -110,9 +111,10 @@ function ProjectScreen({
 // ── Main Projects section ────────────────────────────────────────────────────
 export default function ProjectsSection() {
   const [, setLocation] = useLocation();
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
+  const project = selectedProject ? selectedProject : null;
 
   const screenData = [
     { id: 'afriguard',    position: [-3.5, 0.2, -4.5] as [number,number,number], rotation: [0, Math.PI / 8, 0] as [number,number,number] },
@@ -176,9 +178,10 @@ export default function ProjectsSection() {
               position={s.position}
               rotation={s.rotation}
               label={proj?.name || s.id}
-              isSelected={selectedProject === s.id}
+              isSelected= {selectedProjectId === s.id}
               onSelect={(id) => {
-                setSelectedProject((prev) => (prev === id ? null : id));
+                setSelectedProjectId((prev) => (prev === id ? null : id));
+                setSelectedProject(proj || null);
               }}
             />
           );
@@ -208,6 +211,91 @@ export default function ProjectsSection() {
           <pointLight position={[0, 0.5, 0.3]} intensity={1.5} color="#00ff88" distance={4} />
         </group>
       </Canvas>
+      {selectedProject && (
+  <div 
+    className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 md:p-8"
+    onClick={() => setSelectedProject(null)}
+  >
+    <div 
+      className="bg-[#0f1720] border border-green-500/25 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Close button */}
+      <button 
+        onClick={() => setSelectedProject(null)}
+        className="absolute top-4 right-5 text-green-400 hover:text-green-300 text-2xl leading-none"
+      >
+        ✕
+      </button>
+
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-white mb-2">{selectedProject.name}</h2>
+      <p className="text-green-400 text-sm mb-6">{selectedProject.shortDescription}</p>
+
+      {/* Description / Details */}
+      <div className="text-gray-300 text-sm leading-relaxed mb-6 whitespace-pre-line">
+        {selectedProject.details}
+      </div>
+
+      {/* Tech Stack */}
+      <div className="mb-6">
+        <p className="text-white text-xs font-semibold uppercase tracking-wider mb-3">Tech Stack</p>
+        <div className="flex flex-wrap gap-2">
+          {selectedProject.techStack.map((tech) => (
+            <span 
+              key={tech}
+              className="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-md border border-green-500/20"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links */}
+      <div>
+        <p className="text-white text-xs font-semibold uppercase tracking-wider mb-3">Links</p>
+        <div className="flex flex-wrap gap-3">
+          {selectedProject.githubLinks ? (
+            Object.entries(selectedProject.githubLinks).map(([name, url]) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 text-sm rounded-lg border border-green-500/25 hover:bg-green-500/20 transition-colors"
+              >
+                <Github size={16} />
+                {name === 'jarvisAutomation' ? 'Jarvis' :
+                 name === 'jutsuCode' ? 'Jutsu' :
+                 name === 'mscSignup' ? 'MSC Signup' : name}
+              </a>
+            ))
+          ) : selectedProject.githubLink && (
+            <a
+              href={selectedProject.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 text-sm rounded-lg border border-green-500/25 hover:bg-green-500/20 transition-colors"
+            >
+              <Github size={16} /> GitHub
+            </a>
+          )}
+          {selectedProject.liveLink && (
+            <a
+              href={selectedProject.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-400 text-sm rounded-lg border border-blue-500/25 hover:bg-blue-500/20 transition-colors"
+            >
+              <ExternalLink size={16} /> Live Demo
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Back Button */}
       <motion.button

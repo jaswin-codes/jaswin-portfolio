@@ -3,10 +3,13 @@ import { useAppStore } from '@/stores/appStore';
 import { motion } from 'framer-motion';
 import { projects, experiences, research, achievements, skillClusters, businessCards } from '@/data/portfolioData';
 import { Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import { Project } from '@/types/portfolio';
 
 export default function RecruiterMode() {
   const setMode = useAppStore((state) => state.setMode);
   const setShowContactForm = useAppStore((state) => state.setShowContactForm);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -165,7 +168,8 @@ export default function RecruiterMode() {
               <motion.div
                 key={proj.id}
                 variants={itemVariants}
-                className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors"
+                className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors cursor-pointer group"
+                onClick={() => setSelectedProject(proj)}
               >
                 <h3 className="text-lg font-bold text-white mb-2">{proj.name}</h3>
                 <p className="text-green-400 text-sm mb-3">{proj.shortDescription}</p>
@@ -225,6 +229,91 @@ export default function RecruiterMode() {
             ))}
           </div>
         </motion.section>
+        {selectedProject && (
+  <div 
+    className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 md:p-8"
+    onClick={() => setSelectedProject(null)}
+  >
+    <div 
+      className="bg-[#0f1720] border border-green-500/25 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Close button */}
+      <button 
+        onClick={() => setSelectedProject(null)}
+        className="absolute top-4 right-5 text-green-400 hover:text-green-300 text-2xl leading-none"
+      >
+        ✕
+      </button>
+
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-white mb-2">{selectedProject.name}</h2>
+      <p className="text-green-400 text-sm mb-6">{selectedProject.shortDescription}</p>
+
+      {/* Description / Details */}
+      <div className="text-gray-300 text-sm leading-relaxed mb-6 whitespace-pre-line">
+        {selectedProject.details}
+      </div>
+
+      {/* Tech Stack */}
+      <div className="mb-6">
+        <p className="text-white text-xs font-semibold uppercase tracking-wider mb-3">Tech Stack</p>
+        <div className="flex flex-wrap gap-2">
+          {selectedProject.techStack.map((tech) => (
+            <span 
+              key={tech}
+              className="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-md border border-green-500/20"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links */}
+      <div>
+        <p className="text-white text-xs font-semibold uppercase tracking-wider mb-3">Links</p>
+        <div className="flex flex-wrap gap-3">
+          {selectedProject.githubLinks ? (
+            Object.entries(selectedProject.githubLinks).map(([name, url]) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 text-sm rounded-lg border border-green-500/25 hover:bg-green-500/20 transition-colors"
+              >
+                <Github size={16} />
+                {name === 'jarvisAutomation' ? 'Jarvis' :
+                 name === 'jutsuCode' ? 'Jutsu' :
+                 name === 'mscSignup' ? 'MSC Signup' : name}
+              </a>
+            ))
+          ) : selectedProject.githubLink && (
+            <a
+              href={selectedProject.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 text-sm rounded-lg border border-green-500/25 hover:bg-green-500/20 transition-colors"
+            >
+              <Github size={16} /> GitHub
+            </a>
+          )}
+          {selectedProject.liveLink && (
+            <a
+              href={selectedProject.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-400 text-sm rounded-lg border border-blue-500/25 hover:bg-blue-500/20 transition-colors"
+            >
+              <ExternalLink size={16} /> Live Demo
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
         {/* Research Section */}
         <motion.section variants={itemVariants} className="space-y-4">

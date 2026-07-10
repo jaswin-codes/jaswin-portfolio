@@ -67,7 +67,7 @@ export const experiences: Experience[] = [
     description: '',
     bulletPoints: [
       'Built foundational skills in MATLAB coursework covering Battery Management system modeling, cell balancing, and state-of-health tracking via Simulink and Simscape simulations in a team of 5 members',
-      'Authored a technical report on swappable battery architectures through academic literature reviews to propose 1 infrastructure configuration out of 4 for modular electric tuk-tuks',
+      'Authored a technical report on swappable battery architectures through academic literature reviews to propose an infrastructure configuration for modular electric tuk-tuks',
     ],
     skills: ['BMS', 'Digital Twin', 'Battery Management', 'Technical Writing', 'EV Systems', 'MATLAB', 'Simulink', 'Simscape'],
     logo: '/emi-lab-logo.png',
