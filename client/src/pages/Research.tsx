@@ -14,6 +14,8 @@ interface ResearchComponent {
 const researchComponents: ResearchComponent[] = [
   { id: 'hyperspectral',     position: { x: 30, y: 38 }, title: 'Hyperspectral Imaging', color: '#00ff88' },
   { id: 'swappable-battery', position: { x: 68, y: 62 }, title: 'Swappable Battery',    color: '#ffaa00' },
+  { id: 'digital-minds',     position: { x: 72, y: 26 }, title: 'LLM Self-Access',      color: '#00ccff' },
+  { id: 'evidence-before-erasure', position: { x: 28, y: 72 }, title: 'Evidence Before Erasure', color: '#ff66cc' },
 ];
 
 export default function ResearchSection() {

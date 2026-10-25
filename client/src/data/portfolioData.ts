@@ -1,6 +1,6 @@
 // ─── Static asset URLs (uploaded via manus-upload-file --webdev) ───────────────
 export const RESUME_URL = '/resume.pdf';
-export const RESEARCH_POSTER_URL = '/research-poster.png';
+export const RESEARCH_POSTER_URL = '/research-poster.webp';
 
 export const projects: Project[] = [
   {
@@ -33,7 +33,6 @@ Created an interactive Streamlit dashboard for exploring results by model, langu
 Using the research I did on simulated hyperspectral signatures, I am building a low-cost hardware sensor system that can detect post-harvest freshness in fruits and vegetables before visible spoilage appears.
 
 The goal is to translate the simulation findings (Red-edge at 760nm, NIR at 1100nm as key freshness indicators) into a portable, real-world device accessible without lab equipment.`,
-    githubLink: 'https://github.com/jaswin-codes',
     thumbnail: RESEARCH_POSTER_URL,
   },
   {
@@ -126,6 +125,32 @@ export const research: Research[] = [
     outcome: 'Coming Soon — ongoing research at EMi Lab.',
     skills: ['BMS', 'Digital Twin', 'Battery Management', 'EV Systems', 'Technical Writing'],
     assets: {},
+  },
+  {
+    id: 'digital-minds',
+    title: 'Privileged Self-Access in LLMs',
+    organization: 'Apart Research · Digital Minds Sprint',
+    date: 'August 2026',
+    summary: '"Beaten by a Cheap Surface Classifier: A Capability-Controlled Test of Privileged Self-Access", with Ubayd Hattas. Asks whether an LLM predicting its own behaviour reflects real self-access, or whether an outside observer reading the same text does just as well.',
+    methodology: 'Compared model self-predictions against capability-matched model observers and a 21-feature surface classifier, with controls to separate self-prediction from stylistic cues. Reproducible generation and prediction runners on the OpenRouter API with checkpointing.',
+    outcome: 'The surface classifier matched or beat self-prediction in 6 of 10 conditions (pilot accuracy tracked it at r = +0.71), so privileged self-access was not demonstrated.',
+    skills: ['Python', 'LLM Evaluation', 'Experimental Design', 'Interpretability', 'Reproducibility'],
+    assets: {
+      paper: 'https://github.com/UbaJaz/Digital_Minds_Research',
+    },
+  },
+  {
+    id: 'evidence-before-erasure',
+    title: 'Evidence Before Erasure',
+    organization: 'Apart Research × CeSIA · AI Incident Response Sprint',
+    date: 'September 2026',
+    summary: 'Team of 5. Tests whether naive periodic snapshotting loses more critical evidence than a budget-matched, event-driven collector, using the Collusion Wiki: a real trace of AI agents sharing answers on a dormant wiki during evaluations.',
+    methodology: 'Frozen, independently audited stages: a pinned data loader, a state-reconstruction engine, four collection policies and a 65-proposition human-adjudicated benchmark. My part: manifest and runtime-scope integration, benchmark context integration and the final report.',
+    outcome: 'A clean null result at 1 MiB capacity: neither policy kept any of the 23 held-out critical propositions. Reported openly, along with a run that timed out.',
+    skills: ['Python', 'AI Safety', 'Benchmark Design', 'Incident Response', 'Research Engineering'],
+    assets: {
+      paper: 'https://github.com/ubayd-hattas/AI_Incident',
+    },
   },
 ];
 
