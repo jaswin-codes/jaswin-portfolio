@@ -12,8 +12,9 @@ interface ResearchComponent {
 }
 
 const researchComponents: ResearchComponent[] = [
-  { id: 'hyperspectral',     position: { x: 30, y: 38 }, title: 'Hyperspectral Imaging', color: '#00ff88' },
-  { id: 'swappable-battery', position: { x: 68, y: 62 }, title: 'Swappable Battery',    color: '#ffaa00' },
+  { id: 'digital-minds',     position: { x: 26, y: 34 }, title: 'Digital Minds Sprint', color: '#ff0088' },
+  { id: 'hyperspectral',     position: { x: 72, y: 36 }, title: 'Produce Freshness',    color: '#00ff88' },
+  { id: 'swappable-battery', position: { x: 50, y: 68 }, title: 'Swappable Batteries',  color: '#ffaa00' },
 ];
 
 export default function ResearchSection() {
@@ -79,15 +80,16 @@ export default function ResearchSection() {
 
         {/* PCB Traces connecting components */}
         <svg className="absolute inset-0 w-full h-full opacity-25 pointer-events-none">
-          <line x1="28%" y1="40%" x2="72%" y2="55%" stroke="#00ff88" strokeWidth="2" strokeDasharray="8 4" />
-          <circle cx="28%" cy="40%" r="3" fill="#00ff88" />
-          <circle cx="72%" cy="55%" r="3" fill="#ff0088" />
-          <circle cx="50%" cy="47.5%" r="5" fill="none" stroke="#00ff88" strokeWidth="1" />
+          <line x1="26%" y1="34%" x2="72%" y2="36%" stroke="#00ff88" strokeWidth="2" strokeDasharray="8 4" />
+          <line x1="72%" y1="36%" x2="50%" y2="68%" stroke="#ffaa00" strokeWidth="2" strokeDasharray="8 4" />
+          <line x1="50%" y1="68%" x2="26%" y2="34%" stroke="#ff0088" strokeWidth="2" strokeDasharray="8 4" />
+          <circle cx="26%" cy="34%" r="3" fill="#ff0088" />
+          <circle cx="72%" cy="36%" r="3" fill="#00ff88" />
+          <circle cx="50%" cy="68%" r="3" fill="#ffaa00" />
           {/* Extra traces */}
-          <line x1="5%" y1="50%" x2="28%" y2="40%" stroke="#00ff88" strokeWidth="1.5" opacity="0.5" />
-          <line x1="72%" y1="55%" x2="95%" y2="45%" stroke="#ff0088" strokeWidth="1.5" opacity="0.5" />
-          <line x1="28%" y1="40%" x2="20%" y2="80%" stroke="#00ff88" strokeWidth="1" opacity="0.3" />
-          <line x1="72%" y1="55%" x2="80%" y2="20%" stroke="#ff0088" strokeWidth="1" opacity="0.3" />
+          <line x1="5%" y1="40%" x2="26%" y2="34%" stroke="#ff0088" strokeWidth="1.5" opacity="0.5" />
+          <line x1="72%" y1="36%" x2="95%" y2="45%" stroke="#00ff88" strokeWidth="1.5" opacity="0.5" />
+          <line x1="50%" y1="68%" x2="50%" y2="95%" stroke="#ffaa00" strokeWidth="1" opacity="0.3" />
         </svg>
 
         {/* Research Component Chips */}
@@ -107,7 +109,7 @@ export default function ResearchSection() {
           >
             {/* Chip body */}
             <motion.div
-              className="w-44 h-28 rounded-lg flex flex-col items-center justify-center relative overflow-hidden border-2"
+              className="w-36 h-24 md:w-44 md:h-28 rounded-lg flex flex-col items-center justify-center relative overflow-hidden border-2"
               style={{ borderColor: comp.color, backgroundColor: 'rgba(0,0,0,0.85)' }}
               animate={{
                 boxShadow: selectedResearch === comp.id
@@ -256,6 +258,17 @@ export default function ResearchSection() {
 
                   {/* Asset links */}
                   <div className="flex flex-wrap gap-3 pt-2">
+                    {selectedItem.link && (
+                      <a
+                        href={selectedItem.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold"
+                        style={{ backgroundColor: 'rgba(255,0,136,0.1)', borderColor: '#ff0088', color: '#ff0088' }}
+                      >
+                        <FileText size={15} /> GitHub
+                      </a>
+                    )}
                     {selectedItem.assets?.poster && (
                       <button
                         onClick={() => setShowPoster(true)}

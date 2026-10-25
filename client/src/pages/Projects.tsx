@@ -75,6 +75,8 @@ function ProjectScreen({
       <Text
         position={[0, 0.25, 0.09]}
         fontSize={0.18}
+        maxWidth={2}
+        textAlign="center"
         color={hovered || isSelected ? '#00ff88' : '#00aa55'}
         anchorX="center"
         anchorY="middle"
@@ -85,13 +87,13 @@ function ProjectScreen({
 
       {/* "CLICK TO VIEW" hint */}
       <Text
-        position={[0, -0.1, 0.09]}
+        position={[0, -0.35, 0.09]}
         fontSize={0.1}
         color={hovered ? '#00ff88' : '#004422'}
         anchorX="center"
         anchorY="middle"
       >
-        {hovered ? '[ CLICK TO VIEW ]' : '[ HOVER TO INTERACT ]'}
+        {hovered ? '[ CLICK TO VIEW ]' : '[ OPEN ]'}
       </Text>
 
       {/* Glow light when hovered */}
@@ -114,22 +116,28 @@ export default function ProjectsSection() {
 
   const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
 
-  const screenData = [
-    { id: 'afriguard',    position: [-3.5, 0.2, -4.5] as [number,number,number], rotation: [0, Math.PI / 8, 0] as [number,number,number] },
-    { id: 'hyperspectral', position: [0, 0.2, -5.5] as [number,number,number], rotation: [0, 0, 0] as [number,number,number] },
-    { id: 'vibecoded',   position: [3.5, 0.2, -4.5] as [number,number,number], rotation: [0, -Math.PI / 8, 0] as [number,number,number] },
-  ];
+  // Screens sit on an arc facing the camera, so any number of projects fits
+  const screenData = projects.map((p, i) => {
+    const angle = (i - (projects.length - 1) / 2) * 0.42;
+    return {
+      id: p.id,
+      position: [Math.sin(angle) * 6, 0.2, 1 - Math.cos(angle) * 6] as [number, number, number],
+      rotation: [0, -angle, 0] as [number, number, number],
+    };
+  });
+  // Pull the camera back on narrow (portrait) screens so the arc stays in view
+  const cameraZ = typeof window !== 'undefined' && window.innerWidth < window.innerHeight ? 9 : 4;
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
       <Canvas className="w-full h-full">
-        <PerspectiveCamera makeDefault position={[0, 0.5, 4]} fov={70} />
+        <PerspectiveCamera makeDefault position={[0, 0.5, cameraZ]} fov={70} />
         <OrbitControls
           enableZoom={true}
           enablePan={false}
           minDistance={2}
-          maxDistance={8}
+          maxDistance={12}
           maxPolarAngle={Math.PI * 0.65}
         />
 
@@ -244,8 +252,8 @@ export default function ProjectsSection() {
         style={{ backgroundColor: 'rgba(0,0,0,0.7)', borderColor: '#00ff8840', color: '#00ff88', fontFamily: "'JetBrains Mono', monospace", backdropFilter: 'blur(8px)' }}
       >
         <p className="font-bold mb-1">CONTROLS</p>
-        <p>• Hover + click screens to view projects</p>
-        <p>• Drag to rotate · Scroll to zoom</p>
+        <p>• Click or tap a screen to open a project</p>
+        <p>• Drag to look around · Scroll or pinch to zoom</p>
       </motion.div>
 
       {/* Project Detail Modal */}
@@ -304,13 +312,25 @@ export default function ProjectsSection() {
                   {project.shortDescription}
                 </p>
 
+                <p className="text-xs mb-4 text-gray-400" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  {project.period} · {project.role}
+                  {project.status === 'in-progress' && <span className="ml-2 text-amber-400">IN PROGRESS</span>}
+                </p>
+
                 <div className="text-gray-300 text-sm leading-relaxed mb-5 whitespace-pre-line">
-                  {project.details.split('**Coming Soon:**').map((part, i) =>
-                    i === 0 ? part : (
-                      <span key={i}><strong className="text-green-400 font-bold">Coming Soon:</strong>{part}</span>
-                    )
-                  )}
+                  {project.details}
                 </div>
+
+                {project.images && (
+                  <div className="grid grid-cols-1 gap-3 mb-5">
+                    {project.images.map((img) => (
+                      <a key={img.src} href={img.src} target="_blank" rel="noopener noreferrer" className="block">
+                        <img src={img.src} alt={img.caption} loading="lazy" className="w-full rounded border bg-white" style={{ borderColor: '#00ff8840' }} />
+                        <p className="text-xs text-gray-400 mt-1">{img.caption}</p>
+                      </a>
+                    ))}
+                  </div>
+                )}
 
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mb-5">

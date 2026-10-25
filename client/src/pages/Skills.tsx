@@ -36,11 +36,11 @@ const createInitialMagnetPositions = (width: number, height: number): Record<str
 });
 
 const roleMagnets = [
-  { id: 'embedded', label: 'Embedded Intern', color: '#0088ff' },
-  { id: 'ml', label: 'ML Research', color: '#00ff88' },
+  { id: 'embedded', label: 'Electronics', color: '#0088ff' },
+  { id: 'ml', label: 'Data & ML', color: '#00ff88' },
   { id: 'ai-safety', label: 'AI Safety', color: '#ff0088' },
-  { id: 'web', label: 'Full-Stack', color: '#ff6600' },
-  { id: 'power', label: 'Power / Energy', color: '#ffaa00' },
+  { id: 'web', label: 'Web', color: '#ff6600' },
+  { id: 'power', label: 'Power / EV', color: '#ffaa00' },
   { id: 'tools', label: 'Tools', color: '#cccccc' },
 ];
 
