@@ -1,5 +1,9 @@
 # Jaswin Chinthala - Interactive Portfolio Website
 
+**Live: [jaswin.me](https://jaswin.me)**
+
+![The 3D ESP32 hub on the landing page](docs/landing.jpg)
+
 A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents Jaswin's (my) work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
 
 ## What The Site Does
@@ -27,8 +31,8 @@ A 3D room with three wall-mounted project screens. Hover highlights a screen and
 | Project | Status | Links |
 |---|---|---|
 | AfriGuard | Complete | GitHub + live dashboard |
-| Hyperspectral Freshness | Coming Soon | GitHub placeholder |
-| Vibecoded | Complete | GitHub placeholder |
+| Hyperspectral Freshness | Coming Soon | Repo coming with the hardware build |
+| Vibecoded | Complete | jarvis-automation, jutsu_code_stage1, msc_signup |
 
 **About Me - Business Card Stack**
 An animated card carousel with Previous/Next controls and dot indicators. The cards are centered and ordered as name, education, interests, research focus, LinkedIn, GitHub, location, and connect.
@@ -43,6 +47,8 @@ A top-down PCB scene with research chips. Press `E` near a chip to open the deta
 |---|---|
 | Hyperspectral Imaging | Complete |
 | Swappable Battery | Coming Soon |
+| LLM Self-Access (Apart Digital Minds sprint) | Complete |
+| Evidence Before Erasure (Apart × CeSIA sprint) | Complete |
 
 **Skills - Magnetic Field Simulator**
 Draggable role magnets move around a full-screen magnetic field with skill bubbles distributed across the viewport. The field includes Machine Learning, AI Safety, Embedded Systems, Power / Energy, Web Dev, and Tools clusters. Skill bubbles show proficiency levels and remain interactive while dragging magnets.
@@ -117,7 +123,7 @@ drizzle/
 | Asset | Path |
 |---|---|
 | CV / Resume PDF | `/resume.pdf` |
-| Research Poster PNG | `/research-poster.png` |
+| Research Poster PNG | `/research-poster.webp` |
 | AfriGuard Logo | `/afriguard-logo.png` |
 
 These files are served from `client/public` and referenced from `client/src/data/portfolioData.ts`.
@@ -138,7 +144,7 @@ These files are served from `client/public` and referenced from `client/src/data
 | message | text | Free-form message |
 | createdAt | timestamp | Auto-set on insert |
 
-## Development
+## Run locally
 
 ```bash
 pnpm install
@@ -153,3 +159,7 @@ pnpm db:push      # Generate and apply Drizzle migrations
 - The app now uses local public assets for the resume and poster instead of Manus storage URLs.
 - The three 3D section worlds are Projects, Skills, and Achievements, with the remaining content available through the other section pages and Recruiter Mode.
 - The current layout keeps the design consistent across the immersive mode and the recruiter mode without adding new visual systems.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
