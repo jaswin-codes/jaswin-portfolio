@@ -21,6 +21,8 @@ export default function Landing() {
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
   const [namePosition, setNamePosition] = useState<'center' | 'top'>('center');
   const nameTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // Portrait phones need the camera further back so the whole board fits
+  const isPortrait = typeof window !== 'undefined' && window.innerWidth < window.innerHeight;
 
   useEffect(() => {
     if (!isIntroComplete) {
@@ -81,8 +83,8 @@ export default function Landing() {
     <div className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
       <Canvas className="w-full h-full">
-        <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={75} />
-        <OrbitControls enableZoom={true} enablePan={true} autoRotate={false} />
+        <PerspectiveCamera makeDefault position={[0, 0, isPortrait ? 6.5 : 4]} fov={75} />
+        <OrbitControls enableZoom={true} enablePan={false} autoRotate={false} minDistance={2.5} maxDistance={10} />
         
         <color attach="background" args={['#000000']} />
         
@@ -112,12 +114,12 @@ export default function Landing() {
           animate={{
             opacity: 1,
             y: 0,
-            ...(namePosition === 'top' && { y: -200 })
+            ...(namePosition === 'top' && { y: '-34vh' })
           }}
           transition={{ duration: namePosition === 'top' ? 1.0 : 0.6 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <h1 className="text-6xl md:text-7xl font-bold text-center text-white" style={{
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-center text-white px-4" style={{
             fontFamily: "'Space Grotesk', sans-serif",
             textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
           }}>
@@ -149,13 +151,13 @@ export default function Landing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute bottom-20 md:bottom-8 left-1/2 transform -translate-x-1/2 z-10 w-max max-w-[90vw]"
         >
           <p className="text-green-400 text-center" style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: '14px',
           }}>
-            click a component to explore →
+            tap or click a part of the board to explore
           </p>
         </motion.div>
       )}
@@ -185,7 +187,7 @@ export default function Landing() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute top-8 right-8 z-10"
+          className="absolute top-4 right-4 md:top-8 md:right-8 z-10"
         >
           <Button
             onClick={() => {

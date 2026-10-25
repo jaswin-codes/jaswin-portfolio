@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { useSpring, animated } from '@react-spring/three';
+import { Text } from '@react-three/drei';
 
 interface ESP32ModelProps {
   isIntroAnimating: boolean;
@@ -92,20 +93,24 @@ export const ESP32Model = ({
     const handleMouseMove = () => {
       rotationRef.current.lastInteractionTime = Date.now();
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handleMouseMove);
+    window.addEventListener('pointerdown', handleMouseMove);
+    return () => {
+      window.removeEventListener('pointermove', handleMouseMove);
+      window.removeEventListener('pointerdown', handleMouseMove);
+    };
   }, []);
 
   // ── LED emissive intensity ──────────────────────────────────────────────────
   const ledIntensity = exploding ? 8 : introPhase === 'blink' ? (ledOn ? 2 : 0.05) : 0.3;
 
   const components = [
-    { id: 'esp-wroom',    label: 'ESP-WROOM-32',  position: [0, 0, 0.15] as [number,number,number],      size: [0.8, 0.6, 0.1] as [number,number,number] },
-    { id: 'usb-port',     label: 'USB-PORT',       position: [-1.5, 0, 0.1] as [number,number,number],    size: [0.3, 0.2, 0.15] as [number,number,number] },
-    { id: 'voltage-reg',  label: 'AMS1117-3.3',    position: [1.2, -0.8, 0.08] as [number,number,number], size: [0.25, 0.2, 0.08] as [number,number,number] },
-    { id: 'cp2102',       label: 'CP2102',         position: [-1.2, -0.8, 0.08] as [number,number,number],size: [0.3, 0.25, 0.08] as [number,number,number] },
-    { id: 'gpio-pins',    label: 'GPIO PINS',      position: [0, 1.5, 0.05] as [number,number,number],    size: [2.5, 0.15, 0.08] as [number,number,number] },
-    { id: 'crystal',      label: '40MHz XTAL',     position: [0.8, 0.6, 0.08] as [number,number,number],  size: [0.2, 0.2, 0.08] as [number,number,number] },
+    { id: 'esp-wroom',    section: 'PROJECTS',     label: 'ESP-WROOM-32',  position: [0, 0, 0.15] as [number,number,number],      size: [0.8, 0.6, 0.1] as [number,number,number] },
+    { id: 'usb-port',     section: 'ABOUT',        label: 'USB-PORT',       position: [-1.5, 0, 0.1] as [number,number,number],    size: [0.3, 0.2, 0.15] as [number,number,number] },
+    { id: 'voltage-reg',  section: 'EXPERIENCE',   label: 'AMS1117-3.3',    position: [1.2, -0.8, 0.08] as [number,number,number], size: [0.25, 0.2, 0.08] as [number,number,number] },
+    { id: 'cp2102',       section: 'RESEARCH',     label: 'CP2102',         position: [-1.2, -0.8, 0.08] as [number,number,number],size: [0.3, 0.25, 0.08] as [number,number,number] },
+    { id: 'gpio-pins',    section: 'SKILLS',       label: 'GPIO PINS',      position: [0, 1.5, 0.05] as [number,number,number],    size: [2.5, 0.15, 0.08] as [number,number,number] },
+    { id: 'crystal',      section: 'ACHIEVEMENTS', label: '40MHz XTAL',     position: [0.8, 0.6, 0.08] as [number,number,number],  size: [0.2, 0.2, 0.08] as [number,number,number] },
   ];
 
   return (
@@ -147,6 +152,18 @@ export const ESP32Model = ({
               emissiveIntensity={hoveredComponent === comp.id ? 0.6 : 0}
             />
           </mesh>
+          {/* silkscreen label so touch users can see what each part opens */}
+          {introPhase === 'settle' && (
+            <Text
+              position={[comp.position[0], comp.position[1] - comp.size[1] / 2 - 0.09, 0.07]}
+              fontSize={0.085}
+              color={hoveredComponent === comp.id ? '#00ff88' : '#e8f5e9'}
+              anchorX="center"
+              anchorY="middle"
+            >
+              {comp.section}
+            </Text>
+          )}
           {/* flag dot above component */}
           <mesh position={[comp.position[0], comp.position[1], comp.position[2] + 0.3]}>
             <sphereGeometry args={[0.04, 8, 8]} />
