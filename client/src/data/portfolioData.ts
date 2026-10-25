@@ -7,17 +7,15 @@ export const projects: Project[] = [
     id: 'afriguard',
     name: 'AfriGuard',
     description: 'Multilingual Safety Red-Teaming for South African Languages',
-    shortDescription: 'First comprehensive red-teaming framework for South African languages created by my team and I',
+    shortDescription: 'Red-teaming dataset and auditable scoring pipeline for South African languages, built with my team',
     techStack: ['Python', 'AI Safety', 'Red Teaming', 'LLM Evaluation', 'Streamlit'],
-    details: `First comprehensive red-teaming evaluation framework targeting safety vulnerabilities in South African languages. Evaluated four frontier LLMs (GPT-OSS, Llama 3.3, Kimi K2.6, Qwen 3) across seven languages — English, isiZulu, isiXhosa, Afrikaans, Sesotho, Sepedi, and Tsonga.
+    details: `A regional red-teaming dataset and evaluation pipeline for South African languages, built by a team of 4 at the Global South AI Safety Hackathon (Cape Town Hub, June 2026). We tested four frontier LLMs (GPT-OSS, Llama 3.3, Kimi K2.6, Qwen 3) across seven languages: English, isiZulu, isiXhosa, Afrikaans, Sesotho, Sepedi and Tsonga.
 
-Ran 1,120 adversarial evaluations (40 seed prompts × 7 languages × 4 models) across four harm categories endemic to South Africa: financial fraud, xenophobic incitement, political disinformation, and gang/criminal facilitation in 3 different styles (direct, roleplay and hypothetical).
+The dataset has 1,120 adversarial prompts (40 seed prompts × 7 languages × 4 models) across four harm categories relevant to South Africa: financial fraud, xenophobic incitement, political disinformation and gang/criminal facilitation, each in three styles (direct, roleplay and hypothetical).
 
-Key finding: low-resource languages exhibit catastrophic safety failures with a mean Attack Success Rate (ASR) of 50.1% — more than double the English baseline of 24.4%. Certain model-language combinations reached >90% ASR.
+Our hackathon results suggested much weaker safety in low-resource languages. A later audit (V3) found that the hackathon scoring relied on keyword and length heuristics rather than a working LLM judge, so those attack-success rates are not validated harmful-compliance rates. V3 keeps all historical labels, documents the problem openly and adds a language-aware scoring pipeline; validated semantic scoring is still open.
 
-Built an end-to-end evaluation pipeline with automated response generation, LLM-as-judge harm scoring, and publication-ready analytics. Discovered and corrected a critical classification bug in the judging pipeline, re-processed the full dataset, and published both versions transparently.
-
-Created an interactive Streamlit dashboard for exploring results by model, language, and harm category.`,
+Includes a Streamlit dashboard for exploring the historical labels by model, language and harm category.`,
     githubLink: 'https://github.com/ubayd-hattas/AfriGuard',
     liveLink: 'https://afriguard.streamlit.app/',
     thumbnail: '/afriguard-logo.png',
