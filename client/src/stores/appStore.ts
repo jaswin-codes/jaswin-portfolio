@@ -8,13 +8,11 @@ interface AppState {
   currentSection: SectionId;
   isIntroComplete: boolean;
   isLoading: boolean;
-  jarvisOpen: boolean;
   showContactForm: boolean;
   setMode: (mode: AppMode) => void;
   setCurrentSection: (section: SectionId) => void;
   setIntroComplete: () => void;
   setIsLoading: (loading: boolean) => void;
-  setJarvisOpen: (open: boolean) => void;
   setShowContactForm: (show: boolean) => void;
 }
 
@@ -23,12 +21,10 @@ export const useAppStore = create<AppState>((set) => ({
   currentSection: null,
   isIntroComplete: false,
   isLoading: false,
-  jarvisOpen: false,
   showContactForm: false,
   setMode: (mode) => set({ mode }),
   setCurrentSection: (section) => set({ currentSection: section }),
   setIntroComplete: () => set({ isIntroComplete: true }),
   setIsLoading: (loading) => set({ isLoading: loading }),
-  setJarvisOpen: (open) => set({ jarvisOpen: open }),
   setShowContactForm: (show) => set({ showContactForm: show }),
 }));
