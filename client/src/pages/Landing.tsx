@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Vector3 } from 'three';
 import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { useAppStore } from '@/stores/appStore';
@@ -8,6 +9,63 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { navigateWithTransition } from '@/App';
+
+// Flies the camera towards the clicked part, then calls onArrive
+function CameraFlyTo({ target, onArrive }: { target: Vector3 | null; onArrive: () => void }) {
+  const { camera } = useThree();
+  const dest = useRef<Vector3 | null>(null);
+  const elapsed = useRef(0);
+
+  useEffect(() => {
+    dest.current = target ? target.clone().add(camera.position.clone().sub(target).normalize().multiplyScalar(0.6)) : null;
+    elapsed.current = 0;
+  }, [target, camera]);
+
+  useFrame((_, dt) => {
+    if (!target || !dest.current) return;
+    elapsed.current += dt;
+    camera.position.lerp(dest.current, 1 - Math.pow(0.002, dt));
+    camera.lookAt(target);
+    if (elapsed.current > 0.7) {
+      dest.current = null;
+      onArrive();
+    }
+  });
+  return null;
+}
+
+const BOOT_LINES = [
+  'ets Oct 26 2026  rst:0x1 (POWERON_RESET), boot:0x13 (SPI_FAST_FLASH_BOOT)',
+  'configsip: 0, SPIWP:0xee',
+  'load:0x3fff0030, len:1344',
+  'entry 0x400805f0',
+  'I (31) boot: ESP-IDF v5.2 2nd stage bootloader',
+  'I (48) jaswin: mounting /projects /research /experience',
+  'I (52) jaswin: location = Cape Town, ZA',
+  'I (61) jaswin: ready. tap a part of the board to explore',
+];
+
+// Serial-monitor style boot log shown during the intro
+function BootLog() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setCount((c) => Math.min(c + 1, BOOT_LINES.length)), 300);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div
+      className="absolute left-4 bottom-20 md:left-8 md:bottom-8 z-10 max-w-[92vw] md:max-w-xl pointer-events-none text-[10px] md:text-xs leading-relaxed"
+      style={{ fontFamily: "'JetBrains Mono', monospace", color: '#00ff88' }}
+      aria-hidden="true"
+    >
+      <p className="text-gray-500 mb-1">serial monitor @ 115200 baud</p>
+      {BOOT_LINES.slice(0, count).map((line) => (
+        <p key={line} className="truncate" style={{ color: line.startsWith('I (') ? '#00ff88' : '#7fbf9a' }}>{line}</p>
+      ))}
+      <span className="inline-block w-2 h-3 bg-green-400 animate-pulse align-middle" />
+    </div>
+  );
+}
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -23,6 +81,13 @@ export default function Landing() {
   const nameTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   // Portrait phones need the camera further back so the whole board fits
   const isPortrait = typeof window !== 'undefined' && window.innerWidth < window.innerHeight;
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [flyTarget, setFlyTarget] = useState<Vector3 | null>(null);
+  const pendingSection = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (reducedMotion && !isIntroComplete) setIntroComplete();
+  }, [reducedMotion, isIntroComplete, setIntroComplete]);
 
   useEffect(() => {
     if (!isIntroComplete) {
@@ -53,7 +118,13 @@ export default function Landing() {
     setShowSkipButton(false);
   };
 
-  const handleComponentClick = (componentId: string) => {
+  const goToSection = () => {
+    const section = pendingSection.current;
+    pendingSection.current = null;
+    if (section) navigateWithTransition(`/${section}`, section);
+  };
+
+  const handleComponentClick = (componentId: string, point: Vector3) => {
     const sectionMap: Record<string, string> = {
       'esp-wroom': 'projects',
       'usb-port': 'about',
@@ -64,9 +135,11 @@ export default function Landing() {
     };
 
     const section = sectionMap[componentId];
-    if (section) {
+    if (section && !pendingSection.current) {
       setCurrentSection(section as any);
-      navigateWithTransition(`/${section}`, section);
+      pendingSection.current = section;
+      if (reducedMotion) goToSection();
+      else setFlyTarget(point);
     }
   };
 
@@ -79,17 +152,28 @@ export default function Landing() {
     'crystal': 'ACHIEVEMENTS',
   };
 
+  const partNames: Record<string, string> = {
+    'esp-wroom': 'ESP-WROOM-32 module',
+    'usb-port': 'Micro-USB connector',
+    'voltage-reg': 'AMS1117-3.3 regulator',
+    'cp2102': 'CP2102 USB-UART bridge',
+    'gpio-pins': 'GPIO headers',
+    'crystal': '40 MHz crystal',
+  };
+
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
-      <Canvas className="w-full h-full">
-        <PerspectiveCamera makeDefault position={[0, 0, isPortrait ? 6.5 : 4]} fov={75} />
-        <OrbitControls enableZoom={true} enablePan={false} autoRotate={false} minDistance={2.5} maxDistance={10} />
+      <Canvas className="w-full h-full" dpr={[1, isPortrait ? 1.5 : 2]}>
+        <PerspectiveCamera makeDefault position={[0, 0, isPortrait ? 5 : 4]} fov={75} />
+        <OrbitControls enabled={!flyTarget} enableZoom={true} enablePan={false} autoRotate={false} minDistance={2.5} maxDistance={10} />
+        <CameraFlyTo target={flyTarget} onArrive={goToSection} />
         
         <color attach="background" args={['#000000']} />
         
         {/* Lighting */}
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.55} />
+        <directionalLight position={[2, 3, 5]} intensity={1.2} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-10, -10, 10]} intensity={0.5} color="#00ff88" />
         
@@ -102,8 +186,8 @@ export default function Landing() {
         />
 
         {/* Post-processing */}
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} />
+        <EffectComposer multisampling={isPortrait ? 0 : 4}>
+          <Bloom mipmapBlur luminanceThreshold={0.6} luminanceSmoothing={0.3} intensity={1.1} />
         </EffectComposer>
       </Canvas>
 
@@ -127,6 +211,8 @@ export default function Landing() {
           </h1>
         </motion.div>
       )}
+
+      {!isIntroComplete && <BootLog />}
 
       {/* Skip Intro Button */}
       {showSkipButton && !isIntroComplete && (
@@ -177,7 +263,7 @@ export default function Landing() {
           <p className="text-green-400 text-sm" style={{
             fontFamily: "'JetBrains Mono', monospace",
           }}>
-            {hoveredComponent.toUpperCase()}
+            {partNames[hoveredComponent]}
           </p>
         </motion.div>
       )}
