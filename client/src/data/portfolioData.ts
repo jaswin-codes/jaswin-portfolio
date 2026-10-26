@@ -1,7 +1,7 @@
 
 // ─── Static asset URLs (served from client/public) ─────────────────────────────
 export const RESUME_URL = '/resume.pdf';
-export const RESEARCH_POSTER_URL = '/research-poster.png';
+export const RESEARCH_POSTER_URL = '/research-poster.webp';
 
 export const profile = {
   name: 'Jaswin Chinthala',
@@ -42,16 +42,16 @@ One limit: the LDR also thinks it's loadshedding at night. Sensing the output of
   {
     id: 'afriguard',
     name: 'AfriGuard',
-    description: 'Jailbreak testing of LLMs in 7 South African languages (Global South AI Safety Hackathon, Jun 2026)',
-    shortDescription: '1,120 jailbreak tests on 4 models. Attacks worked 50.1% of the time in low-resource languages, against 24.4% in English.',
+    description: 'Red-teaming dataset and scoring pipeline for 7 South African languages (Global South AI Safety Hackathon, Jun 2026)',
+    shortDescription: '1,120 adversarial prompts across 7 languages and 4 models. A later audit found our hackathon scoring was not reliable, so we documented it and rebuilt the scoring.',
     techStack: ['Python', 'LLM evaluation', 'Red-teaming', 'Streamlit'],
     details: `Team of four at the Apart Research Global South AI Safety Hackathon, Cape Town hub.
 
 We ran 1,120 adversarial prompts (40 seeds × 7 languages × 4 models) on GPT-OSS, Llama 3.3, Kimi K2.6 and Qwen 3, in English, isiZulu, isiXhosa, Afrikaans, Sesotho, Sepedi and Tsonga. The prompts covered four harms that matter in South Africa: financial fraud, xenophobic incitement, political disinformation and gang crime, each written in direct, roleplay and hypothetical styles.
 
-Mean attack success was 50.1% in low-resource languages and 24.4% in English. Some model and language pairs went above 90%.
+Our hackathon results suggested much weaker safety in low-resource languages. A later audit (V3) found that the hackathon scoring relied on keyword and length heuristics instead of a working LLM judge, so those attack-success rates are not validated. V3 keeps all the historical labels, documents the problem openly and adds a language-aware scoring pipeline. Validated semantic scoring is still open.
 
-I co-built the test pipeline and the Streamlit results dashboard. After the first run we found a bug in our LLM-as-judge scoring, fixed it, re-scored everything and published both versions.
+I co-built the test pipeline and the Streamlit dashboard for exploring the labels by model, language and harm category.
 
 Team: Ubayd Hattas, Seth Miguel Ferreira, Sebastian Stent and me.`,
     period: 'Jun 2026',
@@ -296,8 +296,7 @@ export const features: string[] = [
 export const characteristics: Characteristic[] = [
   { parameter: 'Alarm warning states passing', value: '6 / 6', conditions: 'WLDS in LTspice. On the breadboard, one stray beep at full tank' },
   { parameter: 'Macro-F1, building-age classification', value: '0.749', conditions: 'StatsGeeks hackathon, 200 labels per class. Best F1 Score of 6 teams' },
-  { parameter: 'Jailbreak tests run', value: '1,120', conditions: 'AfriGuard: 40 seeds × 7 languages × 4 models' },
-  { parameter: 'Attack success, low-resource vs English', value: '50.1% / 24.4%', conditions: 'AfriGuard, mean attack success rate' },
+  { parameter: 'Adversarial prompts in dataset', value: '1,120', conditions: 'AfriGuard: 40 seeds × 7 languages × 4 models' },
   { parameter: 'Self-prediction vs "longer reply" rule', value: '0.719 / 0.808', conditions: 'Digital Minds sprint, Hermes-3, balanced accuracy on the same pairs' },
   { parameter: 'CTF challenges solved', value: '34', conditions: 'SANReN qualifying round, 3,000+ points, team of 4' },
 ];

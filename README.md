@@ -1,6 +1,10 @@
 # jaswin.me: Jaswin Chinthala's portfolio
 
-A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents Jaswin's work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
+**Live: [jaswin.me](https://jaswin.me)**
+
+![The 3D ESP32 hub on the landing page](docs/landing.jpg)
+
+A highly interactive personal portfolio built with React 19, Three.js, Framer Motion, tRPC, Drizzle, and Tailwind CSS 4. The site presents my work through an immersive 3D experience, with a recruiter-friendly flat-layout fallback mode that mirrors the same content.
 
 ## What The Site Does
 
@@ -106,7 +110,7 @@ drizzle/
 | Asset | Path |
 |---|---|
 | CV / Resume PDF | `/resume.pdf` |
-| Research Poster PNG | `/research-poster.png` |
+| Research Poster PNG | `/research-poster.webp` |
 | AfriGuard Logo | `/afriguard-logo.png` |
 | WLDS photos | `/wlds/*` |
 
@@ -132,7 +136,7 @@ These files are served from `client/public` and referenced from `client/src/data
 
 All site text lives in `client/src/data/portfolioData.ts`, and both modes read from it. Update that file (and `client/public/resume.pdf`) when the CV changes.
 
-## Development
+## Run locally
 
 ```bash
 pnpm install
@@ -146,3 +150,7 @@ pnpm db:push      # Generate and apply Drizzle migrations
 
 - The app now uses local public assets for the resume and poster instead of Manus storage URLs.
 - The current layout keeps the design consistent across the immersive mode and the recruiter mode without adding new visual systems.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
