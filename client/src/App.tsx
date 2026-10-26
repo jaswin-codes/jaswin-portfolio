@@ -15,6 +15,7 @@ import { useAppStore } from "@/stores/appStore";
 import { useEffect, useState, useCallback } from "react";
 import RecruiterMode from "./pages/RecruiterMode";
 import ContactForm from "./components/ContactForm";
+import SerialTerminal from "./components/SerialTerminal";
 import { LoadingScreen } from "./components/LoadingScreen";
 import SectionTransition from "./components/SectionTransition";
 import { RESUME_URL } from "@/data/portfolioData";
@@ -160,6 +161,7 @@ function App() {
           <Router navigateTo={navigateTo} />
           <ContactForm />
           <ResumeButton />
+          <SerialTerminal />
           <SectionTransition
             isTransitioning={isTransitioning}
             targetSection={targetSection}

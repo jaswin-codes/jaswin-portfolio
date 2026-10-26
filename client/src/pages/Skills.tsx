@@ -290,7 +290,7 @@ export default function SkillsSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="absolute bottom-20 left-4 right-4 md:bottom-6 md:left-auto md:right-6 bg-black/70 border border-green-500/30 rounded p-3 md:p-4 md:max-w-xs text-green-400 text-xs md:text-sm pointer-events-none"
+          className="absolute bottom-20 left-4 right-4 md:bottom-20 md:left-auto md:right-6 bg-black/70 border border-green-500/30 rounded p-3 md:p-4 md:max-w-xs text-green-400 text-xs md:text-sm pointer-events-none"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
           <p className="font-bold mb-2">CONTROLS:</p>
