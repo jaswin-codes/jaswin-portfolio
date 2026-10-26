@@ -3,6 +3,7 @@ import { useAppStore } from '@/stores/appStore';
 import { motion } from 'framer-motion';
 import { projects, experiences, research, achievements, skillClusters, leadership, profile, RESUME_URL } from '@/data/portfolioData';
 import { Mail, Github, Linkedin, ExternalLink, FileDown } from 'lucide-react';
+import WldsDemo from '@/components/WldsDemo';
 
 export default function RecruiterMode() {
   const setMode = useAppStore((state) => state.setMode);
@@ -175,7 +176,7 @@ export default function RecruiterMode() {
               <motion.div
                 key={proj.id}
                 variants={itemVariants}
-                className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors"
+                className={`bg-gray-900/50 border border-green-500/30 rounded-lg p-6 hover:border-green-500/60 transition-colors ${proj.id === 'wlds' ? 'md:col-span-2' : ''}`}
               >
                 {proj.images?.[0] && (
                   <img src={proj.images[0].src} alt={proj.images[0].caption} loading="lazy" className="w-full h-40 object-cover rounded mb-4 border border-green-500/30" />
@@ -185,6 +186,7 @@ export default function RecruiterMode() {
                   {proj.period} · {proj.role}
                 </p>
                 <p className="text-green-400 text-sm mb-3">{proj.shortDescription}</p>
+                {proj.id === 'wlds' && <div className="mb-3"><WldsDemo /></div>}
                 <details className="mb-3">
                   <summary className="text-gray-400 text-sm cursor-pointer hover:text-green-300">Read more</summary>
                   <p className="text-gray-300 text-sm mt-2 whitespace-pre-line">{proj.details}</p>
