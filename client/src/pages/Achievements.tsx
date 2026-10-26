@@ -53,7 +53,7 @@ export default function AchievementsSection() {
     ? achievements.find((a) => a.id === selectedByProbe)
     : null;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -86,15 +86,13 @@ export default function AchievementsSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        onMouseMove={handleMouseMove}
-        className="relative w-full h-screen flex items-center justify-center p-8 bg-gradient-to-b from-gray-900 via-black to-gray-900"
+        onPointerMove={handleMouseMove}
+        className="relative w-full min-h-screen flex items-center justify-center p-4 pt-24 pb-24 md:p-8 bg-gradient-to-b from-gray-900 via-black to-gray-900"
       >
         {/* Oscilloscope Frame */}
-        <div className="w-full max-w-4xl bg-gradient-to-b from-gray-700 to-gray-800 rounded-lg shadow-2xl p-8 border-8 border-gray-600">
+        <div className="w-full max-w-4xl bg-gradient-to-b from-gray-700 to-gray-800 rounded-lg shadow-2xl p-3 md:p-8 border-4 md:border-8 border-gray-600">
           {/* Screen Bezel */}
-          <div className="bg-black rounded p-4 relative overflow-hidden" style={{
-            aspectRatio: '16 / 9',
-          }}>
+          <div className="bg-black rounded p-4 relative overflow-hidden aspect-[3/4] sm:aspect-video">
             {/* CRT Phosphor Glow */}
             <div className="absolute inset-0 bg-gradient-radial from-green-900/30 to-transparent rounded" />
 
@@ -107,7 +105,7 @@ export default function AchievementsSection() {
             />
 
             {/* Waveforms */}
-            <div className="absolute inset-0 flex flex-col justify-around p-8" data-waveforms>
+            <div className="absolute inset-0 flex flex-col justify-around p-4 md:p-8" data-waveforms>
               {achievements.map((achievement) => {
                 const waveform = generateWaveform(achievement.waveformType);
                 const pathData = `M ${waveform.points.map((p) => `${p[0]},${p[1]}`).join(' L ')}`;
@@ -117,7 +115,8 @@ export default function AchievementsSection() {
                   <motion.div
                     key={achievement.id}
                     data-achievement-id={achievement.id}
-                    className="relative h-20 cursor-pointer"
+                    className="relative h-16 md:h-20 cursor-pointer"
+                    onClick={() => setSelectedByProbe(achievement.id)}
                     whileHover={{ scale: 1.02 }}
                   >
                     {/* Waveform SVG */}
@@ -201,7 +200,7 @@ export default function AchievementsSection() {
 
         {/* Probe Label */}
         <motion.div
-          className="absolute top-4 right-4 text-yellow-300 font-bold text-sm"
+          className="hidden md:block absolute top-28 right-8 text-yellow-300 font-bold text-sm"
           style={{
             fontFamily: "'JetBrains Mono', monospace",
           }}
@@ -214,12 +213,12 @@ export default function AchievementsSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="absolute bottom-16 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm pointer-events-none"
+          className="hidden md:block absolute bottom-20 left-8 bg-black/70 border border-green-500/30 rounded p-4 text-green-400 text-sm pointer-events-none"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
           <p className="font-bold mb-2">CONTROLS:</p>
-          <p>• Move probe to select achievement</p>
-          <p>• Details appear on the right</p>
+          <p>• Move the probe over a trace, or tap one</p>
+          <p>• Details appear beside the scope</p>
         </motion.div>
       </motion.div>
 
@@ -230,7 +229,7 @@ export default function AchievementsSection() {
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
-            className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-gray-900 border-2 border-yellow-300 rounded-lg p-6 max-w-sm"
+            className="fixed inset-x-4 bottom-4 md:absolute md:inset-x-auto md:bottom-auto md:right-8 md:top-1/2 md:-translate-y-1/2 z-40 bg-gray-900 border-2 border-yellow-300 rounded-lg p-5 md:p-6 md:max-w-sm"
           >
             <div className="flex justify-between items-start mb-4">
               <div>

@@ -24,7 +24,7 @@ export default function ResearchSection() {
 
   const selectedItem = selectedResearch ? research.find((r) => r.id === selectedResearch) : null;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -39,7 +39,7 @@ export default function ResearchSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        onMouseMove={handleMouseMove}
+        onPointerMove={handleMouseMove}
         className="relative w-full h-screen overflow-hidden"
         style={{ background: 'radial-gradient(ellipse at center, #0a1a0f 0%, #050a05 60%, #000000 100%)' }}
       >
@@ -145,10 +145,10 @@ export default function ResearchSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center"
+          className="absolute bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 text-center w-max max-w-[90vw]"
           style={{ color: '#00ff8888', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem' }}
         >
-          move electron with mouse · click chip to explore research
+          move the electron around · tap a chip to open it
         </motion.div>
       </motion.div>
 

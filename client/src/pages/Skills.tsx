@@ -25,14 +25,19 @@ const getViewportDimensions = () => ({
   height: typeof window !== 'undefined' ? window.innerHeight : 800,
 });
 
-const createInitialMagnetPositions = (width: number, height: number): Record<string, MagnetPosition> => ({
-  embedded: { x: width * 0.08, y: height * 0.12, isDragging: false },
-  ml: { x: width * 0.86, y: height * 0.12, isDragging: false },
-  'ai-safety': { x: width * 0.08, y: height * 0.78, isDragging: false },
-  web: { x: width * 0.86, y: height * 0.78, isDragging: false },
-  power: { x: width * 0.46, y: height * 0.08, isDragging: false },
-  tools: { x: width * 0.46, y: height * 0.84, isDragging: false },
-});
+const createInitialMagnetPositions = (width: number, height: number): Record<string, MagnetPosition> => {
+  const left = Math.max(56, width * 0.08);
+  const right = Math.min(width - 56, width * 0.86);
+  const top = Math.max(130, height * 0.14);
+  return {
+    embedded: { x: left, y: top, isDragging: false },
+    ml: { x: right, y: top, isDragging: false },
+    'ai-safety': { x: left, y: height * 0.78, isDragging: false },
+    web: { x: right, y: height * 0.78, isDragging: false },
+    power: { x: width * 0.5, y: top, isDragging: false },
+    tools: { x: width * 0.5, y: height * 0.84, isDragging: false },
+  };
+};
 
 const roleMagnets = [
   { id: 'embedded', label: 'Electronics', color: '#0088ff' },
@@ -54,7 +59,8 @@ export default function SkillsSection() {
   const animationRef = useRef<number | undefined>(undefined);
   const dragRef = useRef<string | null>(null);
 
-  const BOUNDARY_PADDING = 48;
+  // wider margin on phones so long skill pills stay on screen
+  const BOUNDARY_PADDING = dimensions.width < 768 ? 90 : 48;
   const CONTAINER_WIDTH = dimensions.width;
   const CONTAINER_HEIGHT = dimensions.height;
 
@@ -196,9 +202,10 @@ export default function SkillsSection() {
       <div
         ref={containerRef}
         className="relative w-full h-screen bg-gradient-to-br from-gray-950 via-black to-gray-950 overflow-hidden"
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onPointerMove={handleMouseMove}
+        onPointerUp={handleMouseUp}
+        onPointerLeave={handleMouseUp}
+        style={{ touchAction: 'none' }}
       >
         {/* Magnetic Field Lines */}
         <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
@@ -216,17 +223,18 @@ export default function SkillsSection() {
           return (
             <motion.div
               key={particle.id}
-              className="absolute w-16 h-16 flex items-center justify-center rounded-full cursor-pointer"
+              className="absolute flex items-center justify-center cursor-pointer transition-opacity"
               style={{
                 left: `${particle.x}px`,
                 top: `${particle.y}px`,
                 transform: 'translate(-50%, -50%)',
+                opacity: selectedMagnet && selectedMagnet !== particle.cluster ? 0.25 : 1,
               }}
               whileHover={{ scale: 1.2 }}
             >
               {/* Skill Bubble */}
               <motion.div
-                className="w-full h-full rounded-full flex items-center justify-center text-center text-xs font-bold relative overflow-hidden p-1"
+                className="rounded-full whitespace-nowrap px-2 py-1 text-[10px] md:text-xs font-bold"
                 style={{
                   backgroundColor: `${clusterColor}20`,
                   border: `2px solid ${clusterColor}`,
@@ -249,13 +257,13 @@ export default function SkillsSection() {
             return (
               <motion.div
                 key={magnet.id}
-                className="absolute w-24 h-24 flex items-center justify-center cursor-grab pointer-events-auto active:cursor-grabbing"
+                className="absolute w-20 h-20 md:w-24 md:h-24 flex items-center justify-center cursor-grab pointer-events-auto active:cursor-grabbing"
                 style={{
                   left: `${pos.x}px`,
                   top: `${pos.y}px`,
                   transform: 'translate(-50%, -50%)',
                 }}
-                onMouseDown={() => handleMagnetMouseDown(magnet.id)}
+                onPointerDown={() => handleMagnetMouseDown(magnet.id)}
                 onClick={() => setSelectedMagnet(selectedMagnet === magnet.id ? null : magnet.id)}
                 whileHover={{ scale: 1.1 }}
               >
@@ -282,12 +290,12 @@ export default function SkillsSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="absolute bottom-6 right-6 bg-black/70 border border-green-500/30 rounded p-4 max-w-xs text-green-400 text-sm pointer-events-none"
+          className="absolute bottom-20 left-4 right-4 md:bottom-6 md:left-auto md:right-6 bg-black/70 border border-green-500/30 rounded p-3 md:p-4 md:max-w-xs text-green-400 text-xs md:text-sm pointer-events-none"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
           <p className="font-bold mb-2">CONTROLS:</p>
-          <p>• Drag magnets to move them</p>
-          <p>• Click magnet to attract skills</p>
+          <p>• Drag a magnet to move it</p>
+          <p>• Tap a magnet to pull in its skills</p>
         </motion.div>
       </div>
 
@@ -295,7 +303,7 @@ export default function SkillsSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute bottom-16 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs pointer-events-none"
+        className="hidden md:block absolute bottom-24 left-8 bg-black/50 border border-green-500/30 rounded p-4 max-w-xs pointer-events-none"
       >
         <p className="text-green-400 font-bold mb-3 text-sm" style={{
           fontFamily: "'JetBrains Mono', monospace",
@@ -312,7 +320,7 @@ export default function SkillsSection() {
               <span className="text-green-400 text-xs" style={{
                 fontFamily: "'JetBrains Mono', monospace",
               }}>
-                {cluster.name}
+                {cluster.label}
               </span>
             </div>
           ))}

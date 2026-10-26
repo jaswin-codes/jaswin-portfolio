@@ -116,29 +116,34 @@ export default function ProjectsSection() {
 
   const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
 
-  // Screens sit on an arc facing the camera, so any number of projects fits
+  // Screens sit on an arc facing the centre, so any number of projects fits
   const screenData = projects.map((p, i) => {
-    const angle = (i - (projects.length - 1) / 2) * 0.42;
+    // First project (WLDS) faces the camera; the rest alternate right and left
+    const slot = i === 0 ? 0 : i % 2 ? (i + 1) / 2 : -i / 2;
+    const angle = slot * 0.42;
     return {
       id: p.id,
       position: [Math.sin(angle) * 6, 0.2, 1 - Math.cos(angle) * 6] as [number, number, number],
       rotation: [0, -angle, 0] as [number, number, number],
     };
   });
-  // Pull the camera back on narrow (portrait) screens so the arc stays in view
-  const cameraZ = typeof window !== 'undefined' && window.innerWidth < window.innerHeight ? 9 : 4;
+  // Portrait phones stand at the centre of the arc and drag to look around, like the robot's POV
+  const portrait = typeof window !== 'undefined' && window.innerWidth < window.innerHeight;
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
       <Canvas className="w-full h-full">
-        <PerspectiveCamera makeDefault position={[0, 0.5, cameraZ]} fov={70} />
+        <PerspectiveCamera makeDefault position={portrait ? [0, 0.3, 1.05] : [0, 0.5, 4]} fov={70} />
         <OrbitControls
-          enableZoom={true}
+          target={portrait ? [0, 0.3, 1] : [0, 0, 0]}
+          enableZoom={!portrait}
           enablePan={false}
-          minDistance={2}
-          maxDistance={12}
-          maxPolarAngle={Math.PI * 0.65}
+          rotateSpeed={portrait ? -0.5 : 1}
+          minDistance={portrait ? 0.01 : 2}
+          maxDistance={portrait ? 0.1 : 8}
+          minPolarAngle={portrait ? Math.PI * 0.4 : 0}
+          maxPolarAngle={Math.PI * (portrait ? 0.6 : 0.65)}
         />
 
         <color attach="background" args={['#050505']} />
@@ -229,7 +234,7 @@ export default function ProjectsSection() {
       >
         <p className="font-bold mb-1">CONTROLS</p>
         <p>• Click or tap a screen to open a project</p>
-        <p>• Drag to look around · Scroll or pinch to zoom</p>
+        <p>{portrait ? '• Drag sideways to turn and see the other screens' : '• Drag to look around · Scroll to zoom'}</p>
       </motion.div>
 
       {/* Project Detail Modal */}

@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 import WorldHeader from '@/components/WorldHeader';
 
 export default function ExperienceSection() {
-  const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
+  const [selectedFloor, setSelectedFloor] = useState<number | null>(0);
   const [isMoving, setIsMoving] = useState(false);
 
   const handleFloorClick = (index: number) => {
@@ -21,17 +21,17 @@ export default function ExperienceSection() {
   const selectedExperience = selectedFloor !== null ? experiences[selectedFloor] : null;
 
   return (
-    <div className="relative w-full min-h-screen bg-black overflow-hidden">
+    <div className="relative w-full min-h-screen bg-black overflow-x-hidden">
       <WorldHeader title="EXPERIENCE" part="AMS1117-3.3" />
 
-      <div className="flex h-screen">
+      <div className="flex flex-col md:flex-row min-h-screen pt-24 md:pt-0">
         {/* Elevator Panel - Left Side */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="w-1/2 flex items-center justify-center p-8"
+          className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-8"
         >
-          <div className="bg-gray-800 border-4 border-gray-600 rounded-lg p-8 shadow-2xl">
+          <div className="bg-gray-800 border-4 border-gray-600 rounded-lg p-4 md:p-8 shadow-2xl w-full max-w-sm">
             {/* Floor Counter Display */}
             <div className="bg-black rounded p-4 mb-6 text-center border border-green-500/50">
               <div className="text-green-400 text-3xl font-bold" style={{
@@ -42,7 +42,7 @@ export default function ExperienceSection() {
             </div>
 
             {/* Floor Buttons */}
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
               {experiences.map((exp, index) => (
                 <motion.button
                   key={exp.id}
@@ -76,7 +76,7 @@ export default function ExperienceSection() {
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="w-1/2 flex items-center justify-center p-8"
+          className="w-full md:w-1/2 flex items-center justify-center p-4 pb-24 md:p-8"
         >
           <AnimatePresence mode="wait">
             {selectedExperience && (
@@ -86,9 +86,9 @@ export default function ExperienceSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.4 }}
-                className="bg-gradient-to-br from-gray-900 to-black border-2 border-green-500/50 rounded-lg p-8 max-w-md w-full"
+                className="bg-gradient-to-br from-gray-900 to-black border-2 border-green-500/50 rounded-lg p-5 md:p-8 max-w-md w-full"
               >
-                <h2 className="text-3xl font-bold text-white mb-2" style={{
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2" style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                 }}>
                   {selectedExperience.company}
@@ -134,23 +134,6 @@ export default function ExperienceSection() {
         </motion.div>
       </div>
 
-      {/* Directory Sign */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute bottom-8 right-8 bg-gray-800 border-2 border-gray-600 rounded p-4 max-w-xs"
-      >
-        <p className="text-green-400 font-bold mb-2 text-sm" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          DIRECTORY
-        </p>
-        {experiences.map((exp, idx) => (
-          <p key={exp.id} className="text-gray-300 text-xs mb-1">
-            <span className="text-green-400">Floor {idx + 1}:</span> {exp.company}
-          </p>
-        ))}
-      </motion.div>
     </div>
   );
 }
