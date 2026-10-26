@@ -229,3 +229,19 @@
     }
   }
 }
+
+/* Datasheet (Recruiter Mode) prints as a plain black-on-white sheet */
+@media print {
+  @page { margin: 12mm; }
+  body, .datasheet { background: #fff !important; }
+  .datasheet, .datasheet * {
+    color: #111 !important;
+    border-color: #bbb !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .ds-section { break-inside: avoid; }
+}

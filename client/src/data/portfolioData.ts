@@ -283,6 +283,25 @@ export const leadership: Leadership[] = [
   },
 ];
 
+// Datasheet view: headline features and measured numbers, all taken from the entries above
+export const features: string[] = [
+  'EV Research Subteam Lead at UCT Racing (Formula Student)',
+  'Analogue design: op-amp comparators, CMOS logic and 555 timers, simulated in LTspice',
+  'Battery management modelling in MATLAB, Simulink and Simscape (UCT EMi Lab)',
+  'LLM evaluation and red-teaming (AfriGuard, Apart Research sprints)',
+  'Python, scikit-learn, Java, React and TypeScript',
+  'Treasurer of IEEE UCT and co-founder of the UCT Maker Society',
+];
+
+export const characteristics: Characteristic[] = [
+  { parameter: 'Alarm warning states passing', value: '6 / 6', conditions: 'WLDS in LTspice. On the breadboard, one stray beep at full tank' },
+  { parameter: 'Macro-F1, building-age classification', value: '0.749', conditions: 'StatsGeeks hackathon, 200 labels per class. Best F1 Score of 6 teams' },
+  { parameter: 'Jailbreak tests run', value: '1,120', conditions: 'AfriGuard: 40 seeds × 7 languages × 4 models' },
+  { parameter: 'Attack success, low-resource vs English', value: '50.1% / 24.4%', conditions: 'AfriGuard, mean attack success rate' },
+  { parameter: 'Self-prediction vs "longer reply" rule', value: '0.719 / 0.808', conditions: 'Digital Minds sprint, Hermes-3, balanced accuracy on the same pairs' },
+  { parameter: 'CTF challenges solved', value: '34', conditions: 'SANReN qualifying round, 3,000+ points, team of 4' },
+];
+
 export const skillClusters: SkillCluster[] = [
   {
     name: 'embedded',
@@ -461,6 +480,12 @@ export interface Achievement {
   date: string;
   description: string;
   waveformType: 'sine' | 'square' | 'ramp' | 'flatline';
+}
+
+export interface Characteristic {
+  parameter: string;
+  value: string;
+  conditions: string;
 }
 
 export interface Leadership {
