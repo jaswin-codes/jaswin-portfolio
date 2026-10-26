@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { research, RESEARCH_POSTER_URL } from '@/data/portfolioData';
 import { X, Github, ExternalLink, FileText, Image } from 'lucide-react';
+import WorldHeader from '@/components/WorldHeader';
 
 interface ResearchComponent {
   id: string;
@@ -18,7 +18,6 @@ const researchComponents: ResearchComponent[] = [
 ];
 
 export default function ResearchSection() {
-  const [, setLocation] = useLocation();
   const [selectedResearch, setSelectedResearch] = useState<string | null>(null);
   const [electronPos, setElectronPos] = useState({ x: 50, y: 50 });
   const [showPoster, setShowPoster] = useState(false);
@@ -34,31 +33,7 @@ export default function ResearchSection() {
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden">
-      {/* Back Button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={() => setLocation('/')}
-        className="absolute top-6 left-6 z-10 flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold"
-        style={{ backgroundColor: 'rgba(0,0,0,0.7)', borderColor: '#00ff88', color: '#00ff88', fontFamily: "'JetBrains Mono', monospace", backdropFilter: 'blur(8px)' }}
-        whileHover={{ backgroundColor: 'rgba(0,255,136,0.1)' }}
-      >
-        ← ESP32
-      </motion.button>
-
-      {/* Section title */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-center pointer-events-none"
-      >
-        <h1 className="text-3xl font-bold" style={{ color: '#ffffff', fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 20px rgba(0,255,136,0.5)' }}>
-          ELECTRON JOURNEY
-        </h1>
-        <p className="text-xs mt-1" style={{ color: '#00ff88', fontFamily: "'JetBrains Mono', monospace" }}>
-          CP2102 · RESEARCH
-        </p>
-      </motion.div>
+      <WorldHeader title="ELECTRON JOURNEY" part="CP2102 · RESEARCH" />
 
       {/* PCB Interactive Area */}
       <motion.div

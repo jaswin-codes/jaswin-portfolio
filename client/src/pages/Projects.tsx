@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import { PerspectiveCamera, OrbitControls, Text } from '@react-three/drei';
-import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '@/data/portfolioData';
 import { X, Github, ExternalLink } from 'lucide-react';
 import { Mesh } from 'three';
+import WorldHeader from '@/components/WorldHeader';
+import WldsDemo from '@/components/WldsDemo';
 
 // ── Individual project screen mesh ──────────────────────────────────────────
 function ProjectScreen({
@@ -51,7 +52,7 @@ function ProjectScreen({
       >
         <boxGeometry args={[2.4, 1.6, 0.12]} />
         <meshStandardMaterial
-          color={isSelected ? '#003318' : hovered ? '#001a0d' : '#111111'}
+          color={isSelected ? '#003318' : hovered ? '#0d2a1a' : '#1c1f22'}
           metalness={0.7}
           roughness={0.3}
           emissive="#00ff88"
@@ -65,9 +66,9 @@ function ProjectScreen({
         onPointerLeave={() => setHovered(false)}>
         <boxGeometry args={[2.1, 1.35, 0.01]} />
         <meshStandardMaterial
-          color={isSelected ? '#001a0d' : hovered ? '#0a1a0f' : '#050505'}
-          emissive={isSelected ? '#00ff88' : hovered ? '#00aa55' : '#000000'}
-          emissiveIntensity={isSelected ? 0.15 : hovered ? 0.08 : 0}
+          color={isSelected ? '#001a0d' : hovered ? '#0a1a0f' : '#04140b'}
+          emissive="#00ff88"
+          emissiveIntensity={isSelected ? 0.15 : hovered ? 0.1 : 0.04}
         />
       </mesh>
 
@@ -77,7 +78,7 @@ function ProjectScreen({
         fontSize={0.18}
         maxWidth={2}
         textAlign="center"
-        color={hovered || isSelected ? '#00ff88' : '#00aa55'}
+        color={hovered || isSelected ? '#ffffff' : '#00ff88'}
         anchorX="center"
         anchorY="middle"
         font={undefined}
@@ -89,7 +90,7 @@ function ProjectScreen({
       <Text
         position={[0, -0.35, 0.09]}
         fontSize={0.1}
-        color={hovered ? '#00ff88' : '#004422'}
+        color={hovered ? '#00ff88' : '#00aa55'}
         anchorX="center"
         anchorY="middle"
       >
@@ -111,7 +112,6 @@ function ProjectScreen({
 
 // ── Main Projects section ────────────────────────────────────────────────────
 export default function ProjectsSection() {
-  const [, setLocation] = useLocation();
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
   const project = selectedProject ? projects.find((p) => p.id === selectedProject) : null;
@@ -217,31 +217,7 @@ export default function ProjectsSection() {
         </group>
       </Canvas>
 
-      {/* Back Button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={() => setLocation('/')}
-        className="absolute top-6 left-6 z-10 flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold"
-        style={{ backgroundColor: 'rgba(0,0,0,0.7)', borderColor: '#00ff88', color: '#00ff88', fontFamily: "'JetBrains Mono', monospace", backdropFilter: 'blur(8px)' }}
-        whileHover={{ backgroundColor: 'rgba(0,255,136,0.1)' }}
-      >
-        ← ESP32
-      </motion.button>
-
-      {/* Section title */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-center pointer-events-none"
-      >
-        <h1 className="text-3xl font-bold" style={{ color: '#ffffff', fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 20px rgba(0,255,136,0.5)' }}>
-          ROBOT POV LAB
-        </h1>
-        <p className="text-xs mt-1" style={{ color: '#00ff88', fontFamily: "'JetBrains Mono', monospace" }}>
-          ESP-WROOM-32 · PROJECTS
-        </p>
-      </motion.div>
+      <WorldHeader title="ROBOT POV LAB" part="ESP-WROOM-32 · PROJECTS" />
 
       {/* Instructions */}
       <motion.div
@@ -316,6 +292,12 @@ export default function ProjectsSection() {
                   {project.period} · {project.role}
                   {project.status === 'in-progress' && <span className="ml-2 text-amber-400">IN PROGRESS</span>}
                 </p>
+
+                {project.id === 'wlds' && (
+                  <div className="mb-5">
+                    <WldsDemo />
+                  </div>
+                )}
 
                 <div className="text-gray-300 text-sm leading-relaxed mb-5 whitespace-pre-line">
                   {project.details}

@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { skillClusters } from '@/data/portfolioData';
+import WorldHeader from '@/components/WorldHeader';
 
 interface SkillParticle {
   id: string;
@@ -45,7 +44,6 @@ const roleMagnets = [
 ];
 
 export default function SkillsSection() {
-  const [, setLocation] = useLocation();
   const [particles, setParticles] = useState<SkillParticle[]>([]);
   const [selectedMagnet, setSelectedMagnet] = useState<string | null>(null);
   const [dimensions, setDimensions] = useState(getViewportDimensions);
@@ -192,39 +190,7 @@ export default function SkillsSection() {
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden border-2 border-green-500/20">
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-8 left-8 z-10"
-      >
-        <Button
-          onClick={() => setLocation('/')}
-          variant="outline"
-          className="bg-black/50 border-green-500 text-green-400 hover:bg-green-500/10"
-        >
-          ← ESP32
-        </Button>
-      </motion.div>
-
-      {/* Section Label */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-5 text-center pointer-events-none"
-      >
-        <h1 className="text-5xl font-bold text-white" style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-        }}>
-          SKILLS & TOOLS
-        </h1>
-        <p className="text-green-400 text-sm mt-4" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          GPIO PINS
-        </p>
-      </motion.div>
+      <WorldHeader title="SKILLS & TOOLS" part="GPIO PINS" />
 
       {/* Magnetic Field Simulator */}
       <div

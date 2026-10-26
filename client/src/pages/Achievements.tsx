@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { achievements } from '@/data/portfolioData';
 import { X } from 'lucide-react';
+import WorldHeader from '@/components/WorldHeader';
 
 interface Waveform {
   type: 'sine' | 'square' | 'ramp' | 'flatline';
@@ -47,7 +46,6 @@ const generateWaveform = (type: 'sine' | 'square' | 'ramp' | 'flatline'): Wavefo
 };
 
 export default function AchievementsSection() {
-  const [, setLocation] = useLocation();
   const [probePos, setProbePos] = useState({ x: 50, y: 50 });
   const [selectedByProbe, setSelectedByProbe] = useState<string | null>(null);
 
@@ -82,39 +80,7 @@ export default function AchievementsSection() {
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden">
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-8 left-8 z-10"
-      >
-        <Button
-          onClick={() => setLocation('/')}
-          variant="outline"
-          className="bg-black/50 border-green-500 text-green-400 hover:bg-green-500/10"
-        >
-          ← ESP32
-        </Button>
-      </motion.div>
-
-      {/* Section Label */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-5 text-center pointer-events-none"
-      >
-        <h1 className="text-5xl font-bold text-white" style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-        }}>
-          ACHIEVEMENTS
-        </h1>
-        <p className="text-green-400 text-sm mt-4" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          40MHz XTAL
-        </p>
-      </motion.div>
+      <WorldHeader title="ACHIEVEMENTS" part="40MHz XTAL" />
 
       {/* Oscilloscope Screen */}
       <motion.div

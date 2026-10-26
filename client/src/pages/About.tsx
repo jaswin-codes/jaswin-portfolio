@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { businessCards } from '@/data/portfolioData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import WorldHeader from '@/components/WorldHeader';
 
 export default function AboutSection() {
-  const [, setLocation] = useLocation();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
 
@@ -49,39 +48,7 @@ export default function AboutSection() {
 
   return (
     <div className="relative w-full min-h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden py-20">
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-8 left-8 z-10"
-      >
-        <Button
-          onClick={() => setLocation('/')}
-          variant="outline"
-          className="bg-black/50 border-green-500 text-green-400 hover:bg-green-500/10"
-        >
-          ← ESP32
-        </Button>
-      </motion.div>
-
-      {/* Section Label */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
-      >
-        <h1 className="text-5xl font-bold text-white" style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-        }}>
-          ABOUT ME
-        </h1>
-        <p className="text-green-400 text-sm mt-4" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          USB-PORT
-        </p>
-      </motion.div>
+      <WorldHeader title="ABOUT ME" part="USB-PORT" />
 
       {/* Business Card Stack */}
       <div className="flex items-center justify-center px-4">

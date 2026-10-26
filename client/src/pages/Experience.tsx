@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { experiences } from '@/data/portfolioData';
 import { X } from 'lucide-react';
+import WorldHeader from '@/components/WorldHeader';
 
 export default function ExperienceSection() {
-  const [, setLocation] = useLocation();
   const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
   const [isMoving, setIsMoving] = useState(false);
 
@@ -24,39 +22,7 @@ export default function ExperienceSection() {
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-hidden">
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-8 left-8 z-10"
-      >
-        <Button
-          onClick={() => setLocation('/')}
-          variant="outline"
-          className="bg-black/50 border-green-500 text-green-400 hover:bg-green-500/10"
-        >
-          ← ESP32
-        </Button>
-      </motion.div>
-
-      {/* Section Label */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-5 text-center pointer-events-none"
-      >
-        <h1 className="text-5xl font-bold text-white" style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          textShadow: '0 0 20px rgba(0, 255, 136, 0.5)',
-        }}>
-          EXPERIENCE
-        </h1>
-        <p className="text-green-400 text-sm mt-4" style={{
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          AMS1117-3.3
-        </p>
-      </motion.div>
+      <WorldHeader title="EXPERIENCE" part="AMS1117-3.3" />
 
       <div className="flex h-screen">
         {/* Elevator Panel - Left Side */}
