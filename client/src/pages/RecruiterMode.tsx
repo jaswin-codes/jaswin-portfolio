@@ -82,9 +82,6 @@ export default function RecruiterMode() {
             <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
               <FileDown size={14} className="inline -mt-0.5 mr-1" />CV
             </a>
-            <button onClick={() => window.print()} className="hidden sm:inline-block rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
-              Print
-            </button>
             <button onClick={() => setShowContactForm(true)} className="rounded bg-green-600 px-3 py-1.5 font-bold text-white hover:bg-green-700">
               Get in touch
             </button>
