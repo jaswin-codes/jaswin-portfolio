@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { X, Send } from 'lucide-react';
 import { useAppStore } from '@/stores/appStore';
-import { trpc } from '@/lib/trpc';
+import { profile } from '@/data/portfolioData';
 
 export default function ContactForm() {
   const showContactForm = useAppStore((state) => state.showContactForm);
@@ -20,7 +20,8 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const contactMutation = trpc.contact.useMutation();
+  const [errorText, setErrorText] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot, hidden from people
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -32,14 +33,16 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      await contactMutation.mutateAsync({
-        name: formData.name,
-        email: formData.email,
-        role: formData.role,
-        company: formData.company,
-        favPart: formData.favPart,
-        message: formData.message,
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, website }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        // Show validation messages as-is; anything else falls back to email
+        throw new Error(res.status === 400 && data.error ? data.error : '');
+      }
 
       setSubmitStatus('success');
       setFormData({
@@ -56,7 +59,7 @@ export default function ContactForm() {
         setSubmitStatus('idle');
       }, 2000);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      setErrorText(error instanceof Error ? error.message : '');
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -108,6 +111,16 @@ export default function ContactForm() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="website"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
                 <div>
                   <label className="block text-gray-300 text-sm font-semibold mb-1">
                     Name *
@@ -215,7 +228,10 @@ export default function ContactForm() {
                     animate={{ opacity: 1 }}
                     className="text-red-400 text-sm"
                   >
-                    Error submitting form. Please try again.
+                    {errorText || (
+                      <>Sorry, that didn't send. Please email me at{' '}
+                        <a href={`mailto:${profile.email}`} className="underline">{profile.email}</a>.</>
+                    )}
                   </motion.p>
                 )}
 
