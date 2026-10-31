@@ -110,7 +110,7 @@ drizzle/
 | Asset | Path |
 |---|---|
 | CV / Resume PDF | `/resume.pdf` |
-| Research Poster PNG | `/research-poster.webp` |
+| Research Poster (WebP) | `/research-poster.webp` |
 | AfriGuard Logo | `/afriguard-logo.png` |
 | WLDS photos | `/wlds/*` |
 
