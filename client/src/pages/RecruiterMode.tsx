@@ -76,13 +76,13 @@ export default function RecruiterMode() {
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2 px-4 py-3">
           <span className="text-sm font-bold text-green-400" style={MONO}>JC-2026 DATASHEET</span>
           <div className="flex flex-wrap gap-2 text-sm" style={MONO}>
-            <button onClick={() => setMode('3d')} className="rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
+            <button onClick={() => setMode('3d')} className="inline-flex min-h-11 items-center rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
               <Box size={14} className="inline -mt-0.5 mr-1" />3D
             </button>
-            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded border border-green-500 px-3 py-1.5 text-green-400 hover:bg-green-500/10">
               <FileDown size={14} className="inline -mt-0.5 mr-1" />CV
             </a>
-            <button onClick={() => setShowContactForm(true)} className="rounded bg-green-600 px-3 py-1.5 font-bold text-white hover:bg-green-700">
+            <button onClick={() => setShowContactForm(true)} className="inline-flex min-h-11 items-center rounded bg-green-600 px-3 py-1.5 font-bold text-white hover:bg-green-700">
               Get in touch
             </button>
           </div>
@@ -317,10 +317,10 @@ export default function RecruiterMode() {
             I'm looking for vacation work and research roles in EV/power systems, embedded hardware or AI evaluation.
           </p>
           <div className="no-print mt-4 flex flex-wrap gap-3 text-sm">
-            <button onClick={() => setShowContactForm(true)} className="flex items-center gap-2 rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700">
+            <button onClick={() => setShowContactForm(true)} className="flex min-h-11 items-center gap-2 rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700">
               <Mail size={16} />Get in touch
             </button>
-            <a href={`mailto:${profile.email}`} className="rounded border border-green-500 px-4 py-2 text-green-400 hover:bg-green-500/10" style={MONO}>{profile.email}</a>
+            <a href={`mailto:${profile.email}`} className="inline-flex min-h-11 items-center rounded border border-green-500 px-4 py-2 text-green-400 hover:bg-green-500/10" style={MONO}>{profile.email}</a>
           </div>
         </Section>
 
