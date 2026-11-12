@@ -54,7 +54,7 @@ export default function SerialTerminal() {
     <div className="print:hidden">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-40 rounded-lg border border-[#00ff88] bg-black/75 px-3 py-2 text-sm font-bold text-[#00ff88] backdrop-blur hover:bg-[#00ff88]/15"
+        className="fixed bottom-6 right-6 z-40 flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-[#00ff88] bg-black/75 px-3 py-2 text-sm font-bold text-[#00ff88] backdrop-blur hover:bg-[#00ff88]/15"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
         aria-label={open ? 'Close serial terminal' : 'Open serial terminal'}
         aria-expanded={open}

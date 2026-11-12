@@ -7,7 +7,7 @@ export default function WorldHeader({ title, part }: { title: string; part: stri
     <div className="absolute top-0 inset-x-0 z-30 flex items-start justify-between gap-3 px-4 py-4 md:px-8 md:py-6 pointer-events-none">
       <button
         onClick={() => setLocation('/')}
-        className="pointer-events-auto shrink-0 rounded-lg border border-[#00ff88] bg-black/70 px-3 py-2 text-sm font-semibold text-[#00ff88] backdrop-blur hover:bg-[#00ff88]/10"
+        className="pointer-events-auto flex min-h-11 shrink-0 items-center rounded-lg border border-[#00ff88] bg-black/70 px-3 py-2 text-sm font-semibold text-[#00ff88] backdrop-blur hover:bg-[#00ff88]/10"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
       >
         ← ESP32
