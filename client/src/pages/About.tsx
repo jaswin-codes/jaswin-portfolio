@@ -114,7 +114,8 @@ export default function AboutSection() {
           <Button
             onClick={handlePrevCard}
             variant="outline"
-            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-10 h-10 p-0"
+            aria-label="Previous card"
+            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-11 h-11 p-0 focus-visible:ring-2 focus-visible:ring-ring"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
@@ -124,25 +125,33 @@ export default function AboutSection() {
           <Button
             onClick={handleNextCard}
             variant="outline"
-            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-10 h-10 p-0"
+            aria-label="Next card"
+            className="bg-black/50 border-green-500/50 text-green-400 hover:bg-green-500/10 w-11 h-11 p-0 focus-visible:ring-2 focus-visible:ring-ring"
           >
             <ChevronRight className="w-5 h-5" />
           </Button>
         </div>
 
         {/* Dot indicators */}
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center">
           {businessCards.map((_, index) => (
+            // The button is the tap target (32 x 44 px); the span is the visible dot.
             <motion.button
               key={index}
               onClick={() => handleDotClick(index)}
-              className={`rounded-full transition-all duration-200 ${
-                index === currentCardIndex
-                  ? 'w-4 h-2 bg-green-400'
-                  : 'w-2 h-2 bg-green-400/30 hover:bg-green-400/60'
-              }`}
+              aria-label={`Go to card ${index + 1} of ${businessCards.length}`}
+              aria-current={index === currentCardIndex ? 'true' : undefined}
+              className="group flex h-11 w-8 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               whileHover={{ scale: 1.2 }}
-            />
+            >
+              <span
+                className={`block rounded-full transition-all duration-200 ${
+                  index === currentCardIndex
+                    ? 'w-4 h-2 bg-green-400'
+                    : 'w-2 h-2 bg-green-400/30 group-hover:bg-green-400/60'
+                }`}
+              />
+            </motion.button>
           ))}
         </div>
       </motion.div>
