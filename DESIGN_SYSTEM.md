@@ -48,11 +48,11 @@ The flat UI does not use the tokens above yet. It styles with Tailwind palette c
 - `ContactForm.tsx`: 36 palette classes. `Experience.tsx` 23, `Achievements.tsx` 24, `About.tsx` 16 (plus inline `rgba()` gradients).
 - Recruiter Mode's background `#070b08` and gold pin colour `#c9a227` have no token.
 
-Found in the browser check of Recruiter Mode and About (local dev build, 1280 px and an emulated 375 px; not checked on a real phone or on jaswin.me):
-- About at 375 px: the business card renders from x=325 to x=650, so most of it is off screen.
-- About: 10 buttons (previous, next, the eight dots) have no accessible name; the dots are 8 x 8 px.
-- About: a focused carousel button showed no outline or ring.
-- Touch targets under 44 px: header buttons are 38 to 40 px high in both pages.
-- Recruiter Mode at 375 px: no horizontal overflow; the floating terminal button covers the end of a text line.
+Found in the first browser check of Recruiter Mode and About (local dev build, 1280 px and an emulated 375 px), all resolved and re-checked at 375 px on 2026-11-12 (not on a real phone or on jaswin.me):
+- About card "off screen" at x=325 to 650: not a layout bug. The slide-in animation was caught at its first frame because the emulated tab did not run animation frames. At rest every card fits (x=16 to 359). Nothing changed.
+- About: the 10 carousel buttons had no accessible name and the dots were 8 x 8 px. Fixed: labels, `aria-current`, 44 px buttons, 32 x 44 px dot tap targets.
+- About: a focused carousel button showed no ring. Fixed with the `ring` token.
+- Touch targets under 44 px (header, terminal and Recruiter Mode buttons, 34 to 40 px). Fixed: `min-h-11` (the terminal button also `min-w-11`). Keep new buttons at 44 px.
+- Recruiter Mode at 375 px: no horizontal overflow; the footer clears the floating terminal button at the bottom of the page (the button covers text only while scrolling past it).
 
 Rule until this is paid off: new or changed flat-UI code uses the tokens; when a file is edited for another reason, do not mass-convert it in the same change.

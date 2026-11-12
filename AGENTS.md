@@ -6,7 +6,7 @@ Jaswin Chinthala's portfolio, live at jaswin.me: a 3D ESP32 hub with six section
 - Install the site: `cd client; pnpm install --frozen-lockfile`
 - Run the site: `cd client; pnpm dev` (Vite prints the port). Root `npm run dev` starts the legacy server and uses POSIX syntax; do not use it.
 - Build: `cd client; pnpm build`
-- Install root tools (typecheck, tests): `npm install --no-package-lock --legacy-peer-deps`. Plain `npm ci` fails: the root lockfile is out of sync with `package.json` since the vite 8 bump.
+- Install root tools (typecheck, tests): `npm ci`. The root `.npmrc` sets `legacy-peer-deps` because `@builder.io/vite-plugin-jsx-loc` only declares vite 4 and 5 as peers.
 - Typecheck: `npm run check`
 - Test: `npm test`
 
